@@ -122,3 +122,46 @@ NEXT, IN ORDER
    the evidence, who would be blamed); sites = radiology reading room, code review of agent pull
    requests, legal review team, luxury creative studio, data-annotation vendor; consent independent of
    employer, works council (CSE), GDPR impact assessment, pre-registration.
+
+================================================================
+v1.2 → v1.3 (model 0.4 → 0.5) · 20 October 2026
+================================================================
+
+Plain title: What a search for related work and four more reviews changed in the model, including its headline result
+
+Step 1. A search for related open models and papers (sources in SOURCES.md) added five mechanisms: rivalry and lost
+spending (Hemenway Falk and Tsoukalas), task order (Autor and Thompson), a checking threshold (Cao), a predicted
+override rate (IMDA), and a wider erosion range (Budzyń et al.).
+
+Step 2. Four structured reviews by Claude subagents, run independently: (1) labour economist and forecasting
+methodologist, (2) sociologist of work and a vision panel, (3) a business panel (CMO, CEO, hostile CFO, head of
+talent) on the article, (4) information design and QA with rendered screenshots.
+
+Findings and responses
+- CRITICAL (1): the EU-vs-US headline was produced by the definition of formal sign-off, which rises with liability.
+  At 2060 decision capacity was below 0.4 in every software run, so the region share depended only on liability.
+  RESPONSE: oversight duties now also protect checking (liability halves the inspection penalty); the region is
+  reported alongside decision capacity; README, article and tool state the dependence. New numbers (software, 2060):
+  EU 94% vs US 44% in the region; decision capacity 20 vs 15. Holding formal sign-off equal: EU 40% vs US 62%.
+  The claim narrows to "European rules protect the name on the page more than the judgment behind it".
+- HIGH (1): shared ownership removed the over-automation, which the source paper rules out. FIXED: ownership now
+  softens lost spending in human work only; an automation-tax dial is the one lever that removes extra automation.
+  Tests added across a rivalry grid.
+- MEDIUM (1): the Cao mechanism said checking stops because machines got good, the benign story Cao argues against.
+  FIXED: checking depends on reviewers' ability to tell good from bad (falling as output resembles skilled work)
+  times the stakes, against the cost of checking; smoother logistic.
+- MEDIUM (1): override-rate scale indefensible (57% in software in 2026). FIXED: O = share checked × machine error
+  rate × judgment, with e0 in [0.05, 0.15]; the rubber-stamping flag moved to the share of outputs worth checking.
+- LOW (1): task-order dial changed default behaviour. FIXED: factors centred on the default.
+- (2) The essay's own thesis was a fixed dial. FIXED: the dashboard learns (ε): little visible checking raises cost
+  framing. The override rate is labelled "one trace of review, not its value". Known limits now say necessity is
+  modelled only as error-catching, and that Cao's rule stands in for deference and normalisation of deviance.
+  Bainbridge (1983) credited in the article; "hedged performative written as an equation" softened to "a cousin".
+  New dated prediction on published override rates.
+- (3) Article: false claim that two neighbours were Anthropic's, unsourced sentence on conversations, announcer and
+  aphorism buttons, an over-reaching line on Korinek. All fixed. Moltbook and Vaswani added to SOURCES.md.
+- (4) Ten tiles left empty cells; links unstyled; rounding hid the Canaries miss and sub-1% rates; σ and W missing
+  from the equations; run counts differed between page and tests. All fixed.
+
+Not fixed, stated: δ still cannot reach the endoscopy result (about 4% a quarter at most, against a 21% relative fall);
+three of four plausibility checks still miss; no population layer; no hidden labour; India and the Global South absent.

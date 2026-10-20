@@ -68,8 +68,9 @@ input[type=range]{width:100%;accent-color:var(--ink);margin:2px 0}
 .reading{font-family:var(--display);font-size:22px;line-height:1.3;margin:0;max-width:62ch}
 .reading b{font-weight:400;color:var(--accent)}
 .jump{font-size:13px;color:var(--muted)} .jump a{color:var(--ink)}
-.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden}
-@media (max-width:980px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:4px;overflow:hidden}
+@media (max-width:1180px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.method a,footer a{color:var(--accent)}
 .tile{background:var(--sheet);padding:12px 14px;display:flex;flex-direction:column;gap:3px;min-width:0}
 .tile .k{font-size:12px;color:var(--muted);line-height:1.3}
 .tile .v{font-family:var(--mono);font-size:22px;font-variant-numeric:tabular-nums;line-height:1.1}
@@ -138,7 +139,7 @@ footer{color:var(--muted);font-size:12.5px;border-top:1px solid var(--rule);padd
 
 <div class="wrap">
   <header>
-    <div class="eyebrow">Human Necessity Model <span>v1.2 · model 0.4 · open research tool</span></div>
+    <div class="eyebrow">Human Necessity Model <span>v1.3 · model 0.5 · open research tool</span></div>
     <h1>When is a human still <em>necessary</em>, and when does the dashboard stop being able to tell?</h1>
     <p class="plain">A scenario model of how fast firms cut junior hiring, how long experienced judgment lasts, and when a human signature stops meaning a human decision.</p>
     <p class="lede">Every equation, range and source is on this page. Results are illustrative: conditional on the assumptions you set and on coefficient ranges that have not yet been fitted to data. They are not forecasts.</p>
@@ -164,7 +165,7 @@ footer{color:var(--muted);font-size:12.5px;border-top:1px solid var(--rule);padd
       <details class="group" id="g-long"><summary><h3>Long range</h3></summary><div class="ctls"></div></details>
       <div class="group">
         <h3>Uncertainty and display</h3>
-        <label class="toggle"><input type="checkbox" id="jitter" checked> Also doubt my dial settings (±10 points, ±15 for judgment-only dials, reflected at the edges)</label>
+        <label class="toggle"><input type="checkbox" id="jitter" checked> Also doubt my dial settings (±10 points, ±15 for loosely measured dials, reflected at the edges)</label>
         <label class="toggle"><input type="checkbox" id="showsrc"> Show the candidate measure for each dial</label>
         <div class="bar-row"><span class="hint">Random seed, for reproducibility: <span class="mono" id="seedv"></span></span><button class="plainb" type="button" id="reseed">New seed</button></div>
       </div>
@@ -235,7 +236,12 @@ footer{color:var(--muted);font-size:12.5px;border-top:1px solid var(--rule);padd
         <li><b>Capability</b> in a domain follows an S-curve towards a ceiling below 100%. Physical work and slow feedback lower the ceiling.</li>
         <li><b>Plans run ahead of capability.</b> Firms plan automation on the capability they expect λ·anticipation years ahead, and cut junior hiring on those plans. Actual automation cannot exceed what machines can do, and happens only where machines are cheaper. The gap between plans and reality is the cost of over-anticipation.</li>
         <li><b>The self-fulfilling loop runs through people, not machines.</b> Fewer juniors drain the stock of experienced judgment, which makes the human review look less necessary. Machine capability itself does not depend on it.</li>
-        <li><b>Demand and new tasks.</b> Cheaper output raises demand, and capability creates new tasks (orchestration, evaluation, agent management). Both partly refill human work.</li>
+        <li><b>Demand and new tasks.</b> Cheaper output raises demand, and capability creates new tasks (orchestration, evaluation, agent management). Both partly refill human work. People who lose their jobs also stop spending, unless gains are shared.</li>
+        <li><b>Rivalry pushes automation past the shared optimum.</b> A firm keeps the whole wage saving when it automates but feels only its own share of the lost spending, so many rivals together automate more than any of them would choose jointly (Hemenway Falk and Tsoukalas, 2026). Sharing gains softens the lost spending but, as in their paper, does not remove the pull; only a corrective tax does. The tool reports the extra automation.</li>
+        <li><b>Which tasks go first matters.</b> When machines take the routine, junior tasks first, entry hiring and practice fall hardest; when they take expert tasks first, juniors are spared and experts lose practice (Autor and Thompson, 2025).</li>
+        <li><b>Checking stops when output looks expert.</b> As machine output comes to resemble skilled work, reviewers lose the ability to tell good from bad, while what is at stake stays the same; checking is done only when that ability times the stakes exceeds its cost (Cao, 2026). Opacity raises the cost. Review continues in form while inspection fades. A duty of human oversight (the liability dial) keeps some checking going regardless. This rule stands in for deference, hierarchy and the normalisation of deviance, which it does not explain.</li>
+        <li><b>The dashboard learns.</b> When little checking is visible, review is counted more and more as cost (ε). This is the essay's measurement loop: a system that cannot see human necessity stops paying for it.</li>
+        <li><b>A predicted override rate.</b> The tool reports how often review should change an outcome: share checked × machine error rate × judgment. It is uncalibrated, and it is one visible trace of review, not its value: a review that deters, teaches a junior or makes someone answerable leaves no trace in it. Singapore's IMDA asks firms to audit this rate.</li>
         <li><b>Decision capacity</b> (our index for what Aghion and Tirole call real authority) needs experienced judgment, the time to use it, and access to the evidence. Counting review as cost removes time; opaque agents remove evidence.</li>
         <li><b>Formal sign-off authority</b> is held up by liability. The signature-decision gap is formal minus real. The moral crumple zone (Elish, 2019) is what happens after a failure, when blame lands on the signature.</li>
         <li><b>Feedback.</b> Over-anticipation slowly corrects belief. A serious failure, when rare-event exposure crosses a threshold, triggers imposed friction: liability and apprenticeship rise, cost framing falls.</li>
@@ -246,15 +252,23 @@ footer{color:var(--muted);font-size:12.5px;border-top:1px solid var(--rule);padd
       <div class="eq">Mmax  = 0.95 - 0.45·physical - 0.15(1 - feedback)
 M(t)  = Mmax / (1 + exp(-0.32 (t - t_mid)))    rises monotonically with capability growth
 t_mid = 2028 + 9(1-feedback) + 12·physical - 3·signal + 10(1-cap)
-I(t)  = Mmax/(1+exp(-k(t + L - t_mid))) · (1-σ·relation)(1-0.4·premium·relation)(1-0.3·voice)
+Ib(t) = Mmax/(1+exp(-k(t + L - t_mid))) · (1-σ·relation)(1-0.4·premium·relation)(1-0.3·voice)   σ∈[0.2,0.5]
         L = λ·anticipation, shrinking by η a year while I - M > 0.15        λ∈[3,8], η∈[0.05,0.2]
+φ     = 1 - 0.9·rivalry                                      share of lost spending the automating firm feels
+I(t)  = Ib·(1 - ψ·φ - ψ·(1-φ)·tax)                         planned automation   ψ∈[0.1,0.4]
+Ico(t)= Ib·(1 - ψ)                                           what firms acting together would plan
+W(t)  = (min(I,M) - min(Ico,M))·κ                           extra automation from rivalry
 κ(t)  = clamp(0.25 + 0.75·costadv + 0.02(t - 2026))          share where machines are cheaper
 A(t)  = min(I, M)·κ                                         actual automation
 D(t)  = 0.6·demand·A        N(t) = ν·newtask·M               ν∈[0.1,0.4]
-H(t)  = (1 - A)(1 + D) + N                                   human work, then ÷ H(start)
-J(t)  = max(0.8·pipeline, 1 - χ·I·κ + N + 0.5·D)            junior hiring, then ÷ J(start)   χ∈[1,2.5]
-E(t+1)= E + ρ(J - E) - δ·A·(1 - pipeline)·E                 ρ∈[0.03,0.07], δ∈[0.02,0.08]
-R(t)  = min(E,1)·(1 - γ·costframe·(1 - 0.4·liability)·A)·(1 - 0.5·opacity·A)·(1 - 0.6·emergence·M)   γ∈[0.4,0.8]
+H(t)  = (1 - A)(1 + D) + N - ψ·(1 - gains shared)·A          human work, then ÷ H(start)
+J(t)  = max(0.8·pipeline, 1 - χ·I·κ·(1 + 0.6(0.3 - expertfirst)) + N + 0.5·D)   junior hiring, then ÷ J(start)   χ∈[1,2.5]
+E(t+1)= E + ρ(J - E) - δ·A·(1 + 0.6(expertfirst - 0.3))·(1 - pipeline)·E      ρ∈[0.03,0.07], δ∈[0.02,0.12]
+g = 1 - 0.7·M    Δq = 0.4 + 0.6·stakes    c_v = 0.05 + 0.45·opacity    ability to tell good from bad, value at stake, cost of checking
+P(t)  = 1 / (1 + exp(-(g·Δq - c_v)/0.15))                    share of outputs worth checking
+R(t)  = min(E,1)·(1 - γ·costframe·(1 - 0.4·liability)·A)·(1 - 0.6·(1 - P)(1 - 0.5·liability)·A)·(1 - 0.6·emergence·M)   γ∈[0.4,0.8]
+e(t)  = e₀·(1 - 0.8·M/Mmax)       O(t) = P·e·min(E,1)          machine error rate; predicted override rate   e₀∈[0.05,0.15]
+costframe(t+1) = costframe + ε·A·(1 - costframe)·(1 - P)     the dashboard learns   ε∈[0,0.1]
 F(t)  = 0.7·liability + 0.3(1 - A)          gap = max(0, F - R)
 x(t)  = (1 - R)·stakes·A    failure when x > θ, θ∈[0.25,0.45]: liability +0.2, pipeline +0.2, costframe −0.2</div>
       <p style="margin-top:8px">Products such as λ·anticipation, γ·cost framing and ν·new tasks cannot be separated by data; each pair should be read as one quantity. Uniform ranges are reasoned, not fitted.</p>
@@ -279,6 +293,7 @@ Gradual disempowerment          machine objectives > 40 and R < 0.3   (needs the
         <li>By 31 Dec 2028, a peer-reviewed study reports reduced unaided performance after routine AI use in a clinical specialty other than endoscopy. <span class="src">Mechanism: skill decay.</span></li>
         <li>By 31 Dec 2028, an EU or US regulator or major insurer requires documented human review or manual practice for a named clinical AI use. <span class="src">Mechanism: imposed friction.</span></li>
         <li>The next Anthropic workforce report, if published, shows meta-work above 22% of sessions and agent hours above 6 to 1. <span class="src">Mechanism: new tasks and cost framing.</span></li>
+        <li>By 31 Dec 2028, a firm or regulator publishes a human override rate for an AI system in production use, and it is below 5% of reviewed outputs. <span class="src">Mechanism: checking stops when output looks expert.</span></li>
         <li>By 31 Dec 2027, a major agent-platform vendor ships a metric that reports human approval time as latency to reduce. <span class="src">Mechanism: cost framing.</span></li>
       </ol>
     </details>
@@ -286,7 +301,10 @@ Gradual disempowerment          machine objectives > 40 and R < 0.3   (needs the
       <summary>Known limits</summary>
       <ul>
         <li>Coefficient ranges are reasoned, not fitted. The plausibility checks are in-sample.</li>
-        <li>Wages and prices enter only through a cost-advantage dial and a demand dial, not an equilibrium.</li>
+        <li>Wages and prices enter only through a cost-advantage dial, a demand dial and the spending lost by people laid off, not a general equilibrium. For the macroeconomy to 2030, see Korinek, Jones and colleagues (2026) below.</li>
+        <li>Human necessity is modelled only as judgment that catches errors. Accountability, legitimacy and the right of the people affected to address a person (Arendt) are not in it; “human presence as a premium” treats presence as something sold.</li>
+        <li>The signature-decision region depends on how formal sign-off is defined. Formal sign-off rises with liability, so profiles with more liability (the EU) land there more often by construction. Holding formal sign-off equal across regions, the EU lands there less often than the US. Read decision capacity by region first.</li>
+        <li>Skill erosion is yearly. The endoscopy study suggests much faster short-run losses than the model allows; whether they last is unknown.</li>
         <li>Human labour moved out of sight is missing: annotators, raters, moderators and offshore reviewers who make automation work (Casilli; Gray and Suri). "Work delivered by people" means people in this domain only.</li>
         <li>No population layer. Agents coordinating with one another (as on Moltbook in January 2026) are not modelled, so "gradual disempowerment" is barely supported.</li>
         <li>Workers appear only through apprenticeship, shared gains and voice. Resistance, workarounds and gradual drift (Vaughan's normalisation of deviance) are not modelled.</li>
@@ -299,13 +317,46 @@ Gradual disempowerment          machine objectives > 40 and R < 0.3   (needs the
     <details class="m">
       <summary>Changelog</summary>
       <ul>
+        <li>v1.3 (model 0.5), 20 Oct 2026, after a search for related work: rivalry and lost spending, with an automation-tax dial (Hemenway Falk and Tsoukalas); which tasks go first, centred on the default (Autor and Thompson); a checking rule based on reviewers' ability to tell good from bad (Cao) replacing the opacity term, softened by oversight duties; the dashboard learns from little checking (ε); share of outputs worth checking and a predicted override rate with a machine error rate (IMDA); erosion range widened to 0.12 (endoscopy study); two new checks pending data; full source list with links; related models. Then four structured reviews (economics and forecasting, sociology and vision, a business panel, design and QA): see the review log.</li>
         <li>v1.2, 20 Oct 2026: stylised regional profiles for the United States, the European Union and China.</li>
         <li>v1.1 (model 0.4), 20 Oct 2026, after four structured reviews (labour economics, sociology and anthropology, modelling, information design): capability ceiling; plans separated from actual automation; cost and demand channels; voice and opacity dials; experience decays in proportion to the stock; belief learning and failure-triggered friction; scenarios defined as regions; plausibility checks with start years, including a radiology backtest from 2016; lens moved and switched off by default; results first on phones; chart relabelled with units; warnings limited to two conditions.</li>
         <li>v1.0 (model 0.3): new tasks, premium, calibration panel, comparison pin, export.</li>
         <li>v0.2: coefficient ranges, Monte Carlo, sensitivity, lens, prediction register. v0.1: deterministic prototype.</li>
       </ul>
     </details>
-    <footer>Carla de Préval, with Claude. Companion to the essay “The Human You Never Fired” (Intelligence Not Optimization, 2026). Sources: Wilmers, Catipon, Massenkoff and McCrory, “How Employment is Changing at Anthropic” (16 Oct 2026); Brynjolfsson, Chandar and Chen, “Canaries in the Coal Mine?” (Stanford Digital Economy Lab, August 2026 update); Davenport and Srinivasan, HBR (Jan 2026); Acemoglu and Restrepo (2019); Bainbridge (1983); Aghion and Tirole (1997); Merton (1948); MacKenzie (2006); Elish (2019); Kulveit et al. (2025).</footer>
+    <details class="m" id="sources" open>
+      <summary>Sources, with links</summary>
+      <ul class="srcs">
+        <li>Wilmers, Catipon, Massenkoff and McCrory, <a href="https://www.anthropic.com/research/employment-at-anthropic">“How Employment is Changing at Anthropic”</a>, Anthropic, 16 Oct 2026.</li>
+        <li>Brynjolfsson, Chandar and Chen, <a href="https://digitaleconomy.stanford.edu/publication/canaries-in-the-coal-mine-six-facts-about-the-recent-employment-effects-of-artificial-intelligence/">“Canaries in the Coal Mine?”</a>, Stanford Digital Economy Lab, 2025, and the <a href="https://digitaleconomy.stanford.edu/news/canariesaug26/">August 2026 update</a>.</li>
+        <li>Davenport and Srinivasan, <a href="https://hbr.org/2026/01/companies-are-laying-off-workers-because-of-ais-potential-not-its-performance">“Companies Are Laying Off Workers Because of AI's Potential, Not Its Performance”</a>, Harvard Business Review, January 2026.</li>
+        <li>Hemenway Falk and Tsoukalas, <a href="https://arxiv.org/abs/2603.20617">“The AI Layoff Trap”</a>, arXiv:2603.20617, March 2026 (<a href="https://ailayoffs.rajnandan.com/">interactive simulator</a>).</li>
+        <li>Cao, <a href="https://arxiv.org/abs/2606.06572">“Generative Models Erode Human Temporal Learning Through Market Selection”</a>, ICML 2026.</li>
+        <li>Autor and Thompson, <a href="https://www.nber.org/papers/w33941">“Expertise”</a>, NBER Working Paper 33941; Journal of the European Economic Association, 2025.</li>
+        <li>Budzyń et al., <a href="https://doi.org/10.1016/S2468-1253(25)00133-5">“Endoscopist deskilling risk after exposure to artificial intelligence in colonoscopy”</a>, Lancet Gastroenterology &amp; Hepatology 10(10), 896–903, 2025 (<a href="https://wrap.warwick.ac.uk/id/eprint/191005">open copy</a>).</li>
+        <li>Infocomm Media Development Authority, <a href="https://www.imda.gov.sg/resources/press-releases-factsheets-and-speeches/factsheets/2026/updated-model-ai-governance-framework-for-agentic-ai">Model AI Governance Framework for Agentic AI</a>, updated 20 May 2026; <a href="https://aideliverybrief.substack.com/p/singapore-has-a-word-for-it-rubber">summary of the override-rate metric</a>.</li>
+        <li>Lovett, <a href="https://arxiv.org/abs/2607.29380">“The Tragedy of the Cognitive Commons”</a>, Human Resource Development Review, July 2026.</li>
+        <li>Acemoglu and Restrepo, <a href="https://www.aeaweb.org/articles?id=10.1257/jep.33.2.3">“Automation and New Tasks”</a>, Journal of Economic Perspectives, 2019.</li>
+        <li>Bainbridge, <a href="https://doi.org/10.1016/0005-1098(83)90046-8">“Ironies of Automation”</a>, Automatica, 1983.</li>
+        <li>Aghion and Tirole, <a href="https://doi.org/10.1086/262063">“Formal and Real Authority in Organizations”</a>, Journal of Political Economy, 1997.</li>
+        <li>Merton, <a href="https://doi.org/10.2307/4609267">“The Self-Fulfilling Prophecy”</a>, The Antioch Review, 1948.</li>
+        <li>MacKenzie, <a href="https://doi.org/10.7551/mitpress/9780262134606.001.0001">An Engine, Not a Camera</a>, MIT Press, 2006.</li>
+        <li>Elish, <a href="https://doi.org/10.17351/ests2019.260">“Moral Crumple Zones”</a>, Engaging Science, Technology, and Society, 2019.</li>
+        <li>Kulveit et al., <a href="https://arxiv.org/abs/2501.16946">“Gradual Disempowerment”</a>, arXiv:2501.16946, 2025.</li>
+      </ul>
+    </details>
+    <details class="m" id="related">
+      <summary>Related open models and data</summary>
+      <ul class="srcs">
+        <li>Korinek, Jones, Sacher, Cotter and McCrory, <a href="https://www-cdn.anthropic.com/files/4zrzovbb/website/cf58f84d46a4a76bf5a5b039ac695fba6b80041c.pdf">“Economic Scenarios for Transformative AI”</a>, Anthropic Institute, September 2026, with a <a href="https://www.anthropic.com/institute/econ-scenarios">scenario explorer</a>. Macroeconomic, to 2030: GDP, wages, unemployment. This tool covers what it leaves out: judgment, review and sign-off.</li>
+        <li>Epoch AI, <a href="https://epoch.ai/blog/announcing-gate">GATE</a>, an integrated assessment model from compute to automation to growth (<a href="https://arxiv.org/abs/2503.04941">paper</a>, <a href="https://epoch.ai/gate">playground</a>). A candidate source for the capability curve.</li>
+        <li>Chopra et al., <a href="https://arxiv.org/abs/2510.25137">“The Iceberg Index”</a>, MIT and Oak Ridge National Laboratory, 2025: 151 million simulated workers; about 11.7% of US wage value technically performable by AI.</li>
+        <li>Anthropic, <a href="https://huggingface.co/datasets/Anthropic/EconomicIndex">Economic Index dataset</a> (open, on Hugging Face): automation and augmentation shares by task and occupation.</li>
+        <li>Gulcur, <a href="https://github.com/asligulcur/AI_Workforce_Odyssey_2026">AI Workforce Odyssey 2026</a>, an MIT-licensed agent-based model in NetLogo with seniority, scarring and training seats. A template for the missing population layer.</li>
+        <li>Lovett (2026), above, names the loop this tool quantifies: overseeing AI needs the expertise AI adoption erodes, his “Validation Tether”, and calls for it to be modelled.</li>
+      </ul>
+    </details>
+    <footer>Carla de Préval, with Claude. Companion to the essay “The Human You Never Fired” (Intelligence Not Optimization, 2026). Corrections and data: <a href="https://github.com/Mommythegeek/protect-what-thinks/issues/new?template=where-is-the-model-wrong.md">open an issue, “Where is the model wrong?”</a></footer>
   </section>
 </div>
 
@@ -322,18 +373,21 @@ const CONTROLS = [
   ["g-machine","costadv","Machine cost advantage","How often the machine is cheaper per unit of output than a person.","Candidate measure: inference cost per task vs loaded wage"],
   ["g-machine","signal","Signal capture","Phones, toys, cars and chat logs feeding taste and trend models.","Candidate measure: logged interactions per user in the domain"],
   ["g-machine","concentration","Concentration of models","Few vendors and compute owners, sharpened by geopolitics. Affects scenario regions only.","Candidate measure: top-3 provider share in the sector"],
-  ["g-machine","opacity","Evidence hidden from reviewers","How much of what the agent saw and did the human cannot inspect.","Candidate measure: share of decisions with an inspectable trace"],
+  ["g-machine","opacity","Evidence hidden from reviewers","How much of what the agent saw and did the human cannot inspect. Raises the cost of checking an output, so fewer outputs are worth checking (Cao, 2026).","Candidate measure: share of decisions with an inspectable trace"],
+  ["g-machine","expertfirst","Which tasks machines take first","0: routine, junior tasks first, as 2025–2026 hiring data suggest. 100: expert tasks first. Following Autor and Thompson (2025), this decides whether juniors or experts are squeezed.","Candidate measure: Anthropic Economic Index task mix by seniority; O*NET task expertise"],
   ["g-inst","liability","Liability requires a human","Law and insurers demand a named signatory. Protects review time and holds up formal sign-off.","Candidate measure: sector regulation inventory (EU AI Act high-risk)"],
-  ["g-inst","ownership","Gains shared with workers","Equity, pay linked to productivity. Affects scenario regions only.","Candidate measure: employee equity share, profit-sharing"],
+  ["g-inst","ownership","Gains shared with workers","Equity, pay linked to productivity, income kept by people who lose their jobs. Softens the spending lost when people are laid off, but does not remove the pull to over-automate.","Candidate measure: employee equity share, profit-sharing, unemployment income replacement rate"],
+  ["g-inst","autotax","Automation tax","Share of the corrective tax that would make each firm pay for the spending its layoffs destroy. At 100 it removes the extra automation from rivalry; Hemenway Falk and Tsoukalas find no other policy that does.","Candidate measure: statutory levies on automation or AI-substituted payroll"],
   ["g-inst","voice","Worker voice","Collective bargaining, works councils, AI clauses (as in the 2023 Writers Guild agreement).","Candidate measure: coverage of AI provisions in collective agreements"],
   ["g-market","newtask","New tasks created","Orchestration, evaluation, agent management: work that capability creates.","Candidate measure: meta-work share (Anthropic: 10% to 22% of sessions)"],
+  ["g-market","rivalry","Firms competing for the same customers","Many rivals: each firm feels only a small share of the spending it destroys when it lays people off, so all of them automate past the point that is good for all of them (Hemenway Falk and Tsoukalas, 2026).","Candidate measure: number of firms serving the same market; concentration index"],
   ["g-market","demand","Demand response","How much cheaper output raises demand, and with it human work around the machine.","Candidate measure: price elasticity of demand for the service"],
   ["g-market","premium","Premium paid for a human","What clients pay extra for a person where the work is a relationship.","Candidate measure: price gap between human and machine versions"],
   ["g-long","augment","Access to augmentation","Interfaces and embedded agents that extend human cognition. Affects scenario regions only.","Judgment only"],
   ["g-long","emergence","Machine objectives of their own","0: tools of their makers. 100: agents with their own goals.","Judgment only"]
 ];
 const LABEL = Object.fromEntries(CONTROLS.map(c=>[c[1],c[2]]));
-const DEFAULTS = {cap:70,belief:60,costframe:70,pipeline:20,feedback:90,relation:20,stakes:50,physical:0,costadv:50,signal:60,concentration:70,opacity:50,liability:40,ownership:30,voice:20,newtask:40,demand:40,premium:30,augment:20,emergence:10};
+const DEFAULTS = {cap:70,belief:60,costframe:70,pipeline:20,feedback:90,relation:20,stakes:50,physical:0,costadv:50,signal:60,concentration:70,opacity:50,liability:40,ownership:30,voice:20,newtask:40,demand:40,premium:30,augment:20,emergence:10,expertfirst:30,rivalry:60,autotax:0};
 const SECTORS = {
   "Software":{feedback:90,relation:20,stakes:50,physical:0},
   "Luxury & creative":{feedback:75,relation:40,stakes:15,physical:10},
@@ -365,8 +419,8 @@ const LENSES = {
   "Kimi":{line:"“will turn one person into an organization”",adj:{cap:10,costframe:10,newtask:5}},
   "Cursor":{line:"“makers becoming directors of their own work”",adj:{cap:10,pipeline:-10,belief:5,newtask:5}}
 };
-const COEF = {lambda:[3,8],eta:[0.05,0.2],sigma:[0.2,0.5],rho:[0.03,0.07],delta:[0.02,0.08],gamma:[0.4,0.8],nu:[0.1,0.4],theta:[0.25,0.45],chi:[1,2.5]};
-const COEF_LABEL = {lambda:"Years firms plan ahead (λ)",eta:"Speed belief corrects (η)",sigma:"Relationship shield (σ)",rho:"Renewal of judgment (ρ)",delta:"Skill decay when unpractised (δ)",gamma:"Weight of cost framing (γ)",nu:"New-task absorption (ν)",theta:"Failure threshold (θ)",chi:"How hard hiring reacts to plans (χ)"};
+const COEF = {lambda:[3,8],eta:[0.05,0.2],sigma:[0.2,0.5],rho:[0.03,0.07],delta:[0.02,0.12],gamma:[0.4,0.8],nu:[0.1,0.4],theta:[0.25,0.45],chi:[1,2.5],psi:[0.1,0.4],e0:[0.05,0.15],eps:[0,0.1]};
+const COEF_LABEL = {lambda:"Years firms plan ahead (λ)",eta:"Speed belief corrects (η)",sigma:"Relationship shield (σ)",rho:"Renewal of judgment (ρ)",delta:"Skill decay when unpractised (δ)",gamma:"Weight of cost framing (γ)",nu:"New-task absorption (ν)",theta:"Failure threshold (θ)",chi:"How hard hiring reacts to plans (χ)",psi:"Spending lost per job automated (ψ)",e0:"Machine error rate today (e₀)",eps:"Dashboards learning from little checking (ε)"};
 const HORIZONS = [["Short","2028"],["Mid","2033"],["Long","2040"],["Very long","2060"]];
 const P = (o)=>Object.assign({},DEFAULTS,o);
 const CALIB = [
@@ -378,12 +432,14 @@ const CALIB = [
    preset:P({feedback:55,relation:25,stakes:90,physical:5,cap:55,belief:50,costframe:40,pipeline:40,liability:70,demand:60}),start:2016,year:2026,key:"H",target:1.0,cmp:"ge"},
   {t:"Agents added to human work, not substituted (2026)",s:"Anthropic: human thread responses unchanged, meetings up 20%. Proxy: decision capacity at frontier settings still above 0.6. Weak proxy.",
    preset:P({cap:90,belief:95,costframe:80,pipeline:10,costadv:70}),start:2025,year:2026,key:"R",target:0.6,cmp:"ge"},
+  {t:"Endoscopists' unaided detection after three months of AI use",s:"Budzyń et al., Lancet Gastroenterology & Hepatology (2025), four Polish centres: adenoma detection without AI fell from 28.4% to 22.4% after three months of AI-assisted practice. At its upper bound the model's yearly erosion allows about 4% loss a quarter at full exposure, against a 21% relative fall in the study. Either most of the short-run drop recovers, or δ is far too low. Needs a quarterly step and a follow-up study.",na:true},
+  {t:"Override rate of human review (IMDA measure)",s:"Singapore's Model AI Governance Framework for Agentic AI (updated May 2026) asks firms to audit the human override rate and review time; “a low rate may signal rubber-stamping behaviours.” The model now predicts this rate (tile above). No firm publishes it yet: this is the number we most need.",na:true},
   {t:"Bank tellers after ATMs",s:"Teller employment grew for decades (Bessen). The capability curve is anchored on AI; this needs a separate technology curve. Pending.",na:true}
 ];
-const N = 500, START = 2026, END = 2060, WIDE = new Set(["signal","augment","emergence","belief","opacity","premium","demand"]);
+const N = 500, START = 2026, END = 2060, WIDE = new Set(["signal","augment","emergence","belief","opacity","premium","demand","expertfirst","rivalry"]);
 let state = Object.assign({}, DEFAULTS), sector = "Software", region = "Global", lens = "Off", horizon = 2033, seed = 20261020, jitter = true, showsrc = false, pinned = null;
-try{const s=JSON.parse(localStorage.getItem("hnm4")||"null"); if(s){state=Object.assign(state,s.state||{});sector=s.sector===undefined?sector:s.sector;lens=s.lens||lens;region=(s.region&&REGIONS[s.region])?s.region:region;horizon=s.horizon||horizon;seed=s.seed||seed;jitter=s.jitter??jitter;showsrc=!!s.showsrc;}}catch(e){}
-const save=()=>{try{localStorage.setItem("hnm4",JSON.stringify({state,sector,region,lens,horizon,seed,jitter,showsrc}))}catch(e){}};
+try{const s=JSON.parse(localStorage.getItem("hnm5")||"null"); if(s){state=Object.assign(state,s.state||{});sector=s.sector===undefined?sector:s.sector;lens=s.lens||lens;region=(s.region&&REGIONS[s.region])?s.region:region;horizon=s.horizon||horizon;seed=s.seed||seed;jitter=s.jitter??jitter;showsrc=!!s.showsrc;}}catch(e){}
+const save=()=>{try{localStorage.setItem("hnm5",JSON.stringify({state,sector,region,lens,horizon,seed,jitter,showsrc}))}catch(e){}};
 const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
 function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}}
 const midC=()=>{const c={};for(const k in COEF)c[k]=(COEF[k][0]+COEF[k][1])/2;return c;};
@@ -392,27 +448,36 @@ function effective(){const adj=LENSES[lens].adj, ra=REGIONS[region].adj, e={}; f
 function simulate(d,c,start){
   start=start||START;
   const v=k=>d[k]/100, cap=v("cap"),sig=v("signal"),bel=v("belief"),fb=v("feedback"),rel=v("relation"),phy=v("physical"),
-        stakes=v("stakes"),emg=v("emergence"),nt=v("newtask"),prem=v("premium"),ca=v("costadv"),op=v("opacity"),voice=v("voice"),dem=v("demand");
+        stakes=v("stakes"),emg=v("emergence"),nt=v("newtask"),prem=v("premium"),ca=v("costadv"),op=v("opacity"),voice=v("voice"),dem=v("demand"),
+        own=v("ownership"),riv=v("rivalry"),xf=v("expertfirst"),tax=v("autotax");
   let cf=v("costframe"),lia=v("liability"),pip=v("pipeline");
   const Mmax=0.95-0.45*phy-0.15*(1-fb), k=0.32, tm=2028+9*(1-fb)+12*phy-3*sig+10*(1-cap);
   const S=t=>Mmax/(1+Math.exp(-k*(t-tm)));
   let L=c.lambda*bel, E=1, J0=null, H0=null, failed=null;
   const rows=[];
   for(let t=start;t<=END;t++){
-    const m=S(t), I=S(t+L)*(1-c.sigma*rel)*(1-0.4*prem*rel)*(1-0.3*voice);
+    const m=S(t), Ib=S(t+L)*(1-c.sigma*rel)*(1-0.4*prem*rel)*(1-0.3*voice);
+    const felt=1-0.9*riv;                                 // share of the lost spending the automating firm itself feels (about 1/N)
+    const I=Ib*(1-c.psi*felt-c.psi*(1-felt)*tax), Ico=Ib*(1-c.psi); // planned automation; what firms acting together would plan
+
     const kap=clamp(0.25+0.75*ca+0.02*(t-2026));
     const A=Math.min(I,m)*kap, D=0.6*dem*A, Nn=c.nu*nt*m;
-    const Hraw=(1-A)*(1+D)+Nn;
-    const Jraw=Math.max(0.8*pip,1-c.chi*I*kap+Nn+0.5*D);
+    const Hraw=(1-A)*(1+D)+Nn-c.psi*(1-own)*A;            // laid-off workers' lost spending, softened by shared gains
+    const Jraw=Math.max(0.8*pip,1-c.chi*I*kap*(1+0.6*(0.3-xf))+Nn+0.5*D);
+    const g=1-0.7*m, dq=0.4+0.6*stakes, cv=0.05+0.45*op; // ability to tell good from bad, value at stake, cost of checking (Cao, 2026)
+    const insp=1/(1+Math.exp(-(g*dq-cv)/0.15));
+    const err=c.e0*(1-0.8*m/Mmax);                         // machine error rate
     if(J0===null){J0=Jraw;H0=Hraw;}
     const J=clamp(Jraw/J0,0,1.5), H=Hraw/H0;
-    const R=clamp(Math.min(E,1)*(1-c.gamma*cf*(1-0.4*lia)*A)*(1-0.5*op*A)*(1-0.6*emg*m));
+    const R=clamp(Math.min(E,1)*(1-c.gamma*cf*(1-0.4*lia)*A)*(1-0.6*(1-insp)*(1-0.5*lia)*A)*(1-0.6*emg*m));
+    const ovr=insp*err*Math.min(E,1);                     // predicted override rate (IMDA measure)
     const F=clamp(0.7*lia+0.3*(1-A));
     const x=(1-R)*stakes*A;
-    rows.push({t,m,I,A,J,H,E:Math.min(E,1.2),R,F,x,lia,pip,cf,failed:failed!==null});
+    rows.push({t,m,I,Ico,W:Math.max(0,Math.min(I,m)-Math.min(Ico,m))*kap,A,J,H,E:Math.min(E,1.2),R,F,x,insp,ovr,lia,pip,cf,failed:failed!==null});
     if(failed===null && x>c.theta){failed=t;lia=clamp(lia+0.2);pip=clamp(pip+0.2);cf=clamp(cf-0.2);}
     if(I-m>0.15) L=L*(1-c.eta);
-    E=clamp(E+c.rho*(J-E)-c.delta*A*(1-pip)*E,0,1.2);
+    cf=clamp(cf+c.eps*A*(1-cf)*(1-insp));                 // dashboards that see little checking count review as cost
+    E=clamp(E+c.rho*(J-E)-c.delta*A*(1+0.6*(xf-0.3))*(1-pip)*E,0,1.2);
   }
   return {rows,failed};
 }
@@ -447,7 +512,7 @@ function monteCarlo(base,n,start,hz){
 }
 function q(arr,p){const a=arr.slice().sort((x,y)=>x-y);const i=(a.length-1)*p, lo=Math.floor(i), hi=Math.ceil(i);return a[lo]+(a[hi]-a[lo])*(i-lo);}
 function bands(runs,key){const out=[]; for(let i=0;i<runs[0].length;i++){const vals=runs.map(r=>r[i][key]); out.push({t:runs[0][i].t,p10:q(vals,.1),p50:q(vals,.5),p90:q(vals,.9)});} return out;}
-const pct=x=>Math.round(x*100)+"%";
+const pct=x=>(x>0&&x<0.01?(x*100).toFixed(1):Math.round(x*100))+"%";
 
 function ctlHTML(key,label,help,src){
   return `<div class="ctl"><div class="row"><label for="c-${key}">${label}</label><output id="o-${key}" for="c-${key}"></output></div>
@@ -478,12 +543,12 @@ function buildControls(){
   document.getElementById("reseed").addEventListener("click",()=>{seed=Math.floor(Math.random()*1e8);schedule();});
   document.getElementById("pin").addEventListener("click",()=>{pinned={label:"Pinned: "+(sector||"custom")+" · decision capacity",R:LAST.B.R.map(p=>({t:p.t,p50:p.p50}))};render();});
   document.getElementById("unpin").addEventListener("click",()=>{pinned=null;render();});
-  document.getElementById("cpset").addEventListener("click",()=>{const o={model:"Human Necessity Model",version:"1.2 (model 0.4)",sector,region,horizon,seed,jitter,runs:N,dials:state,coefficient_ranges:COEF};
+  document.getElementById("cpset").addEventListener("click",()=>{const o={model:"Human Necessity Model",version:"1.3 (model 0.5)",sector,region,horizon,seed,jitter,runs:N,dials:state,coefficient_ranges:COEF};
     o.dials_after_region_and_lens=effective(); if(lens!=="Off"){o.interpretive_lens=lens;} copy(JSON.stringify(o,null,2),"Settings copied.");});
-  document.getElementById("cpcsv").addEventListener("click",()=>{const B=LAST.B, keys=["m","I","A","J","H","E","R","F"]; let s="year,"+keys.flatMap(k=>[k+"_p10",k+"_p50",k+"_p90"]).join(",")+"\n";
+  document.getElementById("cpcsv").addEventListener("click",()=>{const B=LAST.B, keys=["m","I","A","J","H","E","R","F","insp","ovr","W"]; let s="year,"+keys.flatMap(k=>[k+"_p10",k+"_p50",k+"_p90"]).join(",")+"\n";
     for(let i=0;i<B.R.length;i++){s+=B.R[i].t+","+keys.flatMap(k=>[B[k][i].p10,B[k][i].p50,B[k][i].p90].map(x=>x.toFixed(4))).join(",")+"\n";}
-    copy(s,"CSV copied. m capability, I planned automation, A actual automation, J junior hiring, H human work, E judgment, R decision capacity, F formal authority.");});
-  document.getElementById("cpcite").addEventListener("click",()=>copy(`de Préval, C. (2026). Human Necessity Model (v1.2, model 0.4) [Interactive scenario model]. Intelligence Not Optimization. Settings: ${sector||"custom"}, ${region}, horizon ${horizon}, seed ${seed}${lens!=="Off"?", interpretive lens "+lens:""}.`,"Citation copied."));
+    copy(s,"CSV copied. m capability, I planned automation, A actual automation, J junior hiring, H human work, E judgment, R decision capacity, F formal authority, insp share of outputs worth checking, ovr predicted override rate, W extra automation from rivalry.");});
+  document.getElementById("cpcite").addEventListener("click",()=>copy(`de Préval, C. (2026). Human Necessity Model (v1.3, model 0.5) [Interactive scenario model]. Intelligence Not Optimization. Settings: ${sector||"custom"}, ${region}, horizon ${horizon}, seed ${seed}${lens!=="Off"?", interpretive lens "+lens:""}.`,"Citation copied."));
   window.addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(()=>LAST&&drawChart(LAST.B),120);});
 }
 let rt=null;
@@ -541,12 +606,12 @@ function tornado(){
 function calibration(){
   document.getElementById("calib").innerHTML=CALIB.map(c=>{
     if(c.na) return `<div class="crow"><div><div class="t">${c.t}</div><div class="s">${c.s}</div></div><div class="n">—</div><div class="st"><span class="pill na">pending</span></div></div>`;
-    const mc=monteCarlo(c.preset,200,c.start,c.year);
+    const mc=monteCarlo(c.preset,300,c.start,c.year);
     const i=c.year-c.start, vals=mc.runs.map(r=>r[i][c.key]), lo=q(vals,.1), md=q(vals,.5), hi=q(vals,.9);
     let cls,txt;
     if(c.cmp==="ge"){cls=lo>=c.target?"ok":md>=c.target?"warn":"bad";txt=cls==="ok"?"consistent":cls==="warn"?"borderline":"inconsistent";}
     else{ if(c.target>=lo&&c.target<=hi){cls="ok";txt="inside the range";} else if(c.target<lo){cls="bad";txt="model too gentle";} else {cls="bad";txt="model too harsh";} }
-    return `<div class="crow"><div><div class="t">${c.t}</div><div class="s">${c.s}</div></div><div class="n">target ${c.cmp==="ge"?"≥ ":""}${c.target.toFixed(2)}<br>model ${md.toFixed(2)}<br><span class="s">range ${lo.toFixed(2)}–${hi.toFixed(2)}</span></div><div class="st"><span class="pill ${cls}">${txt}</span></div></div>`;
+    return `<div class="crow"><div><div class="t">${c.t}</div><div class="s">${c.s}</div></div><div class="n">target ${c.cmp==="ge"?"≥ ":""}${c.target.toFixed(2)}<br>model ${md.toFixed(2)}<br><span class="s">range ${lo.toFixed(3)}–${hi.toFixed(3)}</span></div><div class="st"><span class="pill ${cls}">${txt}</span></div></div>`;
   }).join("");
 }
 let LAST=null;
@@ -562,7 +627,7 @@ function render(){
   document.getElementById("seedv").textContent=seed;
   document.getElementById("unpin").hidden=!pinned; document.getElementById("pinlegend").hidden=!pinned;
   if(pinned) document.getElementById("pinlabel").textContent=pinned.label;
-  const mc=monteCarlo(eff), keys=["m","I","A","J","H","E","R","F"], B={}; keys.forEach(k=>B[k]=bands(mc.runs,k));
+  const mc=monteCarlo(eff), keys=["m","I","A","J","H","E","R","F","ovr","W","insp"], B={}; keys.forEach(k=>B[k]=bands(mc.runs,k));
   LAST={mc,B};
   const at=k=>B[k].find(p=>p.t===horizon), idx=horizon-START;
   const gaps=mc.runs.map(r=>Math.max(0,r[idx].F-r[idx].R));
@@ -580,6 +645,9 @@ function render(){
     tile("Signature exceeds decision capacity by",gm>0.005?pct(gm):"0%",rg(q(gaps,.1),q(gaps,.9),pct),gm>0.25,"above 25%: signature-decision gap"),
     tile("Human work in this domain, 2026 = 100",pct(at("H").p50),rk("H"),false),
     tile("Share of work actually automated",pct(at("A").p50),rk("A"),false),
+    tile("Outputs still worth checking",pct(at("insp").p50),rk("insp"),at("insp").p50<0.2,"below 20%: review in form, not in fact"),
+    tile("Predicted override rate (uncalibrated; one trace of review, not its value)",pct(at("ovr").p50),rk("ovr"),false),
+    tile("Extra automation from rivalry, points of work",(at("W").p50*100).toFixed(1),rg(at("W").p10,at("W").p90,v=>(v*100).toFixed(1)),false),
     tile("Years of plans running ahead of capability",Math.round(q(over,.5))+(Math.round(q(over,.5))===1?" yr":" yrs"),rg(q(over,.1),q(over,.9),v=>Math.round(v)+""),false),
     tile("Runs with a serious failure by then",pct(fail),"imposed friction follows",false)
   ].join("");

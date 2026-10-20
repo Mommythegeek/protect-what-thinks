@@ -17,6 +17,12 @@ function v0(a, i) { return a[i - 1] - 1e-9; }
 const lr = [0, 50, 100].map(c => at({ liability: c }, 2040, "R")); ok(lr[2] >= lr[0], "liability does not lower decision capacity (2040)");
 let up = 0; for (let s = 0; s < 500; s++) { const rows = simulate(Object.assign({}, DEFAULTS, { cap: 20, belief: 10, pipeline: 90 }), cm).rows; if (rows.at(-1).E > 0.6) up++; }
 ok(up > 0, "experienced judgment can be sustained under protective settings");
+const wr = [0, 50, 100].map(c => at({ rivalry: c }, 2033, "W")); ok(wr[0] <= wr[1] + 1e-9 && wr[1] <= wr[2] + 1e-9, "more rivals never lower extra automation (layoff trap)");
+const ov = [30, 60, 90].map(c => at({ cap: c }, 2040, "insp")); ok(ov[0] >= ov[1] && ov[1] >= ov[2], "faster capability never raises the share of outputs worth checking (Cao)");
+const jx = [0, 100].map(c => at({ expertfirst: c }, 2033, "J")); ok(jx[0] <= jx[1], "routine-first automation hits junior hiring at least as hard as expert-first");
+ok([0, 30, 60, 100].every(rv => [2033, 2045].every(y => at({ ownership: 100, rivalry: rv }, y, "H") >= at({ ownership: 0, rivalry: rv }, y, "H") - 1e-9)), "sharing gains never lowers human work, at any level of rivalry");
+ok(at({ ownership: 100, rivalry: 100 }, 2045, "W") > 0.01, "sharing gains does not remove over-automation (as in the layoff-trap paper)");
+ok(at({ autotax: 100, rivalry: 100 }, 2045, "W") < 1e-9, "a full corrective tax removes over-automation");
 const a = monteCarlo(DEFAULTS, 100, 2026, 2033), b = monteCarlo(DEFAULTS, 100, 2026, 2033);
 ok(JSON.stringify(a.org) === JSON.stringify(b.org), "same seed gives identical results");
 console.log("\nPlausibility checks (in-sample, not validation):");
