@@ -1,0 +1,270 @@
+{
+ "source": "Plaud of_c99a9c27b4b4c15f725e3030b1cd564f, 2026-10-21 15:33, 6:21",
+ "note": "times in ms from the Plaud transcript; chapter titles she read aloud are dropped (the film shows them); first take of lines 16-17 dropped, the retake kept",
+ "lines": [
+  {
+   "id": 1,
+   "ch": 1,
+   "in": 7020,
+   "out": 13340,
+   "text": "This is a seal. In Japan, it's called a hanko. You stamp it to say: I approve."
+  },
+  {
+   "id": 2,
+   "ch": 1,
+   "in": 14460,
+   "out": 17100,
+   "text": "Its first character also means judgment."
+  },
+  {
+   "id": 3,
+   "ch": 1,
+   "in": 17820,
+   "out": 26940,
+   "text": "And that's the point. A seal is only worth the judgment behind it. Years of practice. An eye that sees what's wrong."
+  },
+  {
+   "id": 4,
+   "ch": 2,
+   "in": 29900,
+   "out": 34300,
+   "text": "Now picture a print workshop. A master. Her apprentices."
+  },
+  {
+   "id": 5,
+   "ch": 2,
+   "in": 35060,
+   "out": 39380,
+   "text": "Every print passes under her eye before it gets her seal."
+  },
+  {
+   "id": 6,
+   "ch": 3,
+   "in": 42740,
+   "out": 51700,
+   "text": "Then the paper cranes arrive. They're AI agents: programs that do the work on their own. They never sleep."
+  },
+  {
+   "id": 7,
+   "ch": 3,
+   "in": 52740,
+   "out": 60180,
+   "text": "At Anthropic, the company that makes Claude, agents now work six hours for every human hour."
+  },
+  {
+   "id": 8,
+   "ch": 3,
+   "in": 61060,
+   "out": 69830,
+   "text": "But mostly, they wait. Eighty percent of the time, they're waiting for a human to check their work."
+  },
+  {
+   "id": 9,
+   "ch": 4,
+   "in": 73830,
+   "out": 77910,
+   "text": "So someone puts an abacus on the desk. A dashboard."
+  },
+  {
+   "id": 10,
+   "ch": 4,
+   "in": 78710,
+   "out": 86230,
+   "text": "It counts, and makes experts and juniors alike look like they're just waiting."
+  },
+  {
+   "id": 11,
+   "ch": 4,
+   "in": 87590,
+   "out": 89990,
+   "text": "And waiting is a cost."
+  },
+  {
+   "id": "A",
+   "ch": 4,
+   "in": 92860,
+   "out": 96220,
+   "text": "Looking became waiting. Waiting became a cost.",
+   "card": true
+  },
+  {
+   "id": 12,
+   "ch": 5,
+   "in": 99180,
+   "out": 109980,
+   "text": "So the workshop stops taking apprentices. At Anthropic, juniors fell from twenty-seven percent of technical hires to nine. In one year."
+  },
+  {
+   "id": 13,
+   "ch": 5,
+   "in": 111100,
+   "out": 116700,
+   "text": "No apprentices today. No masters tomorrow. No judgment the day after that."
+  },
+  {
+   "id": 14,
+   "ch": 5,
+   "in": 117980,
+   "out": 127810,
+   "text": "That part is already very real. In software, for instance, experienced engineers are kept, because software is hard to maintain."
+  },
+  {
+   "id": 15,
+   "ch": 5,
+   "in": 128690,
+   "out": 135890,
+   "text": "Juniors are harder to justify. And the experienced will retire, someday soon."
+  },
+  {
+   "id": 16,
+   "ch": 6,
+   "in": 156970,
+   "out": 164090,
+   "text": "With less judgment around, checking looks even less necessary. So it ends up being cut again."
+  },
+  {
+   "id": 17,
+   "ch": 6,
+   "in": 165850,
+   "out": 174730,
+   "text": "This happens time and time again. Firms bet on machines that aren't ready yet, and the bet makes itself come true."
+  },
+  {
+   "id": 18,
+   "ch": 6,
+   "in": 176170,
+   "out": 180890,
+   "text": "If they're wrong, someone else pays: the junior who was never hired."
+  },
+  {
+   "id": "B",
+   "ch": 6,
+   "in": 183010,
+   "out": 187250,
+   "text": "Bet on the machine. If you're wrong, someone else pays.",
+   "card": true
+  },
+  {
+   "id": 19,
+   "ch": 7,
+   "in": 190290,
+   "out": 201490,
+   "text": "I wanted to see where this loop ends. So I built a model: a small simulated world, with explicit rules."
+  },
+  {
+   "id": 20,
+   "ch": 7,
+   "in": 202770,
+   "out": 209410,
+   "text": "You turn the dials. It plays the loop forward five hundred times, to 2060."
+  },
+  {
+   "id": 21,
+   "ch": 7,
+   "in": 210690,
+   "out": 217870,
+   "text": "And it measures one thing: how much real judgment still stands behind each seal."
+  },
+  {
+   "id": "22-23",
+   "ch": 8,
+   "in": 224670,
+   "out": 232350,
+   "text": "In most futures, the seal survives. The judgment behind it drains away."
+  },
+  {
+   "id": "C",
+   "ch": 8,
+   "in": 235310,
+   "out": 238270,
+   "text": "The seal remains. The judgment is gone.",
+   "card": true
+  },
+  {
+   "id": "24-25",
+   "ch": 9,
+   "in": 242800,
+   "out": 255440,
+   "text": "Europe was the surprise. Its AI law requires a human to oversee risky AI. A human seal. In my model, that helps. Europe keeps more judgment than America."
+  },
+  {
+   "id": 26,
+   "ch": 9,
+   "in": 256560,
+   "out": 273910,
+   "text": "But it protects the seal, perhaps more than necessary. So, in ninety-four European futures out of a hundred, the seal outlives the judgment behind it. In America, only forty-four."
+  },
+  {
+   "id": "D",
+   "ch": 9,
+   "in": 275750,
+   "out": 281430,
+   "text": "In Europe, the law guarantees the seal. Unfortunately, not the judgment behind it.",
+   "card": true
+  },
+  {
+   "id": 27,
+   "ch": 10,
+   "in": 285670,
+   "out": 296230,
+   "text": "My model is completely unfinished. It misses several checks against real data, and it doesn't have enough of that exquisite data yet."
+  },
+  {
+   "id": 28,
+   "ch": 10,
+   "in": 297270,
+   "out": 302800,
+   "text": "Part of the Europe result comes from my own assumptions, and from what I've read."
+  },
+  {
+   "id": 29,
+   "ch": 10,
+   "in": 303760,
+   "out": 310400,
+   "text": "It forgets the hidden workers who train the machines. And India. And the Global South."
+  },
+  {
+   "id": 30,
+   "ch": 10,
+   "in": 320400,
+   "out": 331410,
+   "text": "And nobody publishes the number that my model needs the most to be accurate: how often a human seal actually changes what a machine proposed."
+  },
+  {
+   "id": 31,
+   "ch": 11,
+   "in": 336210,
+   "out": 355170,
+   "text": "So why does this all matter? Why does it need fixing? Because a model like this, made right, could be used before the cuts, not after. A company could see what judgment it will still have in ten years, before it stops hiring juniors."
+  },
+  {
+   "id": 33,
+   "ch": 11,
+   "in": 356760,
+   "out": 363400,
+   "text": "A regulator could test whether a rule protects people's judgment, or only their signatures."
+  },
+  {
+   "id": 34,
+   "ch": 12,
+   "in": 364600,
+   "out": 370200,
+   "text": "So everything is open: the model, the code, the sources, the mistakes."
+  },
+  {
+   "id": 35,
+   "ch": 12,
+   "in": 371000,
+   "out": 374600,
+   "text": "Take a brush. Help me fix it. It's yours."
+  },
+  {
+   "id": "E",
+   "ch": 12,
+   "in": 379320,
+   "out": 380280,
+   "text": "Help me fix it.",
+   "card": true
+  }
+ ]
+}

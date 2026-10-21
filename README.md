@@ -19,7 +19,7 @@ None of it is finished. Every paper names a problem it has not closed. That is o
 
 ## Open tools
 
-- **Human Necessity Model** (`human-necessity-model/`) — an interactive scenario model of how anticipation, dashboards that count human review as cost, and lost apprenticeship change how much decision capacity people keep in AI-run work, with stylised profiles for the United States, the European Union and China. Illustrative, not estimated; three of its four plausibility checks currently miss, and the review log says why. Companion to the essay *The Human You Never Fired*. [Run it in your browser](https://mommythegeek.github.io/protect-what-thinks/human-necessity-model/) · [every source, with links](human-necessity-model/SOURCES.md). *Carla de Préval, with Claude.*
+- **Human Necessity Model** (`human-necessity-model/`) — an interactive scenario model of how anticipation, dashboards that count human review as cost, and lost apprenticeship change how much decision capacity people keep in AI-run work, with stylised profiles for the United States, the European Union and China. Illustrative, not estimated; three of its four plausibility checks currently miss, and the review log says why. Companion to the essay *The Human You Never Fired*. [Run it in your browser](https://mommythegeek.github.io/protect-what-thinks/human-necessity-model/) · [every source, with links](human-necessity-model/SOURCES.md). Explained in a 5-minute film, *The Seal Remains*, narrated by Carla and drawn entirely in code: [watch it and see how it was made](human-necessity-model/film/). *Carla de Préval, with Claude.*
 
 ## Open mathematics
 

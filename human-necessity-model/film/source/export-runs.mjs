@@ -1,0 +1,12 @@
+import { readFileSync, writeFileSync } from "node:fs"; import vm from "node:vm";
+const html = readFileSync(process.argv[2], "utf8");
+const js = html.match(/<script>([\s\S]*)<\/script>/)[1].replace("buildControls(); syncInputs(); render();", "");
+const ctx = { console, localStorage: { getItem: () => null, setItem: () => {} } }; vm.createContext(ctx);
+vm.runInContext(js + "\nthis.api={monteCarlo,DEFAULTS,SECTORS,q,bands,setR:(r)=>{region=r},eff:()=>effective(),setState:(o)=>{state=Object.assign({},DEFAULTS,o)}};", ctx);
+const A = ctx.api; A.setState(A.SECTORS["Software"]); A.setR("Global");
+const mc = A.monteCarlo(A.eff(), 500, 2026, 2060);
+const runs = mc.runs.map(r => r.map(x => +x.R.toFixed(3)));
+const med = A.bands(mc.runs, "R").map(p => +p.p50.toFixed(3));
+const F = A.bands(mc.runs, "F").map(p => +p.p50.toFixed(3));
+writeFileSync(process.argv[3], JSON.stringify({ years: mc.runs[0].map(r => r.t), runs, med, F }));
+console.log(med[0], med[7], med[14], med[34]);
