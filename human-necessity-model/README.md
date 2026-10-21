@@ -55,10 +55,6 @@ Open an issue with the template **"Where is the model wrong?"**. The most useful
 4. A regional profile you know from the inside, with its sources.
 5. A field site: a team willing to log, for six months, how often human review changes an outcome.
 
-## Watch the 50-second explainer
-
-`video/human-necessity-model.mp4`, made entirely in code with Remotion from the model's own numbers. Source and rebuild steps in `video/README.md`.
-
 ## Run the tests
 
 ```
