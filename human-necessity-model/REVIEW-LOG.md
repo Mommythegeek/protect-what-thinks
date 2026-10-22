@@ -165,3 +165,57 @@ Findings and responses
 
 Not fixed, stated: δ still cannot reach the endoscopy result (about 4% a quarter at most, against a 21% relative fall);
 three of four plausibility checks still miss; no population layer; no hidden labour; India and the Global South absent.
+
+================================================================
+v1.3 → v1.4 (model 0.5 → 0.6) · 22 October 2026
+================================================================
+Plain title: What the Collège de France seminar on AI and work added, and what two reviews changed
+Poetic title: The Apprentice Who Watched
+
+Input. Pre-reading and synthesis of "Economic Scenarios for AI & the Future of Work" (Collège de
+France, 17 Sept 2026, convened by Philippe Aghion and Eric Hazan with the Windfall Trust). Every
+figure was checked at source by a separate agent before use. Corrections from that check: the
+Demirer et al. figures are commits +240% / releases +30% (not files +300% / review +150%); Faros
+"tripled" is incidents per pull request (monthly incidents +58%); BCG's 47% is role change, not
+time; France Compétences is nearly €1.5bn lower, not €1.3bn; "Nobody Was Fired" is described only
+in the seminar synthesis, not published by the Windfall Trust; Aghion and Bunel's estimate is not
+France-specific.
+
+Added: how firms let juniors use AI (learning dial); junior hiring credit; France profile; three
+timing presets after Korinek, Jones et al.; the Stanford series' July 2025 vintage as a second date;
+pending checks on review bottlenecks and junior learning; evidence that checking is work.
+
+REVIEWER A · LABOUR ECONOMIST AND FORECASTING METHODOLOGIST
+- MUST: the credit could lower hiring and decision capacity when the apprenticeship floor bound,
+  because the baseline J0 included the credit. FIXED: baseline built without the policy; test now
+  covers apprenticeship levels 0/40/80/100 and three horizons.
+- MUST: the credit's effect was larger than any evidence (a seminar proposal is not an effect
+  size). FIXED: scaled down where machines are much cheaper (×(1−cost advantage)); text says
+  strength reasoned, fiscal cost and windfall hires not modelled; Cahuc, Carcillo and Le Barbanchon
+  (2019) cited.
+- SHOULD: learning factor used capability, not adoption, and could exceed 1. FIXED: uses adoption
+  A, capped at 1 (100 = learns as well as without AI), slope halved.
+- SHOULD: France pipeline +15 contradicted its own sources. FIXED: +10 as the EU, with a reason per
+  shift; warning not to stack apprenticeship aid with a full credit.
+- SHOULD: speed presets implied GDP outcomes the model does not compute, and reach the same 2060
+  ceiling. FIXED: renamed "timing", note says compare at 2033.
+- SHOULD: the two Canaries rows double-count one test; slope claimed but not computed. FIXED: both
+  stated (data −0.04 a year, model −0.02); README says three independent tests.
+
+REVIEWER B · SOCIOLOGIST OF WORK AND INFORMATION DESIGNER
+- MUST: learning above the no-AI baseline. FIXED (as above).
+- MUST: version strings still v1.3; no changelog. FIXED.
+- MUST: "Nobody Was Fired" read as a published briefing. FIXED: "described in the seminar
+  synthesis, not published separately"; the link is named as the seminar's own page.
+- SHOULD: apprenticeship reduced to checking; choice placed on the junior. PARTLY FIXED: renamed
+  "How firms let juniors use AI"; tacit skill, legitimate peripheral participation and the master's
+  teaching time added to Known limits (not yet linked to the review-as-cost dial).
+- SHOULD: Shen and Tamkin stretched. FIXED: "one-hour trial, immediate quiz", and that some ways of
+  using AI kept learning intact.
+- SHOULD: scenario text only in tooltips. FIXED: printed under the chips.
+
+A DECISION LEFT TO THE AUTHOR
+The learning dial defaults to 100 (learns as well as without AI), which reproduces v1.3 and the
+published headline (EU 94–95%, US 44%). The trial suggests the typical user sits nearer 50; at 50
+the EU share rises to about 98% and the US to about 49%. The default stays optimistic, in line with
+the model's known gentleness, and the dial text says so.

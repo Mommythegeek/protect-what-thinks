@@ -4,10 +4,10 @@
 
 *When is a human still necessary, and when does the dashboard stop being able to tell?*
 
-Version 1.3 · model 0.5 · 20 October 2026 · Carla de Préval, with Claude
+Version 1.4 · model 0.6 · 22 October 2026 · Carla de Préval, with Claude
 Companion to the essay *The Human You Never Fired* (Intelligence Not Optimization).
 
-**Status: illustrative, not estimated.** The coefficient ranges are reasoned, not fitted. The plausibility checks are in-sample, and four of the five currently miss. This is published so it can be broken and repaired in the open.
+**Status: illustrative, not estimated.** The coefficient ranges are reasoned, not fitted. The plausibility checks are in-sample, and four of the five rows currently miss (three independent tests: two rows are one Stanford series at two dates). This is published so it can be broken and repaired in the open.
 
 ## Try it
 
@@ -16,7 +16,7 @@ Hosted copy: https://mommythegeek.github.io/protect-what-thinks/human-necessity-
 
 ## What it models, in one paragraph
 
-Firms plan automation on the capability they *expect*, not the capability that exists, and they cut junior hiring on those plans. Fewer juniors drain the stock of experienced judgment. Dashboards that count human review as latency take away the time to use what judgment remains, and opaque agents take away the evidence. Liability keeps the human signature in place. Rival firms automate past the point that is good for all of them, because each feels only its share of the spending lost when people are laid off. As outputs start to look expert, reviewers lose the ability to tell good from bad and checking stops being worth its cost, so review continues in form while inspection fades. Dashboards that see little checking count review more and more as cost. The result can be a person who still signs but no longer decides. The model runs this loop 500 times per setting, from 2026 to 2060, for one kind of work at a time, with stylised profiles for the United States, the European Union and China.
+Firms plan automation on the capability they *expect*, not the capability that exists, and they cut junior hiring on those plans. Fewer juniors drain the stock of experienced judgment. Dashboards that count human review as latency take away the time to use what judgment remains, and opaque agents take away the evidence. Liability keeps the human signature in place. Rival firms automate past the point that is good for all of them, because each feels only its share of the spending lost when people are laid off. As outputs start to look expert, reviewers lose the ability to tell good from bad and checking stops being worth its cost, so review continues in form while inspection fades. Dashboards that see little checking count review more and more as cost. The result can be a person who still signs but no longer decides. The model runs this loop 500 times per setting, from 2026 to 2060, for one kind of work at a time, with stylised profiles for the United States, the European Union, France and China. Since v1.4 it also asks how firms let juniors use AI (hired juniors who hand the work to the agent learn less) and offers a junior hiring credit, the policy proposed for France at the Collège de France seminar on AI and work (Aghion, Hazan, September 2026).
 
 ## The one result worth arguing about first
 
@@ -42,7 +42,7 @@ The full list, with every reviewer finding and the response to each, is in `REVI
 
 - **Lovett (2026), "The Tragedy of the Cognitive Commons"**, names the loop this model quantifies: overseeing AI needs the expertise that AI adoption erodes. It is conceptual and asks for the model.
 - **Korinek, Jones and colleagues (Anthropic Institute, 2026), "Economic Scenarios for Transformative AI"**, with a public explorer: GDP, wages and unemployment to 2030. It leaves out judgment and sign-off; this model leaves out the macroeconomy.
-- **Hemenway Falk and Tsoukalas (2026), Cao (2026), Autor and Thompson (2025)** supply three of the mechanisms added in v1.3.
+- **Hemenway Falk and Tsoukalas (2026), Cao (2026), Autor and Thompson (2025)** supply three of the mechanisms added in v1.3. **Randazzo et al. (2025) and Shen and Tamkin (2026)** supply the junior-learning dial added in v1.4.
 - **Epoch AI's GATE, MIT's Iceberg Index, the Anthropic Economic Index and an open NetLogo agent model** are candidate data and modules. Links in `SOURCES.md`.
 
 ## How to help
@@ -69,4 +69,4 @@ Built with Claude, an Anthropic model, and partly calibrated on Anthropic's own 
 
 ## Cite
 
-de Préval, C. (2026). *Human Necessity Model* (v1.3, model 0.5) [Interactive scenario model]. Intelligence Not Optimization. https://github.com/Mommythegeek/protect-what-thinks/tree/main/human-necessity-model
+de Préval, C. (2026). *Human Necessity Model* (v1.4, model 0.6) [Interactive scenario model]. Intelligence Not Optimization. https://github.com/Mommythegeek/protect-what-thinks/tree/main/human-necessity-model

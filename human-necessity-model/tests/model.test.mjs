@@ -23,9 +23,10 @@ const jx = [0, 100].map(c => at({ expertfirst: c }, 2033, "J")); ok(jx[0] <= jx[
 ok([0, 30, 60, 100].every(rv => [2033, 2045].every(y => at({ ownership: 100, rivalry: rv }, y, "H") >= at({ ownership: 0, rivalry: rv }, y, "H") - 1e-9)), "sharing gains never lowers human work, at any level of rivalry");
 ok(at({ ownership: 100, rivalry: 100 }, 2045, "W") > 0.01, "sharing gains does not remove over-automation (as in the layoff-trap paper)");
 ok(at({ autotax: 100, rivalry: 100 }, 2045, "W") < 1e-9, "a full corrective tax removes over-automation");
-ok([2033, 2045].every(y => Math.abs(at({ learnmode: 50 }, y, "E") - at({}, y, "E")) < 1e-12), "the learning dial at 50 leaves the model unchanged");
+ok(at({ learnmode: 100 }, 2045, "E") >= at({ learnmode: 50 }, 2045, "E") - 1e-12, "juniors learning as well as without AI is the best case for experience");
 const lmr = [0, 25, 50, 75, 100].map(c => at({ learnmode: c }, 2045, "R")); ok(lmr.every((x, i) => i === 0 || x >= lmr[i - 1] - 1e-9), "juniors who work alongside the agent never lower decision capacity (2045)");
-const jcr = [0, 50, 100].map(c => at({ jcredit: c, belief: 90 }, 2033, "J")); ok(jcr[0] <= jcr[1] + 1e-9 && jcr[1] <= jcr[2] + 1e-9, "a junior hiring credit never lowers junior hiring");
+let mono = true; for (const pp of [0, 40, 80, 100]) for (const y of [2033, 2045, 2060]) for (const k of ["J", "R"]) { const v = [0, 50, 100].map(c => at({ jcredit: c, pipeline: pp, belief: 90 }, y, k)); if (!(v[0] <= v[1] + 1e-9 && v[1] <= v[2] + 1e-9)) mono = false; }
+ok(mono, "a junior hiring credit never lowers junior hiring or decision capacity, at any apprenticeship level");
 ok(!!ctx.api.REGIONS["France"], "France profile exists");
 const a = monteCarlo(DEFAULTS, 100, 2026, 2033), b = monteCarlo(DEFAULTS, 100, 2026, 2033);
 ok(JSON.stringify(a.org) === JSON.stringify(b.org), "same seed gives identical results");
