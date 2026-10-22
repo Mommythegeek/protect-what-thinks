@@ -7,7 +7,7 @@
 Version 1.3 · model 0.5 · 20 October 2026 · Carla de Préval, with Claude
 Companion to the essay *The Human You Never Fired* (Intelligence Not Optimization).
 
-**Status: illustrative, not estimated.** The coefficient ranges are reasoned, not fitted. The plausibility checks are in-sample, and three of the four currently miss. This is published so it can be broken and repaired in the open.
+**Status: illustrative, not estimated.** The coefficient ranges are reasoned, not fitted. The plausibility checks are in-sample, and four of the five currently miss. This is published so it can be broken and repaired in the open.
 
 ## Try it
 

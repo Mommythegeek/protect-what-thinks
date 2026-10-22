@@ -157,7 +157,10 @@ footer{color:var(--muted);font-size:12.5px;border-top:1px solid var(--rule);padd
         <div class="chips" id="regions" role="radiogroup" aria-labelledby="lbl-region"></div>
         <p class="hint" id="regionnote"></p>
       </div>
-      <div class="group" id="g-head"><h3>The four headline assumptions</h3><div class="ctls"></div></div>
+      <div class="group" id="g-head"><h3>The headline assumptions</h3>
+        <p class="hint" id="lbl-speed">Speed of AI, after the three scenarios of Korinek, Jones et al. (Anthropic Institute, 2026), mapped by judgment onto the capability dial:</p>
+        <div class="chips" id="speeds" role="radiogroup" aria-labelledby="lbl-speed"></div>
+        <div class="ctls"></div></div>
       <details class="group" id="g-domain"><summary><h3>The domain (set by the preset)</h3></summary><div class="ctls"></div></details>
       <details class="group" id="g-machine"><summary><h3>Machines and costs</h3></summary><div class="ctls"></div></details>
       <details class="group" id="g-inst"><summary><h3>Institutions and voice</h3></summary><div class="ctls"></div></details>
@@ -181,7 +184,7 @@ footer{color:var(--muted);font-size:12.5px;border-top:1px solid var(--rule);padd
     <section class="right" aria-label="Results">
       <div class="bar-row" role="radiogroup" aria-labelledby="lbl-h" id="horizon"><h3 id="lbl-h" style="margin-right:6px">Horizon</h3></div>
       <p class="reading" id="reading" aria-live="polite"></p>
-      <p class="jump">Change the assumptions in <a href="#assumptions">the panel</a>. Start with the four headline dials.</p>
+      <p class="jump">Change the assumptions in <a href="#assumptions">the panel</a>. Start with the headline dials.</p>
       <div class="tiles" id="tiles"></div>
       <div class="panel">
         <h3>Trajectory 2026–2060 · median line, shaded range across runs</h3>
@@ -342,6 +345,14 @@ Gradual disempowerment          machine objectives > 40 and R < 0.3   (needs the
         <li>Merton, <a href="https://doi.org/10.2307/4609267">“The Self-Fulfilling Prophecy”</a>, The Antioch Review, 1948.</li>
         <li>MacKenzie, <a href="https://doi.org/10.7551/mitpress/9780262134606.001.0001">An Engine, Not a Camera</a>, MIT Press, 2006.</li>
         <li>Elish, <a href="https://doi.org/10.17351/ests2019.260">“Moral Crumple Zones”</a>, Engaging Science, Technology, and Society, 2019.</li>
+        <li>Shen and Tamkin, <a href="https://www.anthropic.com/research/AI-assistance-coding-skills">“How AI assistance impacts the formation of coding skills”</a>, Anthropic, Jan 2026 (arXiv:2601.20245).</li>
+        <li>Randazzo et al., <a href="https://www.hbs.edu/ris/Publication%20Files/26-036_e7d0e59a-904c-49f1-b610-56eb2bdfe6f9.pdf">centaurs, cyborgs and self-automators</a>, Harvard Business School Working Paper 26-036, 2025.</li>
+        <li>Workday, <a href="https://newsroom.workday.com/2026-01-14-New-Workday-Research-Companies-Are-Leaving-AI-Gains-on-the-Table">“Companies Are Leaving AI Gains on the Table”</a>, 14 Jan 2026 (3,200 employees).</li>
+        <li>Demirer, Musolff and Yang, <a href="https://www.nber.org/papers/w35275">“Writing Code vs. Shipping Code”</a>, NBER Working Paper 35275, 2026; Chen and Stratton, “Artificial Intelligence in the Firm: Bottlenecks in Software Production”; Faros, <a href="https://www.faros.ai/research/ai-acceleration-whiplash">AI Engineering Report</a>, 2026.</li>
+        <li>Korinek, Jones, Sacher, Cotter and McCrory, <a href="https://www.anthropic.com/institute/econ-scenarios">“Economic Scenarios for Transformative AI”</a>, Anthropic Institute, Sept 2026 (the three speed presets).</li>
+        <li>Acemoglu, Autor and Johnson, <a href="https://www.nber.org/papers/w34854">“Building Pro-Worker Artificial Intelligence”</a>, NBER Working Paper 34854, 2026.</li>
+        <li>Collège de France seminar “Economic Scenarios for AI &amp; the Future of Work”, convened by Aghion and Hazan with the Windfall Trust, 17 Sept 2026: <a href="https://work-next-page.lovable.app/">pre-reading and synthesis</a>. Source of the junior hiring credit proposal and of the scenario briefing “Nobody Was Fired”, in which firms shrink their first rung without a single layoff.</li>
+        <li>France data: <a href="https://www.insee.fr/fr/statistiques/9025878">INSEE Première 2120</a> (AI use by firms, 2025); Apec barometer, Nov 2025 (entry-level manager hiring); France Compétences 2026 budget (board vote, 27 Nov 2025).</li>
         <li>Kulveit et al., <a href="https://arxiv.org/abs/2501.16946">“Gradual Disempowerment”</a>, arXiv:2501.16946, 2025.</li>
       </ul>
     </details>
@@ -364,9 +375,9 @@ Gradual disempowerment          machine objectives > 40 and R < 0.3   (needs the
 const CONTROLS = [
   ["g-head","cap","Capability growth","How fast models absorb execution, then taste and judgment.","Candidate measure: domain benchmarks; Anthropic Economic Index automation share"],
   ["g-head","belief","Anticipation","How far ahead firms plan and cut on expected capability. The self-fulfilling prophecy dial.","Candidate measure: AI-attributed cuts vs measured automation (HBR, Jan 2026)"],
-  ["g-head","costframe","Review counted as cost","Dashboards classify human review as latency to reduce.","Candidate measure: how telemetry classifies human time (Anthropic: about 80% of session time as waiting)"],
+  ["g-head","costframe","Review counted as cost","Dashboards classify human review as latency to reduce.","Candidate measure: how telemetry classifies human time (Anthropic: about 80% of session time as waiting). Checking is real work: Workday finds nearly 40% of AI time savings lost to rework, and with coding agents review time rose 49% (Chen and Stratton)."],
   ["g-head","pipeline","Apprenticeship protection","Entry hiring floors, mentoring time, mandated manual practice.","Candidate measure: entry-level share of postings and hires (Lightcast, ADP)"],
-  ["g-head","learnmode","How juniors use AI","0: they hand the task to the agent and check little. 100: they work alongside it and check its work. Hired juniors become experts only if they practise: studies of AI at work find that people who hand tasks over build no skill (Randazzo et al., 2025), and Anthropic found juniors using coding agents understood their code less. At 50 the model behaves as before.","Candidate measure: share of junior work done with the agent vs by the agent; quiz scores on AI-assisted work"],
+  ["g-head","learnmode","How juniors use AI","0: juniors hand the task to the agent. 100: they work alongside it and check its work. Hired juniors become experts only if they practise. At 50 the model behaves as before.","Evidence: among 244 BCG consultants, those who handed tasks to AI “developed neither domain expertise nor AI-related skills” (Randazzo et al., HBS 26-036); in an Anthropic trial with 52 mostly junior engineers, those using AI scored 50% on a follow-up quiz against 67% without it, and were not significantly faster (Shen and Tamkin, 2026). Candidate measure: share of junior work done with the agent vs by it."],
   ["g-domain","feedback","Speed of feedback","How fast results can be checked. Code has tests; a fragrance becomes a classic in ten years.","Candidate measure: time from output to verifiable outcome"],
   ["g-domain","relation","Work is a relationship","Care, teaching, client advisory. Shields part of the work, or only the pitch.","Candidate measure: O*NET interpersonal and caring work items"],
   ["g-domain","stakes","Cost of a rare error","Where judgment's value sits in rare events.","Candidate measure: liability exposure, incident severity"],
@@ -379,7 +390,7 @@ const CONTROLS = [
   ["g-inst","liability","Liability requires a human","Law and insurers demand a named signatory. Protects review time and holds up formal sign-off.","Candidate measure: sector regulation inventory (EU AI Act high-risk)"],
   ["g-inst","ownership","Gains shared with workers","Equity, pay linked to productivity, income kept by people who lose their jobs. Softens the spending lost when people are laid off, but does not remove the pull to over-automate.","Candidate measure: employee equity share, profit-sharing, unemployment income replacement rate"],
   ["g-inst","autotax","Automation tax","Share of the corrective tax that would make each firm pay for the spending its layoffs destroy. At 100 it removes the extra automation from rivalry; Hemenway Falk and Tsoukalas find no other policy that does.","Candidate measure: statutory levies on automation or AI-substituted payroll"],
-  ["g-inst","jcredit","Junior hiring credit","Lower taxes or charges on entry-level hires, rewarding firms that keep hiring juniors. Proposed for France at the Collège de France seminar on AI and work (Sept 2026). At 100 it halves the cut in junior hiring that firms' plans cause.","Candidate measure: tax or social-charge relief per junior hire"],
+  ["g-inst","jcredit","Junior hiring credit","Lower taxes or charges on entry-level hires, rewarding firms that keep hiring juniors. Proposed for France in the synthesis of the Collège de France seminar on AI and work convened by Philippe Aghion and Eric Hazan (Sept 2026). At 100 it halves the cut in junior hiring that firms' plans cause.","Candidate measure: tax or social-charge relief per junior hire"],
   ["g-inst","voice","Worker voice","Collective bargaining, works councils, AI clauses (as in the 2023 Writers Guild agreement).","Candidate measure: coverage of AI provisions in collective agreements"],
   ["g-market","newtask","New tasks created","Orchestration, evaluation, agent management: work that capability creates.","Candidate measure: meta-work share (Anthropic: 10% to 22% of sessions)"],
   ["g-market","rivalry","Firms competing for the same customers","Many rivals: each firm feels only a small share of the spending it destroys when it lays people off, so all of them automate past the point that is good for all of them (Hemenway Falk and Tsoukalas, 2026).","Candidate measure: number of firms serving the same market; concentration index"],
@@ -407,9 +418,14 @@ const REGIONS = {
   "European Union":{note:"Human-oversight duties for high-risk AI; works councils and co-determination; apprenticeship systems; slower adoption; dependence on non-EU models.",
     adj:{liability:20,voice:20,pipeline:10,belief:-10,opacity:-10,concentration:10},src:"EU AI Act, Article 14 (human oversight) and transparency duties; works councils (Betriebsrat, CSE); dual apprenticeship systems."},
   "France":{note:"As the European Union, plus strong employment protection and company works councils (CSE); an apprenticeship boom since the 2018 reform, now facing funding cuts; AI adoption below the EU average.",
-    adj:{liability:20,voice:15,pipeline:15,belief:-10,opacity:-10,concentration:10},src:"EU AI Act; Code du travail and CSE consultation duties; apprenticeship contracts since the 2018 reform; France Compétences 2026 budget; INSEE ICT survey 2025."},
+    adj:{liability:20,voice:15,pipeline:15,belief:-10,opacity:-10,concentration:10},src:"EU AI Act; Code du travail and CSE consultation duties; apprenticeship contracts since the 2018 reform; France Compétences 2026 budget nearly €1.5bn below 2025 (lower pipeline to test it); INSEE: 18% of firms with 10+ staff used AI in 2025; Apec: entry-level manager hiring −19% in 2024."},
   "China":{note:"State-directed adoption; data-rich platforms; cheap open models; no independent unions; employment-stability policy; rules on human takeover for some AI services.",
     adj:{belief:5,signal:15,costadv:10,voice:-15,pipeline:10,liability:5,concentration:-5},src:"State Council 'AI+' action plan (2025); CAC rules on anthropomorphic AI interaction (Dec 2025); open-weight domestic models."}
+};
+const SPEEDS = {
+  "Slow":{cap:40,t:"GDP about 1.6% above the no-AI path by 2030; labour share barely moves"},
+  "Middle":{cap:70,t:"GDP about 8.3% above by 2030; labour share 60% → 56%"},
+  "Fast":{cap:95,t:"GDP about 32% above by 2030; labour share 60% → 45%"}
 };
 const LENSES = {
   "Off":{line:"",adj:{}},
@@ -432,12 +448,16 @@ const CALIB = [
    preset:P({feedback:90,relation:20,stakes:50,physical:0,cap:90,belief:95,costframe:80,pipeline:10,costadv:70}),start:2025,year:2026,key:"J",target:0.33,cmp:"band"},
   {t:"Young workers in AI-exposed occupations, 2022→2026",s:"Stanford Canaries update (Aug 2026): ages 22–25 about 19% below their counterfactual (about 11% absolute fall). Proxy: junior hiring ratio ≈ 0.81 (hiring vs employment mismatch).",
    preset:P({feedback:75,relation:35,stakes:45,physical:5,cap:60,belief:50,costframe:50,pipeline:20}),start:2022,year:2026,key:"J",target:0.81,cmp:"band"},
+  {t:"Young workers in AI-exposed occupations, 2022→2025 (earlier data vintage)",s:"Same Stanford series at its July 2025 data: about 15% below the counterfactual, deepening to 19% a year later. Proxy: junior hiring ratio ≈ 0.85 in 2025. Tests the slope, not just the level.",
+   preset:P({feedback:75,relation:35,stakes:45,physical:5,cap:60,belief:50,costframe:50,pipeline:20}),start:2022,year:2025,key:"J",target:0.85,cmp:"band"},
   {t:"Radiology headcount, 2016→2026",s:"Radiologist numbers grew after 2016 despite strong capability forecasts. Proxy: human work in 2026 at or above its 2016 level.",
    preset:P({feedback:55,relation:25,stakes:90,physical:5,cap:55,belief:50,costframe:40,pipeline:40,liability:70,demand:60}),start:2016,year:2026,key:"H",target:1.0,cmp:"ge"},
   {t:"Agents added to human work, not substituted (2026)",s:"Anthropic: human thread responses unchanged, meetings up 20%. Proxy: decision capacity at frontier settings still above 0.6. Weak proxy.",
    preset:P({cap:90,belief:95,costframe:80,pipeline:10,costadv:70}),start:2025,year:2026,key:"R",target:0.6,cmp:"ge"},
   {t:"Endoscopists' unaided detection after three months of AI use",s:"Budzyń et al., Lancet Gastroenterology & Hepatology (2025), four Polish centres: adenoma detection without AI fell from 28.4% to 22.4% after three months of AI-assisted practice. At its upper bound the model's yearly erosion allows about 4% loss a quarter at full exposure, against a 21% relative fall in the study. Either most of the short-run drop recovers, or δ is far too low. Needs a quarterly step and a follow-up study.",na:true},
   {t:"Override rate of human review (IMDA measure)",s:"Singapore's Model AI Governance Framework for Agentic AI (updated May 2026) asks firms to audit the human override rate and review time; “a low rate may signal rubber-stamping behaviours.” The model now predicts this rate (tile above). No firm publishes it yet: this is the number we most need.",na:true},
+  {t:"Checking is the bottleneck",s:"With autonomous coding agents, commits rose about 240% but releases only about 30% (Demirer, Musolff and Yang, NBER 35275, 2026); review time rose 49% with no significant gain in issues resolved (Chen and Stratton); incidents per pull request roughly tripled at high adoption (Faros, 22,000 developers). The model has no throughput or review queue yet, so it cannot test this. Pending a review-capacity module.",na:true},
+  {t:"Juniors learn less when the agent does the work",s:"Shen and Tamkin (Anthropic, 2026): 52 mostly junior engineers; quiz 50% with AI vs 67% without. The new dial “How juniors use AI” carries this, but its strength is reasoned, not fitted: a learning study that follows juniors over years would calibrate it.",na:true},
   {t:"Bank tellers after ATMs",s:"Teller employment grew for decades (Bessen). The capability curve is anchored on AI; this needs a separate technology curve. Pending.",na:true}
 ];
 const N = 500, START = 2026, END = 2060, WIDE = new Set(["signal","augment","emergence","belief","opacity","premium","demand","expertfirst","rivalry"]);
@@ -534,6 +554,7 @@ function buildControls(){
     document.getElementById("c-"+key).addEventListener("input",e=>{state[key]=+e.target.value;if(["feedback","relation","stakes","physical"].includes(key))sector=null;schedule();});
   });
   radioChips(document.getElementById("sectors"),Object.keys(SECTORS),null,name=>{sector=name;Object.assign(state,SECTORS[name]);syncInputs();schedule();});
+  radioChips(document.getElementById("speeds"),Object.keys(SPEEDS),null,name=>{state.cap=SPEEDS[name].cap;syncInputs();schedule();},n=>SPEEDS[n].t);
   radioChips(document.getElementById("regions"),Object.keys(REGIONS),null,name=>{region=name;schedule();},
     n=>n==="Global"?"No adjustment":Object.entries(REGIONS[n].adj).map(([k,v])=>`${LABEL[k]} ${v>0?"+":""}${v}`).join(", "));
   const rb=document.createElement("button"); rb.className="chip"; rb.type="button"; rb.textContent="Reset all";
@@ -624,6 +645,7 @@ function render(){
   const eff=effective();
   CONTROLS.forEach(([,k])=>{const adj=(LENSES[lens].adj[k]||0)+(REGIONS[region].adj[k]||0); document.getElementById("o-"+k).textContent=adj?`${state[k]} → ${eff[k]}`:state[k];});
   document.querySelectorAll("#regions .chip").forEach(b=>b.setAttribute("aria-checked",b.dataset.v===region));
+  document.querySelectorAll("#speeds .chip").forEach(b=>b.setAttribute("aria-checked",SPEEDS[b.dataset.v].cap===state.cap));
   document.getElementById("regionnote").textContent = region==="Global" ? "No regional adjustment. Stylised regional profiles shift several dials; the arrows next to each dial show the result." : `${REGIONS[region].note} Adjusts: ${Object.entries(REGIONS[region].adj).map(([k,v])=>`${LABEL[k].toLowerCase()} ${v>0?"+":""}${v}`).join(", ")}. Basis: ${REGIONS[region].src} Stylised, not estimated.`;
   document.querySelectorAll("#sectors .chip[data-v]").forEach(b=>b.setAttribute("aria-checked",b.dataset.v===sector));
   document.querySelectorAll("#lens .chip").forEach(b=>b.setAttribute("aria-checked",b.dataset.v===lens));
