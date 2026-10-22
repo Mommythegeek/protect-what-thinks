@@ -366,6 +366,7 @@ const CONTROLS = [
   ["g-head","belief","Anticipation","How far ahead firms plan and cut on expected capability. The self-fulfilling prophecy dial.","Candidate measure: AI-attributed cuts vs measured automation (HBR, Jan 2026)"],
   ["g-head","costframe","Review counted as cost","Dashboards classify human review as latency to reduce.","Candidate measure: how telemetry classifies human time (Anthropic: about 80% of session time as waiting)"],
   ["g-head","pipeline","Apprenticeship protection","Entry hiring floors, mentoring time, mandated manual practice.","Candidate measure: entry-level share of postings and hires (Lightcast, ADP)"],
+  ["g-head","learnmode","How juniors use AI","0: they hand the task to the agent and check little. 100: they work alongside it and check its work. Hired juniors become experts only if they practise: studies of AI at work find that people who hand tasks over build no skill (Randazzo et al., 2025), and Anthropic found juniors using coding agents understood their code less. At 50 the model behaves as before.","Candidate measure: share of junior work done with the agent vs by the agent; quiz scores on AI-assisted work"],
   ["g-domain","feedback","Speed of feedback","How fast results can be checked. Code has tests; a fragrance becomes a classic in ten years.","Candidate measure: time from output to verifiable outcome"],
   ["g-domain","relation","Work is a relationship","Care, teaching, client advisory. Shields part of the work, or only the pitch.","Candidate measure: O*NET interpersonal and caring work items"],
   ["g-domain","stakes","Cost of a rare error","Where judgment's value sits in rare events.","Candidate measure: liability exposure, incident severity"],
@@ -378,6 +379,7 @@ const CONTROLS = [
   ["g-inst","liability","Liability requires a human","Law and insurers demand a named signatory. Protects review time and holds up formal sign-off.","Candidate measure: sector regulation inventory (EU AI Act high-risk)"],
   ["g-inst","ownership","Gains shared with workers","Equity, pay linked to productivity, income kept by people who lose their jobs. Softens the spending lost when people are laid off, but does not remove the pull to over-automate.","Candidate measure: employee equity share, profit-sharing, unemployment income replacement rate"],
   ["g-inst","autotax","Automation tax","Share of the corrective tax that would make each firm pay for the spending its layoffs destroy. At 100 it removes the extra automation from rivalry; Hemenway Falk and Tsoukalas find no other policy that does.","Candidate measure: statutory levies on automation or AI-substituted payroll"],
+  ["g-inst","jcredit","Junior hiring credit","Lower taxes or charges on entry-level hires, rewarding firms that keep hiring juniors. Proposed for France at the Collège de France seminar on AI and work (Sept 2026). At 100 it halves the cut in junior hiring that firms' plans cause.","Candidate measure: tax or social-charge relief per junior hire"],
   ["g-inst","voice","Worker voice","Collective bargaining, works councils, AI clauses (as in the 2023 Writers Guild agreement).","Candidate measure: coverage of AI provisions in collective agreements"],
   ["g-market","newtask","New tasks created","Orchestration, evaluation, agent management: work that capability creates.","Candidate measure: meta-work share (Anthropic: 10% to 22% of sessions)"],
   ["g-market","rivalry","Firms competing for the same customers","Many rivals: each firm feels only a small share of the spending it destroys when it lays people off, so all of them automate past the point that is good for all of them (Hemenway Falk and Tsoukalas, 2026).","Candidate measure: number of firms serving the same market; concentration index"],
@@ -387,7 +389,7 @@ const CONTROLS = [
   ["g-long","emergence","Machine objectives of their own","0: tools of their makers. 100: agents with their own goals.","Judgment only"]
 ];
 const LABEL = Object.fromEntries(CONTROLS.map(c=>[c[1],c[2]]));
-const DEFAULTS = {cap:70,belief:60,costframe:70,pipeline:20,feedback:90,relation:20,stakes:50,physical:0,costadv:50,signal:60,concentration:70,opacity:50,liability:40,ownership:30,voice:20,newtask:40,demand:40,premium:30,augment:20,emergence:10,expertfirst:30,rivalry:60,autotax:0};
+const DEFAULTS = {cap:70,belief:60,costframe:70,pipeline:20,feedback:90,relation:20,stakes:50,physical:0,costadv:50,signal:60,concentration:70,opacity:50,liability:40,ownership:30,voice:20,newtask:40,demand:40,premium:30,augment:20,emergence:10,expertfirst:30,rivalry:60,autotax:0,learnmode:50,jcredit:0};
 const SECTORS = {
   "Software":{feedback:90,relation:20,stakes:50,physical:0},
   "Luxury & creative":{feedback:75,relation:40,stakes:15,physical:10},
@@ -404,6 +406,8 @@ const REGIONS = {
     adj:{belief:10,liability:-10,voice:-10,ownership:10,concentration:10,costframe:5},src:"At-will employment; union membership about 10% (BLS); no federal AI statute as of 2026."},
   "European Union":{note:"Human-oversight duties for high-risk AI; works councils and co-determination; apprenticeship systems; slower adoption; dependence on non-EU models.",
     adj:{liability:20,voice:20,pipeline:10,belief:-10,opacity:-10,concentration:10},src:"EU AI Act, Article 14 (human oversight) and transparency duties; works councils (Betriebsrat, CSE); dual apprenticeship systems."},
+  "France":{note:"As the European Union, plus strong employment protection and company works councils (CSE); an apprenticeship boom since the 2018 reform, now facing funding cuts; AI adoption below the EU average.",
+    adj:{liability:20,voice:15,pipeline:15,belief:-10,opacity:-10,concentration:10},src:"EU AI Act; Code du travail and CSE consultation duties; apprenticeship contracts since the 2018 reform; France Compétences 2026 budget; INSEE ICT survey 2025."},
   "China":{note:"State-directed adoption; data-rich platforms; cheap open models; no independent unions; employment-stability policy; rules on human takeover for some AI services.",
     adj:{belief:5,signal:15,costadv:10,voice:-15,pipeline:10,liability:5,concentration:-5},src:"State Council 'AI+' action plan (2025); CAC rules on anthropomorphic AI interaction (Dec 2025); open-weight domestic models."}
 };
@@ -449,7 +453,7 @@ function simulate(d,c,start){
   start=start||START;
   const v=k=>d[k]/100, cap=v("cap"),sig=v("signal"),bel=v("belief"),fb=v("feedback"),rel=v("relation"),phy=v("physical"),
         stakes=v("stakes"),emg=v("emergence"),nt=v("newtask"),prem=v("premium"),ca=v("costadv"),op=v("opacity"),voice=v("voice"),dem=v("demand"),
-        own=v("ownership"),riv=v("rivalry"),xf=v("expertfirst"),tax=v("autotax");
+        own=v("ownership"),riv=v("rivalry"),xf=v("expertfirst"),tax=v("autotax"),lm=v("learnmode"),jc=v("jcredit");
   let cf=v("costframe"),lia=v("liability"),pip=v("pipeline");
   const Mmax=0.95-0.45*phy-0.15*(1-fb), k=0.32, tm=2028+9*(1-fb)+12*phy-3*sig+10*(1-cap);
   const S=t=>Mmax/(1+Math.exp(-k*(t-tm)));
@@ -463,7 +467,7 @@ function simulate(d,c,start){
     const kap=clamp(0.25+0.75*ca+0.02*(t-2026));
     const A=Math.min(I,m)*kap, D=0.6*dem*A, Nn=c.nu*nt*m;
     const Hraw=(1-A)*(1+D)+Nn-c.psi*(1-own)*A;            // laid-off workers' lost spending, softened by shared gains
-    const Jraw=Math.max(0.8*pip,1-c.chi*I*kap*(1+0.6*(0.3-xf))+Nn+0.5*D);
+    const Jraw=Math.max(0.8*pip,1-c.chi*I*kap*(1+0.6*(0.3-xf))*(1-0.5*jc)+Nn+0.5*D);
     const g=1-0.7*m, dq=0.4+0.6*stakes, cv=0.05+0.45*op; // ability to tell good from bad, value at stake, cost of checking (Cao, 2026)
     const insp=1/(1+Math.exp(-(g*dq-cv)/0.15));
     const err=c.e0*(1-0.8*m/Mmax);                         // machine error rate
@@ -477,7 +481,8 @@ function simulate(d,c,start){
     if(failed===null && x>c.theta){failed=t;lia=clamp(lia+0.2);pip=clamp(pip+0.2);cf=clamp(cf-0.2);}
     if(I-m>0.15) L=L*(1-c.eta);
     cf=clamp(cf+c.eps*A*(1-cf)*(1-insp));                 // dashboards that see little checking count review as cost
-    E=clamp(E+c.rho*(J-E)-c.delta*A*(1+0.6*(xf-0.3))*(1-pip)*E,0,1.2);
+    const lq=1-0.8*m*(0.5-lm);                             // juniors who hand work to the agent become less of an expert (centred on 50)
+    E=clamp(E+c.rho*(J*lq-E)-c.delta*A*(1+0.6*(xf-0.3))*(1-pip)*E,0,1.2);
   }
   return {rows,failed};
 }
