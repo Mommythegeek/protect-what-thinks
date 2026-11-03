@@ -2,7 +2,7 @@
 
 *Une vérification assistée par IA, ouverte à la correction de la communauté active inference.*
 
-> This note is in French; the notation is standard active-inference. It concerns Section 4 of *Beyond Solipsistic Robotics* (V7.3). An English version is welcome as a contribution.
+> This note is in French; the notation is standard active-inference. It concerns Section 4 of *Beyond Solipsistic Robotics* (V7.3; Section 4 is unchanged in V7.4). An English version is welcome as a contribution.
 
 Ce document liste les points du §4 (V7.3) que nous vérifions encore et que nous soumettons ouvertement à la communauté active inference. Il est ancré sur da Costa et al. (2020, *Active inference on discrete state-spaces*, J. Math. Psych. 99:102447, éq. 13 & 16) et Parr, Pezzulo & Friston (2022). Conformément au Criterion 3 de notre papier méthodologique, le sign-off d'un mathématicien active inference est requis : une formalisation assistée par IA n'est pas un warrant formel suffisant (le §4.3 du papier méthodo documente exactement ce risque). Chaque point ci-dessous est proposé comme correction à vérifier, non comme résultat établi. Objections, contre-exemples et pull requests sont les bienvenus.
 
