@@ -25,6 +25,10 @@ None of it is finished. Every paper names a problem it has not closed. That is o
 
 Section 4 of *Beyond Solipsistic Robotics* is under active mathematical verification. The specific points — starting with the Expected Free Energy decomposition — are set out in **BSR_Section4_Open_Maths_Points.md**, reframed as an open call rather than private notes. Per Criterion 3 of the methodology paper, a formal sign-off by an active-inference mathematician is required, and corrections are welcome. We would rather show the seams than hide them.
 
+## Simulation results
+
+- **SPINE Scenario 4: first results** — a robot confident about the human's state but wrong about it, under reliable, temporarily misleading and persistently misleading information. Scenario by Charles Martin Jones Jr, run by Vincent Bezard in the SPINE simulator. **BSR_Scenario4_first_results.md**. Thank you, Vincent.
+
 ## Changes
 
 What changed in each paper, and who found it: **CHANGELOG.md**. Earlier versions are kept in `archive/`.
