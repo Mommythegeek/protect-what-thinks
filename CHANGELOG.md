@@ -1,5 +1,9 @@
 # Changelog
 
+## PRF claims sheet added (15 November 2026)
+
+`PRF_Claims_Sheet.md` lists each claim of the PRF paper (v6), the assumptions it rests on and the result that would falsify it, with no history and no verdicts. It is meant to be read by a reviewer before this changelog, the paper's Appendix A or the process log, so that a first assessment is formed independently. It is updated with each version of the paper.
+
 ## Beyond Turn-Based AI (PRF) — v5 → v6 (November 2026)
 
 Everything new in this version is a proposal, drafted with AI assistance and not checked by a specialist.
