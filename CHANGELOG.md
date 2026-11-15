@@ -1,5 +1,29 @@
 # Changelog
 
+## Beyond Turn-Based AI (PRF) — v3 → v5 (November 2026)
+
+Everything new in this version is a proposal. It was drafted with AI assistance and none of the new formal material has been checked by a specialist. No claim in v3 is withdrawn and no v3 equation has changed. A v4 draft was working material and was never published.
+
+**Prior art the paper should have carried (§2.8, §4).** A state that is never reset and is rewritten at every step has to say what keeps a trace from being washed out. Biology has asked this since Crick (1984) and answered it in one form since Lisman (1985). The paper now states that lineage, concedes the form of the idea, and carries the counter-evidence (Mohar et al. 2025; Chen et al. 2014).
+
+**Hu et al. (2026) cited as published (§1, §2.2)**, with its lineage and the limit of the analogy: cell ensembles in mouse dentate gyrus are not subspaces of a latent state.
+
+**A conjecture revised by a toy run (§2.8, §6).** A linear toy memory showed a best size under interference and no cliff. The conjecture is now stated so that it can come out either way.
+
+**Order-sensitive state (§2.9, candidate).** When relational state depends on the order of events, a system must pay a cost that grows with the history, or lose that state, or carry an incrementally updated statistic. It is a trilemma and not a proof that the PRF is better. One consequence cuts against the paper's own substrate: a diagonal selective state-space model cannot track such state (Merrill, Petty & Sabharwal, 2024), so the retention update needs non-diagonal transitions.
+
+**A conditional bound on forgetting (§2.10, candidate)**, for the direct contribution of a released trace only, with its limits stated. The retention block must not be contracting.
+
+**Training (§3).** Distillation from a full-history teacher replaces the simulator-and-reward signal. Proposed, not run.
+
+**Also.** The allostatic regulator becomes an inferred state with a supervised hyperprior (§2.7, candidate). ACM (Li et al., 2026) is added to prior work and to the baselines. Appendix A records who checked what. The editable source is now in the repo as **Beyond_Turn-Based_AI_PRF_v5_source.md**; v3 is in `archive/`.
+
+**Credit.** The Crick and Lisman omission, the Hu et al. upgrade and the toy run came from a separate literature and verification session run for Carla de Préval and passed on in writing.
+
+**Open.** A specialist reader for §2.7, §2.9 and §2.10. The decisive experiment has not been run.
+
+**Known inconsistency in v5, flagged at merge (15 November 2026).** A stress test run on v5 the day it was written found that §2.4, §2.6 and §2.7 together imply the opposite of what the paper wants. With no input, the state relaxes toward the allostatic reference, so anything not encoded in that small reference decays exponentially while the user is away. v5 names the cause in §2.10 (the retention block must not be contracting) and does not repair §2.4. A second finding: §2.9 requires non-diagonal transitions on the retention block, while §3 still describes the substrate as built from familiar primitives and does not cost that change. v5 is published with both flags so the trail is visible. The repair is the next version.
+
 ## SPINE Scenario 4: first simulation results (November 2026)
 
 Vincent Bezard ran a first version of Scenario 4, proposed by Charles Martin Jones Jr in issue #1: reliable information keeps 100% of steps within the simulator's limits, misleading information corrected after 25 steps keeps 61.8% and then recovers, misleading information throughout keeps 0%. Details in **BSR_Scenario4_first_results.md**. Thanks to Vincent for running it. The paper itself is unchanged.
