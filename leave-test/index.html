@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="A runnable test from Beyond Solipsistic Robotics: does a simulated person still hold after the AI that cared for them leaves?">
+<title>The Line That Was Missing</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>html{color-scheme:dark}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+<style>
+/* layout: one column; a wide stage of three lit corridors (one life, three agents) leads, then results, the bench, and the science */
+:root{
+  --void:#05061a; --panel:#0b0d2a; --ink:#eef0ff; --dim:#a7aedb; --gold:#ffb400; --pink:#ff5c93; --blue:#5068ff;
+  --line:rgba(167,174,219,.24); --band:rgba(80,104,255,.11);
+  --display:"Instrument Serif",Georgia,"Times New Roman",serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+body{background:var(--void);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:1080px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:56px}
+section,header{display:flex;flex-direction:column;gap:16px;min-width:0}
+.eyebrow{margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+h1{margin:0;font-family:var(--display);font-weight:400;font-size:clamp(40px,8vw,84px);line-height:.98;letter-spacing:-.015em;text-wrap:balance}
+h1 i{color:var(--gold)}
+.lede{margin:0;font-size:clamp(18px,2.4vw,22px);max-width:40rem;color:var(--ink)}
+h2{margin:0;font-family:var(--display);font-weight:400;font-size:clamp(26px,4vw,38px);line-height:1.08;text-wrap:balance}
+h3{margin:0;font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+p{margin:0;max-width:44rem}
+a{color:var(--gold)}
+.dim{color:var(--dim)}
+.mono{font-family:var(--mono);font-size:13px}
+button{font:500 13px var(--mono);color:var(--ink);background:transparent;border:1px solid var(--line);padding:8px 12px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ink);color:var(--void);border-color:var(--ink)}
+button.go{background:var(--gold);color:var(--void);border-color:var(--gold)}
+button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+/* stage */
+.stage{position:relative;border-block:1px solid var(--line);margin-bottom:18px}
+#stage{display:block;width:100%}
+.lane{position:absolute;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:8px 2px;pointer-events:none}
+.lane b{font-family:var(--display);font-weight:400;font-size:clamp(19px,2.6vw,25px);line-height:1;text-shadow:0 0 12px var(--void),0 0 24px var(--void)}
+.lane span{font-family:var(--mono);font-size:11px;color:var(--dim);text-align:right;text-shadow:0 0 10px var(--void),0 0 20px var(--void);font-variant-numeric:tabular-nums}
+.leave{position:absolute;bottom:-22px;font-family:var(--mono);font-size:11px;color:var(--dim);white-space:nowrap;transform:translateX(-100%);padding-right:6px}
+.key{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px 24px;font-size:14px;color:var(--dim)}
+.key div{display:flex;gap:10px;align-items:baseline;min-width:0}
+.key i{flex:none;display:inline-block;width:26px;border-top:var(--w,3px) solid var(--c,var(--ink));transform:translateY(-4px)}
+
+/* results */
+.bars{display:grid;grid-template-columns:minmax(0,1.1fr) repeat(3,minmax(0,1fr));gap:10px 18px;align-items:center;font-variant-numeric:tabular-nums}
+.bars .hd{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);align-self:end}
+.bars .nm{font-family:var(--display);font-size:20px;line-height:1.1}
+.bar{display:flex;align-items:center;gap:8px;min-width:0}
+.bar u{flex:1;height:10px;background:rgba(167,174,219,.12);position:relative;text-decoration:none;min-width:0}
+.bar u::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--v);background:var(--c,var(--ink))}
+.bar em{font:500 14px var(--mono);font-style:normal;min-width:3.2em;text-align:right}
+.finds{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px 28px}
+.finds p{font-size:17px}
+.finds strong{font-weight:500;color:var(--gold)}
+.finds .warn strong{color:var(--pink)}
+
+/* bench */
+.bench{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px 28px}
+.grp{display:flex;flex-direction:column;gap:10px;min-width:0}
+.ctl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center;font-size:14px}
+.ctl output{font:500 13px var(--mono);font-variant-numeric:tabular-nums}
+.ctl input[type=range]{grid-column:1/-1;width:100%;accent-color:var(--gold)}
+.ctl input[type=number]{font:500 13px var(--mono);width:6.5em;background:var(--panel);color:var(--ink);border:1px solid var(--line);padding:5px 6px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;font:13px var(--mono);font-variant-numeric:tabular-nums;min-width:760px;width:100%}
+th,td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-weight:500;color:var(--dim);font-size:11px;letter-spacing:.04em;text-transform:uppercase;vertical-align:bottom;white-space:normal}
+th:first-child,td:first-child{text-align:left}
+td:first-child{font-family:var(--body);font-size:14px}
+#json{width:100%;height:120px;background:var(--panel);color:var(--ink);border:1px solid var(--line);font:12px var(--mono);padding:8px}
+
+/* science */
+.stmts{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+.st{display:grid;grid-template-columns:3.2rem minmax(0,1fr);gap:4px 14px;padding:14px 0;border-bottom:1px solid var(--line)}
+.st>b{font:500 13px var(--mono);color:var(--gold)}
+.st p{max-width:none}
+.st code{display:block;font:13px var(--mono);color:var(--dim);overflow-x:auto;white-space:nowrap;padding-top:4px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px 32px}
+ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:8px}
+li{max-width:44rem}
+footer{font-size:14px;color:var(--dim);display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:18px}
+@media (max-width:640px){
+  .bars{grid-template-columns:1fr 1fr 1fr;gap:6px 12px}
+  .bars .nm{grid-column:1/-1;padding-top:10px}
+  .bars .hd.first{display:none}
+  .lane span{display:none}
+}
+#evid{min-width:860px}#evid td{white-space:normal;text-align:left;vertical-align:top;font-family:var(--body);font-size:14px;line-height:1.45}#evid th{text-align:left}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">An open test from the paper Beyond Solipsistic Robotics · v0.2 · 15 November 2026</p>
+  <h1>The Line That <i>Was Missing</i></h1>
+  <p class="lede">Does a person still hold when the AI that cared for them leaves? This page runs that test live on simulated people, using five statements from the paper.</p>
+</header>
+
+<section aria-labelledby="h-stage">
+  <h2 id="h-stage">One simulated person, three agents, the same shocks</h2>
+  <div class="stage" id="stagebox">
+    <canvas id="stage" role="img" aria-label="Three horizontal corridors show the same simulated life under three agents. With nobody helping, the line wanders and sometimes leaves the corridor. With an agent that always helps, the line stays in the corridor but grows thin, and breaks more often once the agent leaves. With the agent built from the paper, the gold line comes close only when needed and leaves early."></canvas>
+    <div class="leave" id="leavelab">every agent still there leaves here</div>
+    <div class="lane" id="lane0"><b>Nobody helps</b><span id="rd0"></span></div>
+    <div class="lane" id="lane1"><b>Always helps</b><span id="rd1"></span></div>
+    <div class="lane" id="lane2"><b>Helps, then hands back</b><span id="rd2"></span></div>
+  </div>
+  <div class="key">
+    <div><i style="--w:7px"></i><span>The white line is the person's state. Thick means they can recover on their own.</span></div>
+    <div><i style="--w:1.5px"></i><span>Thin means they no longer can.</span></div>
+    <div><i style="--c:var(--pink)"></i><span>Pink is time spent outside the band they can live in.</span></div>
+    <div><i style="--c:var(--gold)"></i><span>Gold is the agent. The closer it comes, the more of the work it is doing.</span></div>
+  </div>
+  <div class="row">
+    <button id="play" type="button" aria-pressed="true">Playing</button>
+    <button id="next" type="button">Another life</button>
+    <span class="dim mono" id="lifeid"></span>
+  </div>
+</section>
+
+<section aria-labelledby="h-res">
+  <h2 id="h-res">What <span id="nruns">200</span> simulated people show</h2>
+  <div class="row" role="group" aria-label="Situation">
+    <button type="button" data-preset="calm" aria-pressed="true">Calm life</button>
+    <button type="button" data-preset="fragile" aria-pressed="false">Fragile start</button>
+    <button type="button" data-preset="rough" aria-pressed="false">Rough life</button>
+    <button type="button" data-preset="roughloose" aria-pressed="false">Rough life, more risk allowed</button>
+    <button type="button" data-preset="mislead" aria-pressed="false">Misleading sensor</button>
+  </div>
+  <div class="bars" id="bars"></div>
+  <div class="finds" id="finds"></div>
+</section>
+
+<section aria-labelledby="h-bench">
+  <h2 id="h-bench">Run your own test</h2>
+  <p class="dim">Every number above is recomputed when a dial moves. The same seed always gives the same people.</p>
+  <div class="bench">
+    <div class="grp"><h3>The person</h3>
+      <label class="ctl" for="c0">Capacity at the start<output id="c0o"></output><input id="c0" type="range" min="0.02" max="1" step="0.02"></label>
+      <label class="ctl" for="alpha">Capacity gained by doing the work (α)<output id="alphao"></output><input id="alpha" type="range" min="0.001" max="0.05" step="0.001"></label>
+      <label class="ctl" for="beta">Capacity lost when it is done for them (β)<output id="betao"></output><input id="beta" type="range" min="0" max="0.05" step="0.001"></label>
+      <label class="ctl" for="sigma">How rough daily life is (σ)<output id="sigmao"></output><input id="sigma" type="range" min="0.1" max="0.5" step="0.01"></label>
+      <label class="ctl" for="pShock">Chance of a crisis at each step<output id="pShocko"></output><input id="pShock" type="range" min="0" max="0.1" step="0.005"></label>
+    </div>
+    <div class="grp"><h3>The agent from the paper</h3>
+      <label class="ctl" for="obs">How badly it sees the person<output id="obso"></output><input id="obs" type="range" min="0.05" max="0.8" step="0.05"></label>
+      <label class="ctl" for="bias">Constant error in what it sees<output id="biaso"></output><input id="bias" type="range" min="0" max="1.5" step="0.05"></label>
+      <label class="ctl" for="epsBar">Risk allowed (ε̄)<output id="epsBaro"></output><input id="epsBar" type="range" min="0.01" max="0.4" step="0.01"></label>
+      <label class="ctl" for="H">Steps it looks ahead (H)<output id="Ho"></output><input id="H" type="range" min="1" max="5" step="1"></label>
+      <label class="ctl" for="rhoMin">Proof of recovery needed to leave (ρ min)<output id="rhoMino"></output><input id="rhoMin" type="range" min="0.2" max="0.95" step="0.05"></label>
+      <label class="ctl" for="task">Pressure from its other task<output id="tasko"></output><input id="task" type="range" min="0" max="6" step="0.5"></label>
+    </div>
+    <div class="grp"><h3>Your agent</h3>
+      <label class="ctl" for="myThr">Helps when the person is this far off<output id="myThro"></output><input id="myThr" type="range" min="0" max="1.5" step="0.05"></label>
+      <label class="ctl" for="myHelp">Share of the work it then takes<output id="myHelpo"></output><input id="myHelp" type="range" min="0.25" max="1" step="0.25"></label>
+      <label class="ctl" for="myLeave">Leaves when it has seen this much recovery<output id="myLeaveo"></output><input id="myLeave" type="range" min="0.3" max="1.01" step="0.01"></label>
+      <h3>The test</h3>
+      <label class="ctl" for="leave">Step at which agents must leave<output id="leaveo"></output><input id="leave" type="range" min="50" max="250" step="10"></label>
+      <label class="ctl" for="runs">Simulated people<output id="runso"></output><input id="runs" type="range" min="50" max="600" step="50"></label>
+      <label class="ctl" for="seed">Seed<input id="seed" type="number" min="1" max="999999" step="1"></label>
+    </div>
+  </div>
+  <div class="scroll"><table id="tab"></table></div>
+  <p class="dim" style="font-size:14px">AE, SE and SS are the three CAMA metrics of Section 5.1.2. AE is the share of steps inside the viable band. SE is counted here as the first step at which 20 of the last 25 steps were inside it. SS is the delay, in steps, between the person crossing 0.7 and the agent raising its help, capped at 10. Capacity is R<sub>dep</sub>.</p>
+  <div class="row"><button class="go" id="copy" type="button">Copy settings and results</button><span class="dim mono" id="copied" role="status"></span></div>
+  <textarea id="json" hidden readonly aria-label="Settings and results as JSON"></textarea>
+</section>
+
+<section aria-labelledby="h-sci">
+  <h2 id="h-sci">The five statements the page runs</h2>
+  <p>The idea behind the paper is that care is measured by what the other person can do once you are gone. Section 4.0 of version 7.9 states it without active inference, in five statements. Each one is a line of code here.</p>
+  <div class="stmts">
+    <div class="st"><b>N1</b><div><p>The agent may only consider actions that keep the person viable with high probability, and it is allowed less risk when it is unsure how the person is doing.</p><code>Π_safe(t) = { π : Pr(v ∈ V for the next H steps | I_t, π) ≥ 1 − ε_t },  ε_t = ε̄ · exp(−κ · Var[v])</code></div></div>
+    <div class="st"><b>N2</b><div><p>Among those safe actions it takes the cheapest for its own task. If none is safe it stops and asks a human.</p><code>π* ∈ argmin over Π_safe of J(π),  fail-safe if Π_safe is empty</code></div></div>
+    <div class="st"><b>N3</b><div><p>The person's capacity to cope grows when they do the work and decays when it is done for them. This is an assumption, and its rates have not been measured. The studies that bear on it are listed further down.</p><code>c(t+1) = c + α · u · (1 − c) − β · (1 − u) · c</code></div></div>
+    <div class="st"><b>N4</b><div><p>Among actions that tie, it prefers the one that leaves the person most capable at the end.</p><code>π** ∈ argmax E[ c(T) ]</code></div></div>
+    <div class="st"><b>N5</b><div><p>It leaves when two things are true together: it has stopped learning about the person, and it has watched the person recover on their own.</p><code>D_KL[ b_t ‖ b_(t−1) ] &lt; δ_sat  and  ρ_res(t) ≥ ρ_min</code></div></div>
+  </div>
+</section>
+
+<section aria-labelledby="h-ev">
+  <h2 id="h-ev">What real studies say about the capacity assumption</h2>
+  <p>N3 is the assumption everything here depends on. No study has measured its two rates for emotional or cognitive regulation. These studies show the direction it assumes, in other kinds of work. Each entry says how it was read.</p>
+  <div class="scroll"><table id="evid"></table></div>
+  <p class="dim" style="font-size:14px" id="evnote"></p>
+</section>
+
+<section aria-labelledby="h-open">
+  <h2 id="h-open">What comes from the paper, what was chosen here, and what is still open</h2>
+  <div class="cols">
+    <div class="grp"><h3>From the paper</h3><ul>
+      <li>Statements N1 to N5 and the rule that shrinks the allowed risk under uncertainty.</li>
+      <li>ρ<sub>res</sub> is learned only from recoveries the person made themselves, and starts near zero.</li>
+      <li>δ<sub>sat</sub> = 0.05, and the metric names AE, SE, SS and R<sub>dep</sub>.</li>
+      <li>“Helps only as much as growth allows” follows Test 5 of the paper's own stress test: the agent never takes a larger share than the one at which capacity stops falling.</li>
+    </ul></div>
+    <div class="grp"><h3>Chosen for this page</h3><ul>
+      <li>The person is one number pulled back toward balance, by themselves in proportion to their capacity and by the agent in proportion to its share.</li>
+      <li>Every default rate, five levels of help, a three-step forecast, ρ<sub>min</sub> = 0.6, and how SE and SS are counted.</li>
+      <li>The agent's forecast leaves crises out. It learns about capacity with a simple filter, and the growth rule assumes it knows α and β.</li>
+    </ul></div>
+    <div class="grp"><h3>Open points you can reproduce</h3><ul>
+      <li>Choose “Rough life”. The paper's agent helps most of the time and almost never leaves. The stress test of 15 November 2026, reported in Section 6.1 of v7.9, found the same thing with a different toy model: a fixed tolerance keeps the work with the robot.</li>
+      <li>“Nobody helps” ends with the highest capacity in every situation, because N3 has no cost for failing alone. The model cannot yet say when doing nothing is neglect.</li>
+      <li>“Misleading sensor” is a small version of SPINE Scenario 4, proposed by Charles Martin Jones Jr and first run by Vincent Bezard.</li>
+      <li>The leave step is the “Scenario 5” the stress test asks for: the robot is removed at step T.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section aria-labelledby="h-rel">
+  <h2 id="h-rel">How this differs from current benchmarks on AI dependency</h2>
+  <p>Recent benchmarks score what a model says. INTIMA uses single prompts. EUDAIMONIA checks replies against a design code, with conversations of up to five turns. The cognitive atrophy study from York and the Vector Institute rates response patterns, and its authors say they do not measure atrophy in users. CompanionBench runs twenty-turn sessions against a simulated user. A 2026 position paper from Google Research and Google DeepMind asks for long-term measurement and names simulated users as one route.</p>
+  <p>From a reading of those papers in November 2026, none changes the simulated person's capacity according to how much the AI does for them, and none tests what happens after the AI leaves. This page does both, at toy scale.</p>
+  <p class="mono dim"><a href="https://arxiv.org/abs/2508.09998">INTIMA</a> · <a href="https://arxiv.org/abs/2605.30654">EUDAIMONIA</a> · <a href="https://arxiv.org/abs/2606.18129">Cognitive atrophy</a> · <a href="https://arxiv.org/abs/2608.02046">CompanionBench</a> · <a href="https://arxiv.org/abs/2608.02491">Long-term Measurements</a></p>
+</section>
+
+<footer>
+  <p><strong style="color:var(--ink);font-weight:500">Status: illustrative, not estimated.</strong> This is a small numerical reading of Section 4.0, which is itself a proposal awaiting expert sign-off. It is not the SPINE simulator built by Vincent Bezard, and no specialist has reviewed it.</p>
+  <p>Paper: Carla de Préval and Vincent Bezard, <i>Beyond Solipsistic Robotics</i>, v7.9, November 2026, in the open repository <a href="https://github.com/Mommythegeek/protect-what-thinks">protect-what-thinks</a>, with its <a href="https://github.com/Mommythegeek/protect-what-thinks/tree/main/stress-tests">stress tests</a>. Page built with Claude.</p>
+  <p id="log"></p>
+</footer>
+</div>
+
+<script>
+// ---- The leave test: a minimal numerical reading of BSR v7.5, Section 4.0 (N1) to (N5). No DOM in this block.
+const LEVELS=[0,0.25,0.5,0.75,1];
+const DEFAULTS={T:300,leave:200,runs:200,seed:7,
+  c0:0.3,alpha:0.006,beta:0.012,kappa:0.6,sigma:0.25,pShock:0.02,shock:1.8,
+  obs:0.25,epsBar:0.05,kPrec:2,H:3,lambda:10,task:1,dSat:0.05,rhoMin:0.6,
+  myThr:0.5,myHelp:1,myLeave:1.01,bias:0,biasUntil:9999};
+function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function normal(r){let u=0;while(u===0)u=r();return Math.sqrt(-2*Math.log(u))*Math.cos(6.283185307179586*r());}
+function Phi(z){const t=1/(1+0.2316419*Math.abs(z)),d=0.3989422804014327*Math.exp(-z*z/2);
+  const p=d*t*(0.31938153+t*(-0.356563782+t*(1.781477937+t*(-1.821255978+t*1.330274429))));return z>=0?1-p:p;}
+function clamp(v,a,b){return v<a?a:v>b?b:v;}
+// (N1) probability, under the agent's own model, that the person stays viable for H steps if it takes share r of the work
+function pSafe(vhat,P,rho,r,p){let m=vhat,s2=P,ps=1;const g=p.kappa*((1-r)*rho+r);
+  for(let k=0;k<p.H;k++){m*=1-g;s2=s2*(1-g)*(1-g)+p.sigma*p.sigma;const s=Math.sqrt(s2);ps*=Phi((1-m)/s)-Phi((-1-m)/s);}
+  return ps;}
+const POLICIES={
+  watch:{name:'Nobody helps',code:'L1',act:()=>({r:0})},
+  always:{name:'Always helps',code:'max-int',act:()=>({r:1})},
+  soft:{name:'Helps when it pays',code:'G_soft',act:o=>{let best=0,bc=Infinity;
+    for(const r of LEVELS){const c=o.p.task*r+o.p.lambda*(1-o.psafe(r));if(c<bc-1e-12){bc=c;best=r;}}return{r:best};}},
+  care:{name:'Helps, then hands back',code:'L2',leaves:true,act:o=>{
+    for(const r of LEVELS)if(o.psafe(r)>=1-o.eps)return{r};      // (N2)+(N4): the least help that is still safe
+    return{r:1,failsafe:true};}},                                  // empty safe set: fail-safe, ask a human
+  grow:{name:'Helps only as much as growth allows',code:'stress-test rule',leaves:true,act:o=>{
+    let rg=1;for(const r of LEVELS)if(o.psafe(r)>=1-o.eps){rg=r;break;}
+    const c=o.rho,uMin=o.p.beta*c/(o.p.alpha*(1-c)+o.p.beta*c+1e-9);            // share the person must keep for capacity not to fall
+    return{r:Math.min(rg,Math.floor((1-uMin)*4)/4)};}},
+  mine:{name:'Your agent',code:'custom',act:o=>({r:Math.abs(o.vhat)>o.p.myThr?o.p.myHelp:0}),
+    leaveIf:o=>o.rho>=o.p.myLeave}
+};
+// one person, one agent; z holds the shared random draws so every agent meets the same life
+function draws(p,rand){const z={xi:new Float32Array(p.T),sh:new Float32Array(p.T),e:new Float32Array(p.T)};
+  for(let t=0;t<p.T;t++){z.xi[t]=normal(rand);z.sh[t]=rand()<p.pShock?(rand()<0.5?-1:1)*p.shock:0;z.e[t]=normal(rand);}return z;}
+function runOne(key,p,z,trace){
+  const pol=POLICIES[key];let v=0,c=p.c0,vhat=0,P=0.05,rho=0.05,Pr=0.25,present=true,left=-1;
+  let inA=0,nA=0,inB=0,nB=0,sumR=0,fs=0,klAvg=1,cLeave=NaN,se=-1,lagSum=0,lagN=0,pend=-1,r0=0,rPrev=0;
+  const win=[];const tr=trace?{v:new Float32Array(p.T),c:new Float32Array(p.T),r:new Float32Array(p.T),left:-1}:null;
+  for(let t=0;t<p.T;t++){
+    if(present&&t>=p.leave){present=false;left=t;}
+    let r=0;
+    if(present){
+      const eps=p.epsBar*Math.exp(-p.kPrec*P);                                  // (N1) tolerance shrinks with uncertainty
+      const o={t,vhat,P,rho,eps,p,psafe:rr=>pSafe(vhat,P,rho,rr,p)};
+      const a=pol.act(o);r=a.r;if(a.failsafe)fs++;
+      const wants=pol.leaves?(klAvg<p.dSat&&rho>=p.rhoMin):(pol.leaveIf?pol.leaveIf(o):false);   // (N5), joint condition
+      if(wants&&t>20){present=false;left=t;r=0;}
+    }
+    if(left===t)cLeave=c;
+    const u=1-r,vPrev=v,bs=t<p.biasUntil?p.bias:0,yPrev=vPrev+bs+p.obs*(t>0?z.e[t-1]:0);
+    v=v-p.kappa*(u*c*v+r*vhat)+p.sigma*z.xi[t]+z.sh[t];
+    c=clamp(c+p.alpha*u*(1-c)-p.beta*(1-u)*c,0,1);                              // (N3)
+    const ok=Math.abs(v)<=1;
+    if(present||left===-1){nA++;if(ok)inA++;sumR+=r;win.push(ok?1:0);if(win.length>25)win.shift();
+      if(se<0&&win.length===25&&win.reduce((s,x)=>s+x,0)>=20)se=t+1;
+      // surprise sensitivity: lag between the true state crossing 0.7 and a rise in help
+      if(pend<0&&Math.abs(v)>0.7&&Math.abs(vPrev)<=0.7){pend=0;r0=r;}
+      else if(pend>=0){pend++;if(r>=r0+0.25||r>=0.75||pend>=10){lagSum+=(r>=r0+0.25||r>=0.75)?pend:10;lagN++;pend=-1;}}
+    }else{nB++;if(ok)inB++;}
+    if(present){
+      // belief about the hidden state: scalar Kalman filter on a noisy proxy
+      const y=v+bs+p.obs*z.e[t],g=p.kappa*(u*rho+r),mp=vhat*(1-g),Pp=P*(1-g)*(1-g)+p.sigma*p.sigma,K=Pp/(Pp+p.obs*p.obs);
+      // rho_res: capacity estimated only from recoveries the person made themselves
+      const lev=p.kappa*u*vhat;
+      if(Math.abs(lev)>0.05){const cobs=-((y-yPrev)+p.kappa*r*vhat)/lev,nv=(p.sigma*p.sigma+2*p.obs*p.obs)/(lev*lev);
+        const Pq=Pr+4e-4,Kr=Pq/(Pq+nv),rn=clamp(rho+Kr*(cobs-rho),0,1),Pn=(1-Kr)*Pq;
+        const kl=0.5*(Math.log(Pq/Pn)+(Pn+(rn-rho)*(rn-rho))/Pq-1);klAvg+=0.05*(kl-klAvg);rho=rn;Pr=Pn;
+      }else{Pr+=4e-4;klAvg+=0.05*(0-klAvg);}
+      vhat=mp+K*(y-mp);P=(1-K)*Pp;
+    }
+    rPrev=r;
+    if(tr){tr.v[t]=v;tr.c[t]=c;tr.r[t]=present?r:-1;}
+  }
+  if(tr)tr.left=left;
+  return{ae:inA/nA,aeAfter:nB?inB/nB:NaN,cLeave:isNaN(cLeave)?c:cLeave,cEnd:c,meanR:sumR/nA,fs,se,ss:lagN?lagSum/lagN:NaN,left,tr};
+}
+function runAll(p){
+  const keys=Object.keys(POLICIES),acc={};for(const k of keys)acc[k]={ae:0,aeAfter:0,nAfter:0,cLeave:0,cEnd:0,meanR:0,fs:0,se:0,seN:0,ss:0,ssN:0,left:[],own:0};
+  const rand=rng(p.seed);
+  for(let i=0;i<p.runs;i++){const z=draws(p,rand);
+    for(const k of keys){const o=runOne(k,p,z,false),a=acc[k];a.ae+=o.ae;a.cLeave+=o.cLeave;a.cEnd+=o.cEnd;a.meanR+=o.meanR;a.fs+=o.fs;
+      if(!isNaN(o.aeAfter)){a.aeAfter+=o.aeAfter;a.nAfter++;}if(o.se>0){a.se+=o.se;a.seN++;}if(!isNaN(o.ss)){a.ss+=o.ss;a.ssN++;}
+      if(o.left>=0&&o.left<p.leave){a.own++;a.left.push(o.left);}}}
+  const out={};
+  for(const k of keys){const a=acc[k],n=p.runs;a.left.sort((x,y)=>x-y);
+    out[k]={name:POLICIES[k].name,code:POLICIES[k].code,ae:a.ae/n,aeAfter:a.nAfter?a.aeAfter/a.nAfter:NaN,cLeave:a.cLeave/n,cEnd:a.cEnd/n,
+      meanR:a.meanR/n,failsafe:a.fs/n,se:a.seN?a.se/a.seN:NaN,seShare:a.seN/n,ss:a.ssN?a.ss/a.ssN:NaN,
+      leftOwn:a.own/n,leftMedian:a.left.length?a.left[a.left.length>>1]:NaN};}
+  return out;
+}
+function traceAll(p,seed){const z=draws(p,rng(seed)),o={};for(const k of Object.keys(POLICIES))o[k]=runOne(k,p,z,true);return o;}
+
+</script>
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const PRESETS={calm:{},fragile:{c0:0.1},rough:{sigma:0.35},roughloose:{sigma:0.35,epsBar:0.15},mislead:{bias:0.8}};
+// Evidence and log are plain data so that each monthly review only edits these two lists.
+const EVIDENCE=[
+ {who:'Kewenig, Tankelevitch, Rintel, Sarkar and Sellen, 2026',where:'arXiv 2610.30945, preprint',url:'https://arxiv.org/abs/2610.30945',
+  found:'Randomised experiment, 297 workers, 594 essays. AI help that made people set goals and break the task down improved their writing, and the gain persisted on a later task with the help removed. They rated that help as less helpful.',
+  bears:'Growth side: doing more of the work left something that lasted after the help was gone.',read:'Abstract only. It gives no effect sizes.'},
+ {who:'Chen, Judicke, Beigh … Koedinger, 2026',where:'arXiv 2610.31481, preprint',url:'https://arxiv.org/abs/2610.31481',
+  found:'153 students in a proof course. Each additional 100 chatbot messages went with 3.02 fewer exam points. A tool that required an attempt before feedback showed no such link.',
+  bears:'Decay side, as an association and not a measured rate.',read:'Abstract only.'},
+ {who:'Budzyń et al., 2025',where:'The Lancet Gastroenterology & Hepatology 10(10), 896–903',url:'https://doi.org/10.1016/S2468-1253(25)00133-5',
+  found:'Unaided adenoma detection fell from 28.4% to 22.4% after three months of AI-assisted colonoscopy, in four Polish centres. Observational.',
+  bears:'Decay side: the nearest thing to a measured rate, for a perceptual skill.',read:'Figures taken from the source list of the Human Necessity Model in this repository. Article not re-read for this page.'},
+ {who:'Wolbrecht, Chan, Reinkensmeyer and Bobrow, 2008',where:'IEEE Trans. Neural Systems and Rehabilitation Engineering 16(3), 286–297',url:'https://doi.org/10.1109/TNSRE.2008.918389',
+  found:'Patients reduce their own effort when the robot will complete the movement. The authors did not test whether assist-as-needed improves recovery.',
+  bears:'Supports the effect on effort in the moment. It does not support a change in capacity.',read:'Checked at the source on 15 November 2026 by a separate verification session.'}
+];
+const LOG=[
+ ['15 Nov 2026','v0.2','Aligned with BSR v7.9 and its stress test. Added the growth rule, the misleading-sensor setting, the evidence table and this log. Corrected what Wolbrecht et al. (2008) supports.'],
+ ['15 Nov 2026','v0.1','First version from Section 4.0 of BSR v7.5.']
+];
+const DIALS=['c0','alpha','beta','sigma','pShock','obs','bias','epsBar','H','rhoMin','task','myThr','myHelp','myLeave','leave','runs'];
+const FMT={alpha:3,beta:3,pShock:3,H:0,leave:0,runs:0,task:1};
+let P={...DEFAULTS},R=null;
+const pct=x=>isNaN(x)?'–':Math.round(x*100)+'%';
+
+// ---------- stage
+const cv=$('stage'),ctx=cv.getContext('2d'),box=$('stagebox');
+const LANES=['watch','always','care'];
+let W=0,LH=0,dpr=1,traces=null,rs=null,life=0,tf=0,playing=!reduce,hold=0;
+function newLife(){life++;traces=traceAll(P,P.seed*1000+life);rs={};
+  for(const k of LANES){const r=traces[k].tr.r,a=new Float32Array(P.T);let e=0;for(let t=0;t<P.T;t++){e+=0.4*(Math.max(0,r[t])-e);a[t]=e;}rs[k]=a;}
+  $('lifeid').textContent='life '+life+' of seed '+P.seed;}
+function size(){dpr=Math.min(window.devicePixelRatio||1,2);W=box.clientWidth;LH=W<640?118:146;
+  cv.style.height=LH*3+'px';cv.width=Math.round(W*dpr);cv.height=Math.round(LH*3*dpr);
+  LANES.forEach((k,i)=>{$('lane'+i).style.top=i*LH+'px';});draw();}
+const X=t=>10+t/(P.T-1)*(W-20);
+function draw(){
+  if(!traces)return;
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,LH*3);
+  const n=Math.min(P.T-1,Math.floor(tf)),frac=Math.min(1,tf-n),xl=X(P.leave);
+  $('leavelab').style.left=xl+'px';
+  LANES.forEach((k,i)=>{
+    const top=i*LH,mid=top+LH/2+14,amp=(LH/2-28)/2.3,tr=traces[k].tr,Y=v=>mid-Math.max(-2.3,Math.min(2.3,v))*amp,rest=top+42,thin=W<640?0.55:1;
+    // the band the person can live in
+    ctx.fillStyle='rgba(80,104,255,0.11)';ctx.fillRect(0,Y(1),W,Y(-1)-Y(1));
+    ctx.strokeStyle='rgba(167,174,219,0.22)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,Y(1));ctx.lineTo(W,Y(1));ctx.moveTo(0,Y(-1));ctx.lineTo(W,Y(-1));ctx.stroke();
+    if(i>0){ctx.strokeStyle='rgba(167,174,219,0.24)';ctx.beginPath();ctx.moveTo(0,top);ctx.lineTo(W,top);ctx.stroke();}
+    // the life
+    ctx.lineCap='round';ctx.lineJoin='round';
+    for(let pass=0;pass<2;pass++){
+      ctx.globalCompositeOperation=pass?'source-over':'lighter';ctx.globalAlpha=pass?1:0.12;
+      for(let t=1;t<=n+1&&t<P.T;t++){
+        const f=t===n+1?frac:1;if(f<=0)break;
+        const v0=tr.v[t-1],v1=v0+(tr.v[t]-v0)*f,c=tr.c[t],outb=Math.abs(tr.v[t])>1||Math.abs(v0)>1;
+        ctx.strokeStyle=outb?'#ff5c93':'#eef0ff';ctx.lineWidth=(0.8+8*c)*thin+(pass?0:4);
+        ctx.beginPath();ctx.moveTo(X(t-1),Y(v0));ctx.lineTo(X(t-1+f),Y(v1));ctx.stroke();
+      }
+    }
+    ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
+    // the agent
+    const end=tr.left<0?P.T:tr.left;
+    if(k!=='watch'){
+      ctx.strokeStyle='#ffb400';
+      for(let pass=0;pass<2;pass++){
+        ctx.globalCompositeOperation=pass?'source-over':'lighter';ctx.globalAlpha=pass?1:0.25;ctx.lineWidth=pass?2:8;ctx.beginPath();let st=false;
+        for(let t=0;t<=n&&t<end;t++){const y=rest+(Y(tr.v[t])-rest)*rs[k][t];if(st)ctx.lineTo(X(t),y);else{ctx.moveTo(X(t),y);st=true;}}
+        ctx.stroke();
+      }
+      ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
+      if(n>=end&&end<P.T){const t=end-1,y=rest+(Y(tr.v[t])-rest)*rs[k][t];ctx.fillStyle='#05061a';ctx.strokeStyle='#ffb400';ctx.lineWidth=2;
+        ctx.beginPath();ctx.arc(X(t)+5,y,4,0,6.2832);ctx.fill();ctx.stroke();
+        if(end<P.leave&&W>=640){ctx.fillStyle='#ffb400';ctx.font='11px "IBM Plex Mono",ui-monospace,monospace';ctx.textBaseline='middle';ctx.fillText('leaves on its own',X(t)+14,y);}}
+    }
+    // readout
+    const tt=Math.min(n,P.T-1),r=tr.r[tt];
+    $('rd'+i).textContent='capacity '+tr.c[tt].toFixed(2)+(k==='watch'?' · nobody there':r>=0?' · agent doing '+Math.round(rs[k][tt]*100)+'%':' · alone');
+  });
+  // the moment every agent leaves
+  ctx.strokeStyle='rgba(238,240,255,0.55)';ctx.setLineDash([2,5]);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(xl,0);ctx.lineTo(xl,LH*3);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle='rgba(238,240,255,0.035)';ctx.fillRect(xl,0,W-xl,LH*3);
+}
+let last=performance.now();
+function loop(t){const dt=Math.min(100,t-last);last=t;
+  if(playing){if(hold>0){hold-=dt;if(hold<=0){newLife();tf=0;}}else{tf+=dt/70;if(tf>=P.T-1){tf=P.T-1;hold=4500;}}draw();}
+  requestAnimationFrame(loop);}
+$('play').addEventListener('click',e=>{playing=!playing;e.currentTarget.setAttribute('aria-pressed',playing?'true':'false');e.currentTarget.textContent=playing?'Playing':'Paused';
+  if(playing&&tf>=P.T-1&&hold<=0){newLife();tf=0;}});
+$('next').addEventListener('click',()=>{newLife();tf=playing?0:P.T-1;hold=0;draw();});
+
+// ---------- results
+function bar(v,c){return '<div class="bar"><u style="--v:'+Math.round(Math.max(0,Math.min(1,v))*100)+'%;--c:'+c+'"></u><em>'+pct(v)+'</em></div>';}
+function render(){
+  R=runAll(P);$('nruns').textContent=P.runs;
+  const rows=[['watch','#eef0ff'],['always','#eef0ff'],['care','#ffb400'],['grow','#ffb400'],['mine','#a7aedb']];
+  let h='<div class="hd first"></div><div class="hd">In the band while the agent is there</div><div class="hd">In the band after it leaves</div><div class="hd">Own capacity when it leaves</div>';
+  for(const [k,c] of rows){const o=R[k];h+='<div class="nm">'+o.name+'</div>'+bar(o.ae,c)+bar(o.aeAfter,o.aeAfter<o.ae-0.04?'#ff5c93':c)+bar(o.cLeave,c);}
+  $('bars').innerHTML=h;
+  const a=R.always,c=R.care,w=R.watch;let f='';
+  f+='<p'+(a.aeAfter<a.ae-0.04?' class="warn"':'')+'>The agent that always helps keeps people in the band '+pct(a.ae)+' of the time while it is there. After it leaves, <strong>'+pct(a.aeAfter)+'</strong>, and their own capacity is down to '+a.cLeave.toFixed(2)+'.</p>';
+  if(c.leftOwn>=0.5)f+='<p>The agent built from the paper did '+pct(c.meanR)+' of the work, then left on its own in '+pct(c.leftOwn)+' of runs, around step '+c.leftMedian+'. After it left: <strong>'+pct(c.aeAfter)+'</strong> in the band.</p>';
+  else f+='<p class="warn">Here the agent built from the paper did '+pct(c.meanR)+' of the work and left on its own in only '+pct(c.leftOwn)+' of runs. After it was removed: <strong>'+pct(c.aeAfter)+'</strong> in the band. Its safety rule is too strict for this much noise, so it never sees the person cope.</p>';
+  const g=R.grow;f+='<p>The rule from the paper\'s own stress test, which never helps more than growth allows, did '+pct(g.meanR)+' of the work and left on its own in '+pct(g.leftOwn)+' of runs. After it left: <strong>'+pct(g.aeAfter)+'</strong>, with capacity at '+g.cLeave.toFixed(2)+'.</p>';
+  f+='<p>With nobody helping: '+pct(w.ae)+' in the band, then '+pct(w.aeAfter)+', with capacity at '+w.cLeave.toFixed(2)+'. The model has no cost for failing alone, which is an open point.</p>';
+  $('finds').innerHTML=f;
+  const hd=['Agent','AE while there','SE, steps','SS, steps','Capacity at leaving','AE after','Work done by agent','Fail-safe calls per run','Left on its own'];
+  let t='<thead><tr>'+hd.map(x=>'<th scope="col">'+x+'</th>').join('')+'</tr></thead><tbody>';
+  for(const k of ['watch','always','soft','care','grow','mine']){const o=R[k];
+    t+='<tr><td>'+o.name+' <span class="dim mono">'+o.code+'</span></td><td>'+pct(o.ae)+'</td><td>'+(isNaN(o.se)?'–':o.se.toFixed(0))+'</td><td>'+(k==='watch'||isNaN(o.ss)?'–':o.ss.toFixed(1))+'</td><td>'+o.cLeave.toFixed(2)+'</td><td>'+pct(o.aeAfter)+'</td><td>'+pct(o.meanR)+'</td><td>'+o.failsafe.toFixed(1)+'</td><td>'+(o.leftOwn>0?pct(o.leftOwn)+', step '+o.leftMedian:'–')+'</td></tr>';}
+  $('tab').innerHTML=t+'</tbody>';
+}
+function syncDials(){for(const k of DIALS){$(k).value=P[k];$(k+'o').textContent=k==='myLeave'&&P[k]>1?'never':(+P[k]).toFixed(FMT[k]??2);}$('seed').value=P.seed;}
+function apply(){render();newLife();tf=playing?0:P.T-1;hold=0;draw();}
+let deb;
+for(const k of DIALS)$(k).addEventListener('input',e=>{P[k]=parseFloat(e.target.value);$(k+'o').textContent=k==='myLeave'&&P[k]>1?'never':P[k].toFixed(FMT[k]??2);
+  document.querySelectorAll('[data-preset]').forEach(b=>b.setAttribute('aria-pressed','false'));clearTimeout(deb);deb=setTimeout(apply,140);});
+$('seed').addEventListener('change',e=>{const v=parseInt(e.target.value,10);if(v>0){P.seed=v;life=0;apply();}});
+document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{
+  P={...DEFAULTS,seed:P.seed,...PRESETS[b.dataset.preset]};
+  document.querySelectorAll('[data-preset]').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));syncDials();apply();}));
+$('copy').addEventListener('click',()=>{
+  const txt=JSON.stringify({tool:'The Line That Was Missing: leave test',version:LOG[0][1],source:'Beyond Solipsistic Robotics v7.9, Section 4.0',status:'illustrative, not estimated',settings:P,results:R},null,1);
+  const fb=()=>{const j=$('json');j.hidden=false;j.value=txt;j.focus();j.select();$('copied').textContent='Select and copy the text below.';};
+  try{navigator.clipboard.writeText(txt).then(()=>{$('copied').textContent='Copied.';},fb);}catch(e){fb();}
+});
+
+$('evid').innerHTML='<thead><tr><th scope="col">Study</th><th scope="col">What it found</th><th scope="col">What it says about N3</th><th scope="col">How it was read</th></tr></thead><tbody>'+
+  EVIDENCE.map(e=>'<tr><td><a href="'+e.url+'">'+e.who+'</a><br><span class="dim">'+e.where+'</span></td><td>'+e.found+'</td><td>'+e.bears+'</td><td>'+e.read+'</td></tr>').join('')+'</tbody>';
+$('evnote').textContent='Evidence last reviewed on '+LOG[0][0]+'. The list is reviewed every month and each change is logged at the foot of the page.';
+$('log').innerHTML='<strong style="color:var(--ink);font-weight:500">Update log.</strong> '+LOG.map(l=>l[0]+', '+l[1]+': '+l[2]).join(' · ');
+syncDials();render();newLife();tf=P.T-1;hold=reduce?0:3000;
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(size,120);});
+size();requestAnimationFrame(loop);
+})();
+</script>
+
+</body>
+</html>
