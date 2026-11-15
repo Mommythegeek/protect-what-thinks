@@ -4,6 +4,17 @@
 
 Vincent Bezard ran a first version of Scenario 4, proposed by Charles Martin Jones Jr in issue #1: reliable information keeps 100% of steps within the simulator's limits, misleading information corrected after 25 steps keeps 61.8% and then recovers, misleading information throughout keeps 0%. Details in **BSR_Scenario4_first_results.md**. Thanks to Vincent for running it. The paper itself is unchanged.
 
+## Beyond Solipsistic Robotics — V7.7 → V7.8 (November 2026)
+
+**Two sources read and added. Nothing else changed.** V7.7 left four sources uncited because they had not been checked. All four have now been found. Two were read on arXiv and are cited in the open question of Section 6.1, with their numbers and limits:
+
+- Min et al. (2026), arXiv:2611.08721: 14,256 simulated mental-health support conversations with a memory-equipped assistant. After a crisis the assistant omitted needed help at rates of 0.827 (anxiety), 0.614 (self-harm) and 0.593 (suicidal ideation). Their measure counts omission session by session, not across the whole history, so the decline-detection delay proposed in V7.7 is still to be built.
+- Chu (2026), arXiv:2611.06545: agents' self-written handoff summaries sometimes state permissions or restrictions the record does not support. The rates are low (at most 2.4% and 1.3%, lower bounds) and the pre-specified behavioural test was not significant, so the paper says the failure exists and does not say it is common.
+
+**Two sources left out.** Aupérin et al. (2026, *Nature Structural & Molecular Biology* 33, 985–997) was read; it concerns inheritance in nematodes and would only be an analogy here. Song et al. (2026, *Nature Communications*, DOI 10.1038/s41467-026-78922-x) could be read only through its press release and waits for a reading of the article.
+
+V7.7 and its source are in `archive/`.
+
 ## Beyond Solipsistic Robotics — V7.6 → V7.7 (November 2026)
 
 **One open question added. Nothing else changed.** Section 6.1 now asks who writes the robot's memory of the person and when it expires: interpretations (preferences, permissions) that lapse unless the person confirms them, and dated measurements that never lapse, so that a slow decline stays visible against a fixed baseline. Two measures are proposed for CAMA: the share of active interpretations the person has confirmed within their expiry window, and the delay in detecting a simulated slow decline. The idea fails if expiry does more harm through lost context than it prevents. It is recorded as a question to pursue, not as part of the architecture.
