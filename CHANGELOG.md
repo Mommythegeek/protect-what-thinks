@@ -1,5 +1,23 @@
 # Changelog
 
+## Beyond Turn-Based AI (PRF) — v5 → v6 (November 2026)
+
+Everything new in this version is a proposal, drafted with AI assistance and not checked by a specialist.
+
+**The inconsistency flagged in v5 is repaired (§2.11, candidate).** Under the v5 equations a long silence erased retained content, because the idle dynamics had a single attractor. The retention block now has a multi-well prior, one bistable unit per coordinate, which is Lisman's switch in mathematical form. Salience sets the barrier when a trace is written and the forgetting governor lowers it. The section gives the condition for a well to survive the allostatic pull, a retention time from Kramers' formula, and a boundedness argument that needs no margin on retained coordinates.
+
+**What the repair costs.** v3 said one assumption secured both the active-inference reading and the stability bound. That now holds on the forgetting block only (§2.7). Capacity with independent wells is about one binary choice per coordinate, and the couplings needed for distributed codes are not specified.
+
+**The substrate is costed honestly (§3).** Non-diagonal transitions are confined to the retention block. The cost comparison in the companion long-form draft predates this and has to be redone.
+
+**A gap test is added (§6)**, which can show the repair to be unnecessary. A toy check of the algebra is in **prf_gap_toy.py**: it is not a test of the PRF.
+
+**Citations checked.** Two were wrong and are corrected: the allostasis reference is Katsumi, Theriault, Quigley & Barrett (*Network Neuroscience*, 2022), and the *Cell Host & Microbe* trained-immunity paper is Netea, Quintin & van der Meer (2011). The paper's own changelog lists what was confirmed and what was not reached.
+
+**The whole process is logged** in **PRF_v3_to_v6_process_log.md**: what came in, what was decided, what was found wrong, two claims that did not survive being written down, and what is open. v5 is in `archive/`.
+
+**Open.** A specialist reader for §2.7 and §2.9 to §2.11. The decisive experiment has not been run.
+
 ## Beyond Turn-Based AI (PRF) — v3 → v5 (November 2026)
 
 Everything new in this version is a proposal. It was drafted with AI assistance and none of the new formal material has been checked by a specialist. No claim in v3 is withdrawn and no v3 equation has changed. A v4 draft was working material and was never published.
