@@ -4,6 +4,20 @@
 
 Vincent Bezard ran a first version of Scenario 4, proposed by Charles Martin Jones Jr in issue #1: reliable information keeps 100% of steps within the simulator's limits, misleading information corrected after 25 steps keeps 61.8% and then recovers, misleading information throughout keeps 0%. Details in **BSR_Scenario4_first_results.md**. Thanks to Vincent for running it. The paper itself is unchanged.
 
+## Beyond Solipsistic Robotics — V7.5 → V7.6 (November 2026)
+
+Four citation fixes. No equation changed. V7.5 said its own references to Da Costa et al. (2020) had not been re-verified. They have now been checked against the published article (*J. Math. Psych.* 99:102447) and both arXiv versions (arXiv:2001.07203), which carry the same equation numbers.
+
+**1. Eq. 14, not Eq. 16.** The two-term form of Eq. 1 is the second line of Da Costa et al.'s Eq. 14, which they give as a lower bound on G: G(π) ≥ −E_Q[ln P(o_τ)] − E_Q[D_KL[Q(s_τ, A|o_τ, π) ‖ Q(s_τ, A|π)]]. It is an equality when the posterior is exact, because the term dropped, the expected evidence bound, is then zero. Section 4.1 now states that condition. Their Eq. 16 is a four-term decomposition (extrinsic value, expected evidence bound, salience, novelty).
+
+**2. Eq. 13 transcribed correctly.** Their Eq. 13 defines risk over hidden states and parameters: G(π) = D_KL[Q(s_τ, A|π) ‖ P(s_τ, A)] + E_{Q(s_τ, A|π)}[H[P(o_τ|s_τ, A)]]. Risk over outcomes, which this paper uses, is their Eq. 15 and rests on an approximation. They write preferences as P(o_τ); the notation P(o|C) is from Parr et al. (2022). This paper omits the model parameters A and now says so.
+
+**3. "Pragmatic" is not their word.** Da Costa et al. write extrinsic and intrinsic value. "Pragmatic" and "epistemic" are now attributed to Parr et al. (2022). The identity in Eq. 1a is standard and is ours, not theirs.
+
+**4. Wolbrecht et al. (2008) rescoped.** Their paper shows that patients reduce their own effort when the robot will do the work, measured during the movements. It did not test therapeutic outcome and says recovery runs on a much longer time constant. Section 4.0 now cites it for effort and not for capacity. The claim that capacity grows and decays, (N3), stays this paper's own assumption. DOI added: 10.1109/TNSRE.2008.918389.
+
+**Credit.** The four points were found by a separate citation check of V7.5, run for Carla de Préval in another AI session and passed on in writing. Appendix A and **BSR_Section4_Open_Maths_Points.md** carry the same corrections. The V7.4 → V7.5 entry below is kept as written, including the attribution corrected here. V7.5 and its source are in `archive/`; the editable source of V7.6 is `Beyond_Solipsistic_Robotics_v7.6_source.docx`.
+
 ## Beyond Solipsistic Robotics — V7.4 → V7.5 (November 2026)
 
 Everything new in this version is a proposal. It was drafted with AI assistance and has not been signed off by a specialist (Criterion 3 of the methodology paper).

@@ -2,9 +2,9 @@
 
 *Une vérification assistée par IA, ouverte à la correction de la communauté active inference.*
 
-> This note is in French; the notation is standard active-inference. It concerns Section 4 of *Beyond Solipsistic Robotics* (V7.3 to V7.5). V7.5 applies a proposed correction to Eq. 1 and adds Section 4.0; the other points are unchanged since V7.3. An English version is welcome as a contribution.
+> This note is in French; the notation is standard active-inference. It concerns Section 4 of *Beyond Solipsistic Robotics* (V7.3 to V7.6). V7.5 applies a proposed correction to Eq. 1 and adds Section 4.0; V7.6 corrects the references to Da Costa et al. below after a check against the published article; the other points are unchanged since V7.3. An English version is welcome as a contribution.
 
-Ce document liste les points du §4 (V7.3) que nous vérifions encore et que nous soumettons ouvertement à la communauté active inference. Il est ancré sur da Costa et al. (2020, *Active inference on discrete state-spaces*, J. Math. Psych. 99:102447, éq. 13 & 16) et Parr, Pezzulo & Friston (2022). Conformément au Criterion 3 de notre papier méthodologique, le sign-off d'un mathématicien active inference est requis : une formalisation assistée par IA n'est pas un warrant formel suffisant (le §4.3 du papier méthodo documente exactement ce risque). Chaque point ci-dessous est proposé comme correction à vérifier, non comme résultat établi. Objections, contre-exemples et pull requests sont les bienvenus.
+Ce document liste les points du §4 (V7.3) que nous vérifions encore et que nous soumettons ouvertement à la communauté active inference. Il est ancré sur da Costa et al. (2020, *Active inference on discrete state-spaces*, J. Math. Psych. 99:102447, éq. 13 à 16) et Parr, Pezzulo & Friston (2022). Conformément au Criterion 3 de notre papier méthodologique, le sign-off d'un mathématicien active inference est requis : une formalisation assistée par IA n'est pas un warrant formel suffisant (le §4.3 du papier méthodo documente exactement ce risque). Chaque point ci-dessous est proposé comme correction à vérifier, non comme résultat établi. Objections, contre-exemples et pull requests sont les bienvenus.
 
 ---
 
@@ -19,12 +19,23 @@ Diagnostic. Deux problèmes distincts :
 
 Correction — choisir UNE des deux formes canoniques (da Costa 2020) :
 
-- (a) risque + ambiguïté (éq. 13) : G(π) = D_KL[ Q(o_τ|π) ‖ P(o_τ|C) ] + E_{Q(s_τ|π)}[ H[P(o_τ|s_τ)] ] ; risque = divergence entre outcomes prédits et préférés ; ambiguïté = entropie attendue de la vraisemblance.
-- (b) pragmatique + épistémique (extrinsèque + intrinsèque, éq. 16) : G(π) = −E_{Q(o_τ|π)}[ ln P(o_τ|C) ] − I(o_τ; s_τ | π) avec gain d'information I(o_τ; s_τ|π) = H[Q(o_τ|π)] − E_{Q(s_τ|π)}[H[P(o_τ|s_τ)]] (= valeur épistémique, à maximiser ; signe négatif dans G).
+- (a) risque sur les observations + ambiguïté (éq. 15, par approximation ; l'éq. 13 porte le risque sur les états cachés et les paramètres) : G(π) = D_KL[ Q(o_τ|π) ‖ P(o_τ|C) ] + E_{Q(s_τ|π)}[ H[P(o_τ|s_τ)] ] ; risque = divergence entre outcomes prédits et préférés ; ambiguïté = entropie attendue de la vraisemblance.
+- (b) pragmatique + épistémique (chez da Costa : extrinsèque + intrinsèque ; éq. 14, deuxième ligne, donnée comme borne inférieure) : G(π) = −E_{Q(o_τ|π)}[ ln P(o_τ|C) ] − I(o_τ; s_τ | π) avec gain d'information I(o_τ; s_τ|π) = H[Q(o_τ|π)] − E_{Q(s_τ|π)}[H[P(o_τ|s_τ)]] (= valeur épistémique, à maximiser ; signe négatif dans G).
 
 Le texte qui suit l'équation doit alors qualifier correctement chaque terme (et ne plus dire que l'entropie de la vraisemblance « capture la valeur épistémique »).
 
-**Statut V7.5.** La forme (b) est appliquée dans le corps du texte (Eq. 1 et Eq. 1a), avec le texte corrigé. L'égalité entre (a) et (b) a été vérifiée numériquement sur 2 000 distributions discrètes aléatoires (écart maximal de l'ordre de 1e-15). Correction assistée par IA, toujours en attente de sign-off. Les numéros d'équation de da Costa et al. cités ici (13 et 16) n'ont pas été revérifiés sur l'article publié.
+**Statut V7.5.** La forme (b) est appliquée dans le corps du texte (Eq. 1 et Eq. 1a), avec le texte corrigé. L'égalité entre (a) et (b) a été vérifiée numériquement sur 2 000 distributions discrètes aléatoires (écart maximal de l'ordre de 1e-15). Correction assistée par IA, toujours en attente de sign-off.
+
+**Statut V7.6 : renvois vérifiés sur l'article publié et corrigés.** La numérotation des éq. 13 à 16 est la même dans arXiv v1, arXiv v2 et l'article publié.
+
+- L'éq. 13 de da Costa et al. définit le risque sur les états cachés et les paramètres : G(π) = D_KL[ Q(s_τ, A|π) ‖ P(s_τ, A) ] + E_{Q(s_τ, A|π)}[ H[P(o_τ|s_τ, A)] ]. Le risque sur les observations, utilisé en (a), est leur éq. 15, obtenue en posant un second terme KL ≈ 0.
+- La forme à deux termes (b) est la deuxième ligne de leur éq. 14, écrite comme borne inférieure : G(π) ≥ −E_Q[ln P(o_τ)] − E_Q[ D_KL[ Q(s_τ, A|o_τ, π) ‖ Q(s_τ, A|π) ] ]. Il y a égalité quand le postérieur est exact (l'« expected evidence bound » s'annule). Le papier écrit Eq. 1 comme une égalité sous cette hypothèse et le dit.
+- Leur éq. 16 est une décomposition en quatre termes : extrinsic value, expected evidence bound, intrinsic value sur les états (salience), intrinsic value sur les paramètres (novelty).
+- Vocabulaire : da Costa et al. écrivent « extrinsic » et « intrinsic value », jamais « pragmatic » ; « pragmatic / epistemic » vient de Parr, Pezzulo & Friston (2022). Ils notent les préférences P(o_τ), sans C.
+- L'identité I(o_τ; s_τ|π) = H[Q(o_τ|π)] − E_{Q(s_τ|π)}[H[P(o_τ|s_τ)]] est standard mais ne figure pas dans leur article ; elle est de nous.
+- Le papier omet les paramètres A (vraisemblance supposée connue).
+
+Question restée ouverte pour un spécialiste : l'hypothèse de postérieur exact est-elle acceptable dans le cadre dyadique de la section 4.2, ou faut-il porter le terme « expected evidence bound » ?
 
 ## Eq. 2 (§4.2) — modèle génératif joint : définitions manquantes
 
@@ -77,14 +88,14 @@ La reformulation « distinction architecturale positive (filtrage avant évaluat
 
 ## Points ouverts à vérifier
 
-- Eq. 1 : forme (b) appliquée en V7.5 comme proposition ; sign-off expert attendu. ☐
+- Eq. 1 : forme (b) appliquée en V7.5 comme proposition, renvois à da Costa corrigés en V7.6 ; sign-off expert attendu, y compris sur l'hypothèse de postérieur exact. ☐
 - Eq. 2 : domaines + forme des distributions. ☐
 - §4.2 : séparer projection f et ensemble viable V^h. ☐
 - Eq. 4 : définir Pr, I_t ; quantifier sur l'horizon. ☐
 - Eq. 6 : remplacer le conditionnement sur V^h par une préférence P=. ☐
 - Eq. 7 : séparer tolérance et déclencheur de saturation. ☐
 - Prop. 1 : réénoncer sans la limite λ → ∞. ☐
-- Nouveau en V7.5, (N3) : l'hypothèse de capacité dépendante de l'usage, c_{t+1} = c_t + α·u_t·(1 − c_t) − β·(1 − u_t)·c_t, est-elle une forme raisonnable, et comment mesurer α et β ? ☐
+- Nouveau en V7.5, (N3) : l'hypothèse de capacité dépendante de l'usage, c_{t+1} = c_t + α·u_t·(1 − c_t) − β·(1 − u_t)·c_t, est-elle une forme raisonnable, et comment mesurer α et β ? Wolbrecht et al. (2008) ne la soutient que pour l'effort mesuré pendant le mouvement, pas pour la capacité. ☐
 - Nouveau en V7.5, Eq. 11–12 : la seconde étape ne départage que les politiques à coût égal ; faut-il une marge δ_J sur le coût ? ☐
 - Nouveau en V7.5 : la règle d'arrêt conjointe (N5) est-elle optimale sous (N3) ? ☐
 
