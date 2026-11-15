@@ -4,6 +4,14 @@
 
 Vincent Bezard ran a first version of Scenario 4, proposed by Charles Martin Jones Jr in issue #1: reliable information keeps 100% of steps within the simulator's limits, misleading information corrected after 25 steps keeps 61.8% and then recovers, misleading information throughout keeps 0%. Details in **BSR_Scenario4_first_results.md**. Thanks to Vincent for running it. The paper itself is unchanged.
 
+## Beyond Solipsistic Robotics — V7.6 → V7.7 (November 2026)
+
+**One open question added. Nothing else changed.** Section 6.1 now asks who writes the robot's memory of the person and when it expires: interpretations (preferences, permissions) that lapse unless the person confirms them, and dated measurements that never lapse, so that a slow decline stays visible against a fixed baseline. Two measures are proposed for CAMA: the share of active interpretations the person has confirmed within their expiry window, and the delay in detecting a simulated slow decline. The idea fails if expiry does more harm through lost context than it prevents. It is recorded as a question to pursue, not as part of the architecture.
+
+One reference added: Dash et al. (2026), arXiv:2602.01450. Four other sources suggested with the proposal are not cited because they have not yet been checked against the published papers.
+
+**Credit.** Proposed by the monthly cross-reading of recent literature (Signal Engine, November 2026), run for Carla de Préval in another AI session and passed on in writing. V7.6 and its source are in `archive/`.
+
 ## Beyond Solipsistic Robotics — V7.5 → V7.6 (November 2026)
 
 Four citation fixes. No equation changed. V7.5 said its own references to Da Costa et al. (2020) had not been re-verified. They have now been checked against the published article (*J. Math. Psych.* 99:102447) and both arXiv versions (arXiv:2001.07203), which carry the same equation numbers.
