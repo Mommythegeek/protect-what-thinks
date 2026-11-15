@@ -13,7 +13,7 @@ None of it is finished. Every paper names a problem it has not closed. That is o
 ## The papers
 
 - **Beyond Turn-Based AI** — the Persistent Relational Field (PRF): a continuous-memory architecture for language models, lifting the false episodicity of turn-based systems. *Carla de Préval.*
-- **Beyond Solipsistic Robotics** (V7.6) — relational allostasis as a first-order constraint on policy selection in active-inference robotics, with the maternal cognitive architecture as biological precedent and an empirical benchmark across 17 frontier models. *Carla de Préval & Vincent Bezard.*
+- **Beyond Solipsistic Robotics** (V7.6) — relational allostasis as a first-order constraint on policy selection in active-inference robotics, with the maternal cognitive architecture as biological precedent and an empirical probe across 32 frontier models. *Carla de Préval & Vincent Bezard.*
 - **Why the Universe Needs a Caring Mother** — the essay beneath the research: computation, coherence, and the regulatory layer (Affectional Intelligence) that keeps a system from scarring itself. *Carla de Préval.*
 - **Cognitive Co-Regulation as Research Methodology** — how this body of work is produced with AI as a thinking partner, and the safeguards that keep the human accountable for what is on the page. *Carla de Préval & Vincent Bezard.*
 
