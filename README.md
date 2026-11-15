@@ -13,7 +13,7 @@ None of it is finished. Every paper names a problem it has not closed. That is o
 ## The papers
 
 - **Beyond Turn-Based AI** — the Persistent Relational Field (PRF): a continuous-memory architecture for language models, lifting the false episodicity of turn-based systems. *Carla de Préval.*
-- **Beyond Solipsistic Robotics** (V7.8) — relational allostasis as a first-order constraint on policy selection in active-inference robotics, with the maternal cognitive architecture as biological precedent and an empirical probe across 32 frontier models. *Carla de Préval & Vincent Bezard.*
+- **Beyond Solipsistic Robotics** (V7.9) — relational allostasis as a first-order constraint on policy selection in active-inference robotics, with the maternal cognitive architecture as biological precedent and an empirical probe across 32 frontier models. *Carla de Préval & Vincent Bezard.*
 - **Why the Universe Needs a Caring Mother** — the essay beneath the research: computation, coherence, and the regulatory layer (Affectional Intelligence) that keeps a system from scarring itself. *Carla de Préval.*
 - **Cognitive Co-Regulation as Research Methodology** — how this body of work is produced with AI as a thinking partner, and the safeguards that keep the human accountable for what is on the page. *Carla de Préval & Vincent Bezard.*
 
@@ -23,7 +23,11 @@ None of it is finished. Every paper names a problem it has not closed. That is o
 
 ## Open mathematics
 
-Section 4 of *Beyond Solipsistic Robotics* is under active mathematical verification. The specific points are set out in **BSR_Section4_Open_Maths_Points.md**, reframed as an open call rather than private notes. V7.5 applies a proposed correction to the first of them, the Expected Free Energy decomposition (Eq. 1), and adds a one-page statement of the whole proposal without active inference (Section 4.0) for readers from reinforcement learning and control. V7.6 corrects how that correction was attributed to Da Costa et al. (2020), after a check against the published article. All of it is AI-assisted and not yet signed off. The editable source is **Beyond_Solipsistic_Robotics_v7.8_source.docx**. Per Criterion 3 of the methodology paper, a formal sign-off by an active-inference mathematician is required, and corrections are welcome. We would rather show the seams than hide them.
+Section 4 of *Beyond Solipsistic Robotics* is under active mathematical verification. The specific points are set out in **BSR_Section4_Open_Maths_Points.md**, reframed as an open call rather than private notes. V7.5 applies a proposed correction to the first of them, the Expected Free Energy decomposition (Eq. 1), and adds a one-page statement of the whole proposal without active inference (Section 4.0) for readers from reinforcement learning and control. V7.6 corrects how that correction was attributed to Da Costa et al. (2020), after a check against the published article. All of it is AI-assisted and not yet signed off. The editable source is **Beyond_Solipsistic_Robotics_v7.9_source.docx**. Per Criterion 3 of the methodology paper, a formal sign-off by an active-inference mathematician is required, and corrections are welcome. We would rather show the seams than hide them.
+
+## Stress tests and checks
+
+The way this work is checked, by people and by AI, is part of the research. **stress-tests/** holds the full record for *Beyond Solipsistic Robotics*: every check, who or what made it, how, what it found and what it missed. The latest stress test goes against the paper's own architecture: with a fixed risk tolerance, the safety filter keeps the work with the robot and the person's capacity falls. The script that reproduces it is in the folder. In the one case we can compare, an AI audit found none of the five maths errors a specialist later found.
 
 ## Simulation results
 

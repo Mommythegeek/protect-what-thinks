@@ -28,6 +28,16 @@ Everything new in this version is a proposal. It was drafted with AI assistance 
 
 Vincent Bezard ran a first version of Scenario 4, proposed by Charles Martin Jones Jr in issue #1: reliable information keeps 100% of steps within the simulator's limits, misleading information corrected after 25 steps keeps 61.8% and then recovers, misleading information throughout keeps 0%. Details in **BSR_Scenario4_first_results.md**. Thanks to Vincent for running it. The paper itself is unchanged.
 
+## Beyond Solipsistic Robotics — V7.8 → V7.9 (November 2026)
+
+**The checking process is now part of the paper.** No equation changed.
+
+- New **Appendix B, "Who checked what, and the record of stress tests"**: every check we have a record of, in order, with who or what made it, how, what it found and what it missed, then the status of each formal claim.
+- **Section 6.1 reports the stress test of 15 November 2026.** Its main result goes against the architecture as written: with a fixed tolerance in Eq. 4 and the capacity assumption (N3), the robot keeps the work and the person's capacity falls (89% of 6,912 parameter settings in a toy model). The fixed rule also produced more viability failures over 1,500 steps (7.7) than a rule that accepts more risk early (2.5). Toy models, AI-run, not reviewed.
+- **New folder `stress-tests/`**: the stress-test note, the script that reproduces it, the backtest of an AI audit against the specialist review (0 of 5 maths errors found by the AI audit), and a running log.
+
+V7.8 and its source are in `archive/`.
+
 ## Beyond Solipsistic Robotics — V7.7 → V7.8 (November 2026)
 
 **Two sources read and added. Nothing else changed.** V7.7 left four sources uncited because they had not been checked. All four have now been found. Two were read on arXiv and are cited in the open question of Section 6.1, with their numbers and limits:
