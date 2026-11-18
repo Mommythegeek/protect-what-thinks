@@ -1,5 +1,13 @@
 # Changelog
 
+## Leave test added (18 November 2026)
+
+`leave-test/` is an interactive page that runs statements (N1) to (N5) of *Beyond Solipsistic Robotics* (v7.9, Section 4.0) on simulated people, removes every helper at a fixed step and reports what holds afterwards. Merged as v0.3 after a review by the BSR stream on 16 November, which found four errors: the fail-safe did the opposite of what the text said, the growth rule broke the safety test without the page saying so, "as written" overstated how closely the agent follows the paper, and "no data leaves your machine" ignored the fonts. All four are fixed and the answer is on pull request 5. v0.4 redraws the opening picture and adds who made what; the simulation is unchanged.
+
+**What it finds that the paper does not yet handle.** In a rough life the paper's agent does 84% of the work and leaves on its own in 1% of runs (55% and 61% if the fail-safe stops the agent). "Nobody helps" ends with the highest capacity in every setting, because (N3) has no cost for failing alone.
+
+**Open.** No human specialist has reviewed it. The five benchmark papers it compares itself with were read as abstracts only. Budzyń et al. 2025 was confirmed through a press release, not the article.
+
 ## PRF claims sheet added (15 November 2026)
 
 `PRF_Claims_Sheet.md` lists each claim of the PRF paper (v6), the assumptions it rests on and the result that would falsify it, with no history and no verdicts. It is meant to be read by a reviewer before this changelog, the paper's Appendix A or the process log, so that a first assessment is formed independently. It is updated with each version of the paper.

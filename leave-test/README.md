@@ -4,7 +4,7 @@
 
 *An interactive companion to* Beyond Solipsistic Robotics *(v7.9), Section 4.0, and to its stress test of 15 November 2026.*
 
-Version 0.3 · 18 November 2026 · Carla de Préval, with Claude
+Version 0.4 · 18 November 2026 · Carla de Préval, with Claude
 
 **Status: illustrative, not estimated.** This is a small numerical reading of statements (N1) to (N5), which are themselves a proposal awaiting expert sign-off. It is not the SPINE simulator built by Vincent Bezard. No specialist has reviewed it.
 
@@ -12,6 +12,10 @@ Version 0.3 · 18 November 2026 · Carla de Préval, with Claude
 
 Open `index.html` in any browser. It is a single file with no build step. The simulation runs in your browser and nothing you set is sent anywhere. The page loads three fonts from Google Fonts, so Google sees the reader's IP address.
 Once this folder is on `main`: https://mommythegeek.github.io/protect-what-thinks/leave-test/
+
+## What you see first
+
+Three ropes of light, one for each kind of help, drawn from the same 200 simulated people. White fibres are the share of people who hold. Pink fibres torn away are the share who do not. Gold light is the work an agent is doing for them. At one step every helper leaves. The page opens on the "Needs help" setting, where help has something to prove: with constant help 88% hold and then 53%; with help that hands the work back, 87% and then 79%; left alone from the start, 74% and then 85%.
 
 ## What it does
 
@@ -82,6 +86,10 @@ node leave-test/tests/leave.test.mjs
 
 Open an issue. The most useful contributions: a dataset from which α and β could be fitted (effort or skill with and without assistance, over weeks), a counterexample to one of the open points, or the same test run in SPINE.
 
-## Disclosure
+## Who made what
 
-Built with Claude, an Anthropic model, from the paper's Section 4.0.
+- **Carla de Préval** wrote the paper this page runs, *Beyond Solipsistic Robotics*, with **Vincent Bezard**, who built SPINE, the real simulator. This page is a toy next to SPINE.
+- **Charles Martin Jones Jr** proposed Scenario 4, the robot that is confident and wrong about the person. "Misleading sensor" is a small version of it. Vincent Bezard ran the first results.
+- The studies in the evidence table belong to their authors: Kewenig, Tankelevitch, Rintel, Sarkar and Sellen (2026); Chen, Koedinger and colleagues (2026); Budzyń and colleagues (2025); Wolbrecht, Chan, Reinkensmeyer and Bobrow (2008). None of them has seen or endorsed this page.
+- The page was built with Claude, an Anthropic model. A second Claude session, which keeps the paper, reviewed it on 16 November 2026 and found four errors, fixed in v0.3. No human specialist has reviewed it yet.
+- The idea of a page drawn only in code came from the film in Ethan Mollick's post "Fable 5.2 and Jagged AGI".
