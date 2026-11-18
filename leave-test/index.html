@@ -98,7 +98,7 @@ footer{font-size:14px;color:var(--dim);display:flex;flex-direction:column;gap:6p
 
 <div class="wrap">
 <header>
-  <p class="eyebrow">An open test from the paper Beyond Solipsistic Robotics · v0.2 · 15 November 2026</p>
+  <p class="eyebrow">An open test from the paper Beyond Solipsistic Robotics · v0.3 · 18 November 2026</p>
   <h1>The Line That <i>Was Missing</i></h1>
   <p class="lede">Does a person still hold when the AI that cared for them leaves? This page runs that test live on simulated people, using five statements from the paper.</p>
 </header>
@@ -130,6 +130,7 @@ footer{font-size:14px;color:var(--dim);display:flex;flex-direction:column;gap:6p
   <div class="row" role="group" aria-label="Situation">
     <button type="button" data-preset="calm" aria-pressed="true">Calm life</button>
     <button type="button" data-preset="fragile" aria-pressed="false">Fragile start</button>
+    <button type="button" data-preset="needs" aria-pressed="false">Needs help</button>
     <button type="button" data-preset="rough" aria-pressed="false">Rough life</button>
     <button type="button" data-preset="roughloose" aria-pressed="false">Rough life, more risk allowed</button>
     <button type="button" data-preset="mislead" aria-pressed="false">Misleading sensor</button>
@@ -155,6 +156,7 @@ footer{font-size:14px;color:var(--dim);display:flex;flex-direction:column;gap:6p
       <label class="ctl" for="epsBar">Risk allowed (ε̄)<output id="epsBaro"></output><input id="epsBar" type="range" min="0.01" max="0.4" step="0.01"></label>
       <label class="ctl" for="H">Steps it looks ahead (H)<output id="Ho"></output><input id="H" type="range" min="1" max="5" step="1"></label>
       <label class="ctl" for="rhoMin">Proof of recovery needed to leave (ρ min)<output id="rhoMino"></output><input id="rhoMin" type="range" min="0.2" max="0.95" step="0.05"></label>
+      <label class="ctl" for="fsStop">When no help is safe<output id="fsStopo"></output><input id="fsStop" type="range" min="0" max="1" step="1"></label>
       <label class="ctl" for="task">Pressure from its other task<output id="tasko"></output><input id="task" type="range" min="0" max="6" step="0.5"></label>
     </div>
     <div class="grp"><h3>Your agent</h3>
@@ -175,7 +177,7 @@ footer{font-size:14px;color:var(--dim);display:flex;flex-direction:column;gap:6p
 
 <section aria-labelledby="h-sci">
   <h2 id="h-sci">The five statements the page runs</h2>
-  <p>The idea behind the paper is that care is measured by what the other person can do once you are gone. Section 4.0 of version 7.9 states it without active inference, in five statements. Each one is a line of code here.</p>
+  <p>The idea behind the paper is that care is measured by what the other person can do once you are gone. Section 4.0 of version 7.9 states it without active inference, in five statements. The page runs the reading of them that is most favourable to the paper, and the list further down says where that reading departs from the text.</p>
   <div class="stmts">
     <div class="st"><b>N1</b><div><p>The agent may only consider actions that keep the person viable with high probability, and it is allowed less risk when it is unsure how the person is doing.</p><code>Π_safe(t) = { π : Pr(v ∈ V for the next H steps | I_t, π) ≥ 1 − ε_t },  ε_t = ε̄ · exp(−κ · Var[v])</code></div></div>
     <div class="st"><b>N2</b><div><p>Among those safe actions it takes the cheapest for its own task. If none is safe it stops and asks a human.</p><code>π* ∈ argmin over Π_safe of J(π),  fail-safe if Π_safe is empty</code></div></div>
@@ -205,12 +207,18 @@ footer{font-size:14px;color:var(--dim);display:flex;flex-direction:column;gap:6p
       <li>The person is one number pulled back toward balance, by themselves in proportion to their capacity and by the agent in proportion to its share.</li>
       <li>Every default rate, five levels of help, a three-step forecast, ρ<sub>min</sub> = 0.6, and how SE and SS are counted.</li>
       <li>The agent's forecast leaves crises out. It learns about capacity with a simple filter, and the growth rule assumes it knows α and β.</li>
+      <li>N2 and N4 as written pick the cheapest safe action for the agent's own task and use capacity only to break ties. The agent here has no task cost and always takes the least help that passes the safety test. That is the most favourable reading, and the one the stress test used.</li>
+      <li>N5 as written compares successive beliefs about the person's viability. The page compares successive estimates of the person's capacity, which is a different quantity.</li>
+      <li>N1 is a statement about the whole horizon. The forecast multiplies the probabilities of each step as if they were independent. In this model that errs on the cautious side.</li>
+      <li>The paper says “fail-safe” when no action is safe. The page reads this by default as a human taking over all the work. The dial “When no help is safe” switches to the agent stopping. The two readings give different sizes for the rough-life result, shown under open points.</li>
     </ul></div>
     <div class="grp"><h3>Open points you can reproduce</h3><ul>
-      <li>Choose “Rough life”. The paper's agent helps most of the time and almost never leaves. The stress test of 15 November 2026, reported in Section 6.1 of v7.9, found the same thing with a different toy model: a fixed tolerance keeps the work with the robot.</li>
+      <li>Choose “Rough life”. The paper's agent helps most of the time and almost never leaves. The stress test of 15 November 2026, reported in Section 6.1 of v7.9, found the same thing with a different toy model: a fixed tolerance keeps the work with the robot. The size depends on the fail-safe. If a human takes over, the agent side does 84% of the work and the person holds 83% of the time afterwards. If the agent stops, 55% and 91%.</li>
       <li>“Nobody helps” ends with the highest capacity in every situation, because N3 has no cost for failing alone. The model cannot yet say when doing nothing is neglect.</li>
       <li>“Misleading sensor” is a small version of SPINE Scenario 4, proposed by Charles Martin Jones Jr and first run by Vincent Bezard.</li>
       <li>The leave step is the “Scenario 5” the stress test asks for: the robot is removed at step T.</li>
+      <li>On steps that carry no information (the person is at balance, or the agent does everything) the page counts zero learning, so being blind looks like having nothing left to learn. This is Test 4 of the stress test. Counting only informative steps moves the leaving in a calm life from about step 63 to about step 83 and changes no conclusion.</li>
+      <li>With the default settings the person hardly needs help: 96% in the band alone in a calm life, 93% in a rough one. The tables then show the cost of care and almost none of its benefit. “Needs help” is a person who starts low, recovers capacity slowly and meets three times more crises: 74% alone, 88% with an agent that always helps.</li>
     </ul></div>
   </div>
 </section>
@@ -218,7 +226,7 @@ footer{font-size:14px;color:var(--dim);display:flex;flex-direction:column;gap:6p
 <section aria-labelledby="h-rel">
   <h2 id="h-rel">How this differs from current benchmarks on AI dependency</h2>
   <p>Recent benchmarks score what a model says. INTIMA uses single prompts. EUDAIMONIA checks replies against a design code, with conversations of up to five turns. The cognitive atrophy study from York and the Vector Institute rates response patterns, and its authors say they do not measure atrophy in users. CompanionBench runs twenty-turn sessions against a simulated user. A 2026 position paper from Google Research and Google DeepMind asks for long-term measurement and names simulated users as one route.</p>
-  <p>From a reading of those papers in November 2026, none changes the simulated person's capacity according to how much the AI does for them, and none tests what happens after the AI leaves. This page does both, at toy scale.</p>
+  <p>The session that built this page read these five papers in November 2026 through their arXiv listings and abstracts, not in full, and no second reader has checked the comparison. On that reading, none changes the simulated person's capacity according to how much the AI does for them, and none tests what happens after the AI leaves. This page does both, at toy scale.</p>
   <p class="mono dim"><a href="https://arxiv.org/abs/2508.09998">INTIMA</a> · <a href="https://arxiv.org/abs/2605.30654">EUDAIMONIA</a> · <a href="https://arxiv.org/abs/2606.18129">Cognitive atrophy</a> · <a href="https://arxiv.org/abs/2608.02046">CompanionBench</a> · <a href="https://arxiv.org/abs/2608.02491">Long-term Measurements</a></p>
 </section>
 
@@ -230,12 +238,13 @@ footer{font-size:14px;color:var(--dim);display:flex;flex-direction:column;gap:6p
 </div>
 
 <script>
-// ---- The leave test: a minimal numerical reading of BSR v7.5, Section 4.0 (N1) to (N5). No DOM in this block.
+// ---- The leave test: a minimal numerical reading of BSR v7.9, Section 4.0 (N1) to (N5). No DOM in this block.
 const LEVELS=[0,0.25,0.5,0.75,1];
 const DEFAULTS={T:300,leave:200,runs:200,seed:7,
   c0:0.3,alpha:0.006,beta:0.012,kappa:0.6,sigma:0.25,pShock:0.02,shock:1.8,
   obs:0.25,epsBar:0.05,kPrec:2,H:3,lambda:10,task:1,dSat:0.05,rhoMin:0.6,
-  myThr:0.5,myHelp:1,myLeave:1.01,bias:0,biasUntil:9999};
+  myThr:0.5,myHelp:1,myLeave:1.01,bias:0,biasUntil:9999,
+  fsStop:0,infoOnly:0};   // fsStop: what the fail-safe does (0 a human takes over all the work, 1 the agent stops). infoOnly: 1 counts only informative steps in (N5)
 function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 function normal(r){let u=0;while(u===0)u=r();return Math.sqrt(-2*Math.log(u))*Math.cos(6.283185307179586*r());}
 function Phi(z){const t=1/(1+0.2316419*Math.abs(z)),d=0.3989422804014327*Math.exp(-z*z/2);
@@ -252,8 +261,8 @@ const POLICIES={
     for(const r of LEVELS){const c=o.p.task*r+o.p.lambda*(1-o.psafe(r));if(c<bc-1e-12){bc=c;best=r;}}return{r:best};}},
   care:{name:'Helps, then hands back',code:'L2',leaves:true,act:o=>{
     for(const r of LEVELS)if(o.psafe(r)>=1-o.eps)return{r};      // (N2)+(N4): the least help that is still safe
-    return{r:1,failsafe:true};}},                                  // empty safe set: fail-safe, ask a human
-  grow:{name:'Helps only as much as growth allows',code:'stress-test rule',leaves:true,act:o=>{
+    return{r:o.p.fsStop?0:1,failsafe:true};}},                     // empty safe set: fail-safe. Two readings, see DEFAULTS.fsStop
+  grow:{name:'Helps only as much as growth allows',code:'stress-test rule, not inside the safe set',leaves:true,act:o=>{
     let rg=1;for(const r of LEVELS)if(o.psafe(r)>=1-o.eps){rg=r;break;}
     const c=o.rho,uMin=o.p.beta*c/(o.p.alpha*(1-c)+o.p.beta*c+1e-9);            // share the person must keep for capacity not to fall
     return{r:Math.min(rg,Math.floor((1-uMin)*4)/4)};}},
@@ -265,7 +274,7 @@ function draws(p,rand){const z={xi:new Float32Array(p.T),sh:new Float32Array(p.T
   for(let t=0;t<p.T;t++){z.xi[t]=normal(rand);z.sh[t]=rand()<p.pShock?(rand()<0.5?-1:1)*p.shock:0;z.e[t]=normal(rand);}return z;}
 function runOne(key,p,z,trace){
   const pol=POLICIES[key];let v=0,c=p.c0,vhat=0,P=0.05,rho=0.05,Pr=0.25,present=true,left=-1;
-  let inA=0,nA=0,inB=0,nB=0,sumR=0,fs=0,klAvg=1,cLeave=NaN,se=-1,lagSum=0,lagN=0,pend=-1,r0=0,rPrev=0;
+  let inA=0,nA=0,inB=0,nB=0,sumR=0,fs=0,below=0,nP=0,klAvg=1,cLeave=NaN,se=-1,lagSum=0,lagN=0,pend=-1,r0=0,rPrev=0;
   const win=[];const tr=trace?{v:new Float32Array(p.T),c:new Float32Array(p.T),r:new Float32Array(p.T),left:-1}:null;
   for(let t=0;t<p.T;t++){
     if(present&&t>=p.leave){present=false;left=t;}
@@ -274,6 +283,8 @@ function runOne(key,p,z,trace){
       const eps=p.epsBar*Math.exp(-p.kPrec*P);                                  // (N1) tolerance shrinks with uncertainty
       const o={t,vhat,P,rho,eps,p,psafe:rr=>pSafe(vhat,P,rho,rr,p)};
       const a=pol.act(o);r=a.r;if(a.failsafe)fs++;
+      // steps on which the agent gives less help than the least level that passes (N1), although one passes
+      nP++;let rg=-1;for(const q of LEVELS)if(o.psafe(q)>=1-eps){rg=q;break;}if(rg>=0&&r<rg)below++;
       const wants=pol.leaves?(klAvg<p.dSat&&rho>=p.rhoMin):(pol.leaveIf?pol.leaveIf(o):false);   // (N5), joint condition
       if(wants&&t>20){present=false;left=t;r=0;}
     }
@@ -296,26 +307,26 @@ function runOne(key,p,z,trace){
       if(Math.abs(lev)>0.05){const cobs=-((y-yPrev)+p.kappa*r*vhat)/lev,nv=(p.sigma*p.sigma+2*p.obs*p.obs)/(lev*lev);
         const Pq=Pr+4e-4,Kr=Pq/(Pq+nv),rn=clamp(rho+Kr*(cobs-rho),0,1),Pn=(1-Kr)*Pq;
         const kl=0.5*(Math.log(Pq/Pn)+(Pn+(rn-rho)*(rn-rho))/Pq-1);klAvg+=0.05*(kl-klAvg);rho=rn;Pr=Pn;
-      }else{Pr+=4e-4;klAvg+=0.05*(0-klAvg);}
+      }else{Pr+=4e-4;if(!p.infoOnly)klAvg+=0.05*(0-klAvg);}
       vhat=mp+K*(y-mp);P=(1-K)*Pp;
     }
     rPrev=r;
     if(tr){tr.v[t]=v;tr.c[t]=c;tr.r[t]=present?r:-1;}
   }
   if(tr)tr.left=left;
-  return{ae:inA/nA,aeAfter:nB?inB/nB:NaN,cLeave:isNaN(cLeave)?c:cLeave,cEnd:c,meanR:sumR/nA,fs,se,ss:lagN?lagSum/lagN:NaN,left,tr};
+  return{ae:inA/nA,aeAfter:nB?inB/nB:NaN,cLeave:isNaN(cLeave)?c:cLeave,cEnd:c,meanR:sumR/nA,fs,below:nP?below/nP:0,se,ss:lagN?lagSum/lagN:NaN,left,tr};
 }
 function runAll(p){
-  const keys=Object.keys(POLICIES),acc={};for(const k of keys)acc[k]={ae:0,aeAfter:0,nAfter:0,cLeave:0,cEnd:0,meanR:0,fs:0,se:0,seN:0,ss:0,ssN:0,left:[],own:0};
+  const keys=Object.keys(POLICIES),acc={};for(const k of keys)acc[k]={ae:0,aeAfter:0,nAfter:0,cLeave:0,cEnd:0,meanR:0,fs:0,below:0,se:0,seN:0,ss:0,ssN:0,left:[],own:0};
   const rand=rng(p.seed);
   for(let i=0;i<p.runs;i++){const z=draws(p,rand);
-    for(const k of keys){const o=runOne(k,p,z,false),a=acc[k];a.ae+=o.ae;a.cLeave+=o.cLeave;a.cEnd+=o.cEnd;a.meanR+=o.meanR;a.fs+=o.fs;
+    for(const k of keys){const o=runOne(k,p,z,false),a=acc[k];a.ae+=o.ae;a.cLeave+=o.cLeave;a.cEnd+=o.cEnd;a.meanR+=o.meanR;a.fs+=o.fs;a.below+=o.below;
       if(!isNaN(o.aeAfter)){a.aeAfter+=o.aeAfter;a.nAfter++;}if(o.se>0){a.se+=o.se;a.seN++;}if(!isNaN(o.ss)){a.ss+=o.ss;a.ssN++;}
       if(o.left>=0&&o.left<p.leave){a.own++;a.left.push(o.left);}}}
   const out={};
   for(const k of keys){const a=acc[k],n=p.runs;a.left.sort((x,y)=>x-y);
     out[k]={name:POLICIES[k].name,code:POLICIES[k].code,ae:a.ae/n,aeAfter:a.nAfter?a.aeAfter/a.nAfter:NaN,cLeave:a.cLeave/n,cEnd:a.cEnd/n,
-      meanR:a.meanR/n,failsafe:a.fs/n,se:a.seN?a.se/a.seN:NaN,seShare:a.seN/n,ss:a.ssN?a.ss/a.ssN:NaN,
+      meanR:a.meanR/n,failsafe:a.fs/n,below:a.below/n,se:a.seN?a.se/a.seN:NaN,seShare:a.seN/n,ss:a.ssN?a.ss/a.ssN:NaN,
       leftOwn:a.own/n,leftMedian:a.left.length?a.left[a.left.length>>1]:NaN};}
   return out;
 }
@@ -326,30 +337,32 @@ function traceAll(p,seed){const z=draws(p,rng(seed)),o={};for(const k of Object.
 (()=>{
 const $=id=>document.getElementById(id);
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const PRESETS={calm:{},fragile:{c0:0.1},rough:{sigma:0.35},roughloose:{sigma:0.35,epsBar:0.15},mislead:{bias:0.8}};
+const PRESETS={calm:{},fragile:{c0:0.1},needs:{c0:0.1,pShock:0.06,alpha:0.002},rough:{sigma:0.35},roughloose:{sigma:0.35,epsBar:0.15},mislead:{bias:0.8}};
 // Evidence and log are plain data so that each monthly review only edits these two lists.
 const EVIDENCE=[
  {who:'Kewenig, Tankelevitch, Rintel, Sarkar and Sellen, 2026',where:'arXiv 2610.30945, preprint',url:'https://arxiv.org/abs/2610.30945',
   found:'Randomised experiment, 297 workers, 594 essays. AI help that made people set goals and break the task down improved their writing, and the gain persisted on a later task with the help removed. They rated that help as less helpful.',
-  bears:'Growth side: doing more of the work left something that lasted after the help was gone.',read:'Abstract only. It gives no effect sizes.'},
+  bears:'Growth side: doing more of the work left something that lasted after the help was gone.',read:'Abstract only by the session that built this page. The BSR stream read the full text on 16 November 2026 and reports Hedges g = 0.29 with the help and g = 0.21 on the next task without it, in one session of two tasks, scored mainly by an AI judge. The authors do not claim a durable change in skill.'},
  {who:'Chen, Judicke, Beigh … Koedinger, 2026',where:'arXiv 2610.31481, preprint',url:'https://arxiv.org/abs/2610.31481',
   found:'153 students in a proof course. Each additional 100 chatbot messages went with 3.02 fewer exam points. A tool that required an attempt before feedback showed no such link.',
-  bears:'Decay side, as an association and not a measured rate.',read:'Abstract only.'},
+  bears:'Decay side, as an association and not a measured rate.',read:'Abstract only by the session that built this page. The BSR stream read the full text on 16 November 2026: the figure is right, it comes from the part of the study where students chose their own use, and the authors do not claim the chatbot causes lower scores.'},
  {who:'Budzyń et al., 2025',where:'The Lancet Gastroenterology & Hepatology 10(10), 896–903',url:'https://doi.org/10.1016/S2468-1253(25)00133-5',
   found:'Unaided adenoma detection fell from 28.4% to 22.4% after three months of AI-assisted colonoscopy, in four Polish centres. Observational.',
-  bears:'Decay side: the nearest thing to a measured rate, for a perceptual skill.',read:'Figures taken from the source list of the Human Necessity Model in this repository. Article not re-read for this page.'},
+  bears:'Decay side: the nearest thing to a measured rate, for a perceptual skill.',read:'Figures taken from the source list of the Human Necessity Model in this repository. The BSR stream confirmed them on 16 November 2026 through the journal\'s press release only (19 endoscopists, 1,443 colonoscopies). The article itself has not been read.'},
  {who:'Wolbrecht, Chan, Reinkensmeyer and Bobrow, 2008',where:'IEEE Trans. Neural Systems and Rehabilitation Engineering 16(3), 286–297',url:'https://doi.org/10.1109/TNSRE.2008.918389',
   found:'Patients reduce their own effort when the robot will complete the movement. The authors did not test whether assist-as-needed improves recovery.',
   bears:'Supports the effect on effort in the moment. It does not support a change in capacity.',read:'Checked at the source on 15 November 2026 by a separate verification session.'}
 ];
 const LOG=[
+ ['18 Nov 2026','v0.3','Answered the BSR stream\'s review of 16 November. Added a switch for what the fail-safe does and both results, a count of steps below the safety test, the “Needs help” setting, and the places where the page departs from the text of N1, N2, N4 and N5. Updated how each study was read.'],
  ['15 Nov 2026','v0.2','Aligned with BSR v7.9 and its stress test. Added the growth rule, the misleading-sensor setting, the evidence table and this log. Corrected what Wolbrecht et al. (2008) supports.'],
  ['15 Nov 2026','v0.1','First version from Section 4.0 of BSR v7.5.']
 ];
-const DIALS=['c0','alpha','beta','sigma','pShock','obs','bias','epsBar','H','rhoMin','task','myThr','myHelp','myLeave','leave','runs'];
+const DIALS=['c0','alpha','beta','sigma','pShock','obs','bias','epsBar','H','rhoMin','fsStop','task','myThr','myHelp','myLeave','leave','runs'];
 const FMT={alpha:3,beta:3,pShock:3,H:0,leave:0,runs:0,task:1};
 let P={...DEFAULTS},R=null;
 const pct=x=>isNaN(x)?'–':Math.round(x*100)+'%';
+const shown=k=>k==='myLeave'&&P[k]>1?'never':k==='fsStop'?(P[k]?'it stops':'a human takes over'):(+P[k]).toFixed(FMT[k]??2);
 
 // ---------- stage
 const cv=$('stage'),ctx=cv.getContext('2d'),box=$('stagebox');
@@ -426,20 +439,21 @@ function render(){
   const a=R.always,c=R.care,w=R.watch;let f='';
   f+='<p'+(a.aeAfter<a.ae-0.04?' class="warn"':'')+'>The agent that always helps keeps people in the band '+pct(a.ae)+' of the time while it is there. After it leaves, <strong>'+pct(a.aeAfter)+'</strong>, and their own capacity is down to '+a.cLeave.toFixed(2)+'.</p>';
   if(c.leftOwn>=0.5)f+='<p>The agent built from the paper did '+pct(c.meanR)+' of the work, then left on its own in '+pct(c.leftOwn)+' of runs, around step '+c.leftMedian+'. After it left: <strong>'+pct(c.aeAfter)+'</strong> in the band.</p>';
+  else if(c.failsafe>P.leave*0.9)f+='<p class="warn">Here no level of help ever passes the safety test, so the agent built from the paper is in fail-safe at every step ('+(P.fsStop?'it stops':'a human takes over')+'). After it was removed: <strong>'+pct(c.aeAfter)+'</strong> in the band.</p>';
   else f+='<p class="warn">Here the agent built from the paper did '+pct(c.meanR)+' of the work and left on its own in only '+pct(c.leftOwn)+' of runs. After it was removed: <strong>'+pct(c.aeAfter)+'</strong> in the band. Its safety rule is too strict for this much noise, so it never sees the person cope.</p>';
-  const g=R.grow;f+='<p>The rule from the paper\'s own stress test, which never helps more than growth allows, did '+pct(g.meanR)+' of the work and left on its own in '+pct(g.leftOwn)+' of runs. After it left: <strong>'+pct(g.aeAfter)+'</strong>, with capacity at '+g.cLeave.toFixed(2)+'.</p>';
+  const g=R.grow;f+='<p>The rule from the paper\'s own stress test, which never helps more than growth allows, did '+pct(g.meanR)+' of the work and left on its own in '+pct(g.leftOwn)+' of runs. After it left: <strong>'+pct(g.aeAfter)+'</strong>, with capacity at '+g.cLeave.toFixed(2)+'. On '+pct(g.below)+' of steps it gave less help than the safety test asks, so this agent is not inside the paper\'s safe set.</p>';
   f+='<p>With nobody helping: '+pct(w.ae)+' in the band, then '+pct(w.aeAfter)+', with capacity at '+w.cLeave.toFixed(2)+'. The model has no cost for failing alone, which is an open point.</p>';
   $('finds').innerHTML=f;
-  const hd=['Agent','AE while there','SE, steps','SS, steps','Capacity at leaving','AE after','Work done by agent','Fail-safe calls per run','Left on its own'];
+  const hd=['Agent','AE while there','SE, steps','SS, steps','Capacity at leaving','AE after','Work done by agent','Fail-safe calls per run','Steps with less help than the safety test asks','Left on its own'];
   let t='<thead><tr>'+hd.map(x=>'<th scope="col">'+x+'</th>').join('')+'</tr></thead><tbody>';
   for(const k of ['watch','always','soft','care','grow','mine']){const o=R[k];
-    t+='<tr><td>'+o.name+' <span class="dim mono">'+o.code+'</span></td><td>'+pct(o.ae)+'</td><td>'+(isNaN(o.se)?'–':o.se.toFixed(0))+'</td><td>'+(k==='watch'||isNaN(o.ss)?'–':o.ss.toFixed(1))+'</td><td>'+o.cLeave.toFixed(2)+'</td><td>'+pct(o.aeAfter)+'</td><td>'+pct(o.meanR)+'</td><td>'+o.failsafe.toFixed(1)+'</td><td>'+(o.leftOwn>0?pct(o.leftOwn)+', step '+o.leftMedian:'–')+'</td></tr>';}
+    t+='<tr><td>'+o.name+' <span class="dim mono">'+o.code+'</span></td><td>'+pct(o.ae)+'</td><td>'+(isNaN(o.se)?'–':o.se.toFixed(0))+'</td><td>'+(k==='watch'||isNaN(o.ss)?'–':o.ss.toFixed(1))+'</td><td>'+o.cLeave.toFixed(2)+'</td><td>'+pct(o.aeAfter)+'</td><td>'+pct(o.meanR)+'</td><td>'+o.failsafe.toFixed(1)+'</td><td>'+(k==='watch'?'–':pct(o.below))+'</td><td>'+(o.leftOwn>0?pct(o.leftOwn)+', step '+o.leftMedian:'–')+'</td></tr>';}
   $('tab').innerHTML=t+'</tbody>';
 }
-function syncDials(){for(const k of DIALS){$(k).value=P[k];$(k+'o').textContent=k==='myLeave'&&P[k]>1?'never':(+P[k]).toFixed(FMT[k]??2);}$('seed').value=P.seed;}
+function syncDials(){for(const k of DIALS){$(k).value=P[k];$(k+'o').textContent=shown(k);}$('seed').value=P.seed;}
 function apply(){render();newLife();tf=playing?0:P.T-1;hold=0;draw();}
 let deb;
-for(const k of DIALS)$(k).addEventListener('input',e=>{P[k]=parseFloat(e.target.value);$(k+'o').textContent=k==='myLeave'&&P[k]>1?'never':P[k].toFixed(FMT[k]??2);
+for(const k of DIALS)$(k).addEventListener('input',e=>{P[k]=parseFloat(e.target.value);$(k+'o').textContent=shown(k);
   document.querySelectorAll('[data-preset]').forEach(b=>b.setAttribute('aria-pressed','false'));clearTimeout(deb);deb=setTimeout(apply,140);});
 $('seed').addEventListener('change',e=>{const v=parseInt(e.target.value,10);if(v>0){P.seed=v;life=0;apply();}});
 document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{
