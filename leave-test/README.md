@@ -4,7 +4,7 @@
 
 *An interactive companion to* Beyond Solipsistic Robotics *(v7.9), Section 4.0, and to its stress test of 15 November 2026.*
 
-Version 0.4 · 18 November 2026 · Carla de Préval, with Claude
+Version 0.5 · 18 November 2026 · Carla de Préval, with Claude
 
 **Status: illustrative, not estimated.** This is a small numerical reading of statements (N1) to (N5), which are themselves a proposal awaiting expert sign-off. It is not the SPINE simulator built by Vincent Bezard. No specialist has reviewed it.
 
@@ -15,7 +15,7 @@ Once this folder is on `main`: https://mommythegeek.github.io/protect-what-think
 
 ## What you see first
 
-Three ropes of light, one for each kind of help, drawn from the same 200 simulated people. White fibres are the share of people who hold. Pink fibres torn away are the share who do not. Gold light is the work an agent is doing for them. At one step every helper leaves. The page opens on the "Needs help" setting, where help has something to prove: with constant help 88% hold and then 53%; with help that hands the work back, 87% and then 79%; left alone from the start, 74% and then 85%.
+Three ropes, one for each kind of help, drawn from the same 200 simulated people in the manner of kintsugi, the Japanese repair with gold. Ivory fibres are the share of people who hold, brighter and thicker when they can recover alone. Red fibres broken away are the share who do not. Gold is the share of the work the agents do, laid from the breaks inward, so a rope all in gold is people for whom everything is done. Dust is capacity being built: it rises only where people do the work themselves. Each of the four marks carries one variable of the simulation and nothing is decorative. At one step every helper leaves. The page opens on the "Needs help" setting, where help has something to prove: with constant help 88% hold and then 53%; with help that hands the work back, 87% and then 79%; left alone from the start, 74% and then 85%.
 
 ## What it does
 
