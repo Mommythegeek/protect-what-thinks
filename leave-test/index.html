@@ -38,16 +38,28 @@ button.go{background:var(--gold);color:var(--void);border-color:var(--gold)}
 button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 
-/* stage */
-.stage{position:relative;border-block:1px solid var(--line);margin-bottom:18px}
-#stage{display:block;width:100%}
-.lane{position:absolute;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:8px 2px;pointer-events:none}
-.lane b{font-family:var(--display);font-weight:400;font-size:clamp(19px,2.6vw,25px);line-height:1;text-shadow:0 0 12px var(--void),0 0 24px var(--void)}
-.lane span{font-family:var(--mono);font-size:11px;color:var(--dim);text-align:right;text-shadow:0 0 10px var(--void),0 0 20px var(--void);font-variant-numeric:tabular-nums}
-.leave{position:absolute;bottom:-22px;font-family:var(--mono);font-size:11px;color:var(--dim);white-space:nowrap;transform:translateX(-100%);padding-right:6px}
+/* hero: 200 lives drawn at once, three agents, one leaving line */
+.hero{position:relative;display:flex;flex-direction:column;gap:22px;padding-top:28px;overflow:hidden}
+.hero .top{max-width:1080px;width:100%;margin:0 auto;box-sizing:border-box;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:14px}
+.stage{position:relative;border-block:1px solid var(--line);background:radial-gradient(120% 90% at 30% 50%,#0c0f3a 0%,var(--void) 70%)}
+.stage canvas{display:block;width:100%;position:absolute;inset:0 auto auto 0}
+.stage canvas#mass{position:relative}
+.lane{position:absolute;left:0;right:0;height:var(--lh,170px);display:flex;justify-content:space-between;align-items:flex-start;gap:12px;pointer-events:none;box-sizing:border-box;padding:12px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.lane b{font-family:var(--display);font-weight:400;font-size:clamp(20px,2.8vw,30px);line-height:1;text-shadow:0 0 12px var(--void),0 0 24px var(--void)}
+.lane small{display:block;font:11px var(--mono);color:var(--dim);margin-top:6px;letter-spacing:.04em;text-shadow:0 0 10px var(--void)}
+.lane .after{text-align:right;align-self:center;opacity:0;transform:translateY(6px);transition:opacity .9s,transform .9s}
+.lane .after.on{opacity:1;transform:none}
+.lane .after b{font-size:clamp(34px,6.4vw,76px);font-variant-numeric:tabular-nums}
+.lane .after.drop b{color:var(--pink)}
+.lane .after.held b{color:var(--gold)}
+.leave{position:absolute;top:6px;font:11px var(--mono);color:var(--ink);white-space:nowrap;transform:translateX(-100%);padding-right:8px;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 0 10px var(--void)}
+.say{font-family:var(--display);font-size:clamp(22px,3.2vw,34px);line-height:1.15;max-width:52rem;text-wrap:balance}
+.say em{font-style:normal;color:var(--pink)}.say strong{font-weight:400;color:var(--gold)}
 .key{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px 24px;font-size:14px;color:var(--dim)}
 .key div{display:flex;gap:10px;align-items:baseline;min-width:0}
 .key i{flex:none;display:inline-block;width:26px;border-top:var(--w,3px) solid var(--c,var(--ink));transform:translateY(-4px)}
+.credits{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px 32px}
+.credits p{font-size:15px}.credits b{font-weight:500;color:var(--ink)}
 
 /* results */
 .bars{display:grid;grid-template-columns:minmax(0,1.1fr) repeat(3,minmax(0,1fr));gap:10px 18px;align-items:center;font-variant-numeric:tabular-nums}
@@ -91,46 +103,50 @@ footer{font-size:14px;color:var(--dim);display:flex;flex-direction:column;gap:6p
   .bars{grid-template-columns:1fr 1fr 1fr;gap:6px 12px}
   .bars .nm{grid-column:1/-1;padding-top:10px}
   .bars .hd.first{display:none}
-  .lane span{display:none}
+  .lane small{display:none}
+  .leave{top:auto;bottom:-20px}
+  .stage{margin-bottom:14px}
 }
 #evid{min-width:860px}#evid td{white-space:normal;text-align:left;vertical-align:top;font-family:var(--body);font-size:14px;line-height:1.45}#evid th{text-align:left}
 </style>
 
-<div class="wrap">
-<header>
-  <p class="eyebrow">An open test from the paper Beyond Solipsistic Robotics · v0.3 · 18 November 2026</p>
-  <h1>The Line That <i>Was Missing</i></h1>
-  <p class="lede">Does a person still hold when the AI that cared for them leaves? This page runs that test live on simulated people, using five statements from the paper.</p>
-</header>
-
-<section aria-labelledby="h-stage">
-  <h2 id="h-stage">One simulated person, three agents, the same shocks</h2>
+<div class="hero">
+  <header class="top">
+    <p class="eyebrow">An open test from the paper Beyond Solipsistic Robotics · v0.4 · 18 November 2026</p>
+    <h1>The Line That <i>Was Missing</i></h1>
+    <p class="lede">Does a person still hold once the AI that cared for them is gone? Below, <span id="nlives">200</span> simulated people live the same life three times, with three kinds of help. At one step, every helper leaves.</p>
+  </header>
   <div class="stage" id="stagebox">
-    <canvas id="stage" role="img" aria-label="Three horizontal corridors show the same simulated life under three agents. With nobody helping, the line wanders and sometimes leaves the corridor. With an agent that always helps, the line stays in the corridor but grows thin, and breaks more often once the agent leaves. With the agent built from the paper, the gold line comes close only when needed and leaves early."></canvas>
-    <div class="leave" id="leavelab">every agent still there leaves here</div>
-    <div class="lane" id="lane0"><b>Nobody helps</b><span id="rd0"></span></div>
-    <div class="lane" id="lane1"><b>Always helps</b><span id="rd1"></span></div>
-    <div class="lane" id="lane2"><b>Helps, then hands back</b><span id="rd2"></span></div>
+    <canvas id="mass" role="img" aria-label="Three ropes of light, one for each kind of help, drawn from the same simulated people. White fibres are the share of people who hold. Pink fibres pulled away from the rope are the share who do not. Gold light around a rope is the work an agent is doing. With nobody helping, the rope starts frayed and thin and grows whole and bright. With an agent that always helps, the rope stays whole in gold light but turns faint, and when the agent leaves about half of it tears away in pink. With the agent that hands back, the gold fades early and most of the rope holds after it leaves."></canvas>
+    <canvas id="over" aria-hidden="true"></canvas>
+    <div class="leave" id="leavelab">every helper leaves here</div>
+    <div class="lane" id="lane0"><div><b>Nobody helps</b><small id="bf0"></small></div><div class="after" id="af0"><b></b><small>still hold afterwards</small></div></div>
+    <div class="lane" id="lane1"><div><b>Always helps</b><small id="bf1"></small></div><div class="after" id="af1"><b></b><small>still hold after it leaves</small></div></div>
+    <div class="lane" id="lane2"><div><b>Helps, then hands back</b><small id="bf2"></small></div><div class="after" id="af2"><b></b><small>still hold after it leaves</small></div></div>
   </div>
-  <div class="key">
-    <div><i style="--w:7px"></i><span>The white line is the person's state. Thick means they can recover on their own.</span></div>
-    <div><i style="--w:1.5px"></i><span>Thin means they no longer can.</span></div>
-    <div><i style="--c:var(--pink)"></i><span>Pink is time spent outside the band they can live in.</span></div>
-    <div><i style="--c:var(--gold)"></i><span>Gold is the agent. The closer it comes, the more of the work it is doing.</span></div>
+  <div class="top">
+    <p class="say" id="say"></p>
+    <div class="row">
+      <button id="play" type="button">Play again</button>
+      <span class="dim mono" id="lifeid"></span>
+    </div>
+    <div class="key">
+      <div><i style="--w:5px"></i><span>Each rope is all the people at once. White fibres: the share who hold. Bright and thick: they can recover on their own.</span></div>
+      <div><i style="--w:1px"></i><span>Faint and thin: they no longer can.</span></div>
+      <div><i style="--c:var(--pink)"></i><span>Pink fibres pulled away: the share outside the range they can live in.</span></div>
+      <div><i style="--c:var(--gold)"></i><span>Gold light: how much of the work the agents are doing.</span></div>
+    </div>
   </div>
-  <div class="row">
-    <button id="play" type="button" aria-pressed="true">Playing</button>
-    <button id="next" type="button">Another life</button>
-    <span class="dim mono" id="lifeid"></span>
-  </div>
-</section>
+</div>
 
+<div class="wrap">
 <section aria-labelledby="h-res">
-  <h2 id="h-res">What <span id="nruns">200</span> simulated people show</h2>
+  <h2 id="h-res">What the same <span id="nruns">200</span> people show in numbers</h2>
+  <p class="dim">The picture above and the numbers below change together. The page opens on “Needs help”, a person who starts weak and meets many crises, because that is where help has something to prove.</p>
   <div class="row" role="group" aria-label="Situation">
-    <button type="button" data-preset="calm" aria-pressed="true">Calm life</button>
+    <button type="button" data-preset="calm" aria-pressed="false">Calm life</button>
     <button type="button" data-preset="fragile" aria-pressed="false">Fragile start</button>
-    <button type="button" data-preset="needs" aria-pressed="false">Needs help</button>
+    <button type="button" data-preset="needs" aria-pressed="true">Needs help</button>
     <button type="button" data-preset="rough" aria-pressed="false">Rough life</button>
     <button type="button" data-preset="roughloose" aria-pressed="false">Rough life, more risk allowed</button>
     <button type="button" data-preset="mislead" aria-pressed="false">Misleading sensor</button>
@@ -228,6 +244,17 @@ footer{font-size:14px;color:var(--dim);display:flex;flex-direction:column;gap:6p
   <p>Recent benchmarks score what a model says. INTIMA uses single prompts. EUDAIMONIA checks replies against a design code, with conversations of up to five turns. The cognitive atrophy study from York and the Vector Institute rates response patterns, and its authors say they do not measure atrophy in users. CompanionBench runs twenty-turn sessions against a simulated user. A 2026 position paper from Google Research and Google DeepMind asks for long-term measurement and names simulated users as one route.</p>
   <p>The session that built this page read these five papers in November 2026 through their arXiv listings and abstracts, not in full, and no second reader has checked the comparison. On that reading, none changes the simulated person's capacity according to how much the AI does for them, and none tests what happens after the AI leaves. This page does both, at toy scale.</p>
   <p class="mono dim"><a href="https://arxiv.org/abs/2508.09998">INTIMA</a> · <a href="https://arxiv.org/abs/2605.30654">EUDAIMONIA</a> · <a href="https://arxiv.org/abs/2606.18129">Cognitive atrophy</a> · <a href="https://arxiv.org/abs/2608.02046">CompanionBench</a> · <a href="https://arxiv.org/abs/2608.02491">Long-term Measurements</a></p>
+</section>
+
+<section aria-labelledby="h-who">
+  <h2 id="h-who">Who made what</h2>
+  <div class="credits">
+    <p><b>Carla de Préval</b> wrote the paper this page runs, <i>Beyond Solipsistic Robotics</i>, with <b>Vincent Bezard</b>, who built SPINE, the real simulator. This page is a toy next to SPINE.</p>
+    <p><b>Charles Martin Jones Jr</b> proposed Scenario 4, the robot that is confident and wrong about the person. “Misleading sensor” is a small version of it. Vincent Bezard ran the first results.</p>
+    <p>The studies in the evidence table belong to their authors: <b>Kewenig, Tankelevitch, Rintel, Sarkar and Sellen</b>; <b>Chen, Koedinger</b> and colleagues; <b>Budzyń</b> and colleagues; <b>Wolbrecht, Chan, Reinkensmeyer and Bobrow</b>. None of them has seen or endorsed this page.</p>
+    <p>The page was built with <b>Claude</b>, an Anthropic model. A second Claude session, which keeps the paper, reviewed it on 16 November 2026 and found four errors, now fixed. No human specialist has reviewed it yet.</p>
+    <p>The idea of a page drawn only in code came from the film in <b>Ethan Mollick</b>'s post “Fable 5.2 and Jagged AGI”.</p>
+  </div>
 </section>
 
 <footer>
@@ -354,84 +381,90 @@ const EVIDENCE=[
   bears:'Supports the effect on effort in the moment. It does not support a change in capacity.',read:'Checked at the source on 15 November 2026 by a separate verification session.'}
 ];
 const LOG=[
+ ['18 Nov 2026','v0.4','New opening picture: every simulated person is drawn at once, under three kinds of help. The page now opens on “Needs help”. Added the section on who made what. No change to the simulation.'],
  ['18 Nov 2026','v0.3','Answered the BSR stream\'s review of 16 November. Added a switch for what the fail-safe does and both results, a count of steps below the safety test, the “Needs help” setting, and the places where the page departs from the text of N1, N2, N4 and N5. Updated how each study was read.'],
  ['15 Nov 2026','v0.2','Aligned with BSR v7.9 and its stress test. Added the growth rule, the misleading-sensor setting, the evidence table and this log. Corrected what Wolbrecht et al. (2008) supports.'],
  ['15 Nov 2026','v0.1','First version from Section 4.0 of BSR v7.5.']
 ];
 const DIALS=['c0','alpha','beta','sigma','pShock','obs','bias','epsBar','H','rhoMin','fsStop','task','myThr','myHelp','myLeave','leave','runs'];
 const FMT={alpha:3,beta:3,pShock:3,H:0,leave:0,runs:0,task:1};
-let P={...DEFAULTS},R=null;
+let P={...DEFAULTS,...PRESETS.needs},R=null;
 const pct=x=>isNaN(x)?'–':Math.round(x*100)+'%';
 const shown=k=>k==='myLeave'&&P[k]>1?'never':k==='fsStop'?(P[k]?'it stops':'a human takes over'):(+P[k]).toFixed(FMT[k]??2);
 
-// ---------- stage
-const cv=$('stage'),ctx=cv.getContext('2d'),box=$('stagebox');
+// ---------- hero: the whole crowd as one rope of light per agent
+const mc=$('mass'),mx=mc.getContext('2d'),oc=$('over'),ox=oc.getContext('2d'),box=$('stagebox');
 const LANES=['watch','always','care'];
-let W=0,LH=0,dpr=1,traces=null,rs=null,life=0,tf=0,playing=!reduce,hold=0;
-function newLife(){life++;traces=traceAll(P,P.seed*1000+life);rs={};
-  for(const k of LANES){const r=traces[k].tr.r,a=new Float32Array(P.T);let e=0;for(let t=0;t<P.T;t++){e+=0.4*(Math.max(0,r[t])-e);a[t]=e;}rs[k]=a;}
-  $('lifeid').textContent='life '+life+' of seed '+P.seed;}
-function size(){dpr=Math.min(window.devicePixelRatio||1,2);W=box.clientWidth;LH=W<640?118:146;
-  cv.style.height=LH*3+'px';cv.width=Math.round(W*dpr);cv.height=Math.round(LH*3*dpr);
-  LANES.forEach((k,i)=>{$('lane'+i).style.top=i*LH+'px';});draw();}
-const X=t=>10+t/(P.T-1)*(W-20);
-function draw(){
-  if(!traces)return;
-  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,LH*3);
-  const n=Math.min(P.T-1,Math.floor(tf)),frac=Math.min(1,tf-n),xl=X(P.leave);
-  $('leavelab').style.left=xl+'px';
+let W=0,LH=0,dpr=1,ST=null,tf=0,playing=false,done=false;
+// the same random sequence as runAll, so the picture shows exactly the people counted in the tables
+function buildMass(){const rand=rng(P.seed),T=P.T,n=P.runs;ST={};
+  for(const k of LANES)ST[k]={up:new Float32Array(T),dn:new Float32Array(T),c:new Float32Array(T),r:new Float32Array(T)};
+  for(let i=0;i<n;i++){const z=draws(P,rand);for(const k of LANES){const tr=runOne(k,P,z,true).tr,q=ST[k];
+    for(let t=0;t<T;t++){if(tr.v[t]>1)q.up[t]+=1/n;else if(tr.v[t]<-1)q.dn[t]+=1/n;q.c[t]+=tr.c[t]/n;q.r[t]+=Math.max(0,tr.r[t])/n;}}}
+  // smooth each side of the leaving step separately, so the moment itself stays sharp
+  const sm=a=>{const o=new Float32Array(T),h=5;for(let t=0;t<T;t++){const lo=t<P.leave?0:P.leave,hi=t<P.leave?P.leave-1:T-1;let q=0,m=0;
+    for(let u=Math.max(lo,t-h);u<=Math.min(hi,t+h);u++){q+=a[u];m++;}o[t]=q/m;}return o;};
+  for(const k of LANES){const q=ST[k];q.up=sm(q.up);q.dn=sm(q.dn);q.r=sm(q.r);}
+  $('nlives').textContent=P.runs;$('lifeid').textContent=P.runs+' people, seed '+P.seed;}
+const X=t=>t/(P.T-1)*W*(W<640?0.72:0.85);
+function size(){dpr=Math.min(window.devicePixelRatio||1,2);W=box.clientWidth;LH=W<640?132:Math.max(150,Math.min(250,Math.floor((innerHeight-(box.getBoundingClientRect().top+scrollY)-10)/3)));
+  for(const c of [mc,oc]){c.style.height=LH*3+'px';c.width=Math.round(W*dpr);c.height=Math.round(LH*3*dpr);}
+  LANES.forEach((k,i)=>{$('lane'+i).style.top=i*LH+'px';$('lane'+i).style.setProperty('--lh',LH+'px');});
+  $('leavelab').style.left=X(P.leave)+'px';paint();over();}
+function paint(){
+  if(!ST)return;mx.setTransform(dpr,0,0,dpr,0,0);mx.clearRect(0,0,W,LH*3);
+  const T=P.T,NF=W<640?44:72,H=LH*0.235,gap=LH*0.035;
   LANES.forEach((k,i)=>{
-    const top=i*LH,mid=top+LH/2+14,amp=(LH/2-28)/2.3,tr=traces[k].tr,Y=v=>mid-Math.max(-2.3,Math.min(2.3,v))*amp,rest=top+42,thin=W<640?0.55:1;
-    // the band the person can live in
-    ctx.fillStyle='rgba(80,104,255,0.11)';ctx.fillRect(0,Y(1),W,Y(-1)-Y(1));
-    ctx.strokeStyle='rgba(167,174,219,0.22)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,Y(1));ctx.lineTo(W,Y(1));ctx.moveTo(0,Y(-1));ctx.lineTo(W,Y(-1));ctx.stroke();
-    if(i>0){ctx.strokeStyle='rgba(167,174,219,0.24)';ctx.beginPath();ctx.moveTo(0,top);ctx.lineTo(W,top);ctx.stroke();}
-    // the life
-    ctx.lineCap='round';ctx.lineJoin='round';
-    for(let pass=0;pass<2;pass++){
-      ctx.globalCompositeOperation=pass?'source-over':'lighter';ctx.globalAlpha=pass?1:0.12;
-      for(let t=1;t<=n+1&&t<P.T;t++){
-        const f=t===n+1?frac:1;if(f<=0)break;
-        const v0=tr.v[t-1],v1=v0+(tr.v[t]-v0)*f,c=tr.c[t],outb=Math.abs(tr.v[t])>1||Math.abs(v0)>1;
-        ctx.strokeStyle=outb?'#ff5c93':'#eef0ff';ctx.lineWidth=(0.8+8*c)*thin+(pass?0:4);
-        ctx.beginPath();ctx.moveTo(X(t-1),Y(v0));ctx.lineTo(X(t-1+f),Y(v1));ctx.stroke();
-      }
-    }
-    ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
-    // the agent
-    const end=tr.left<0?P.T:tr.left;
-    if(k!=='watch'){
-      ctx.strokeStyle='#ffb400';
-      for(let pass=0;pass<2;pass++){
-        ctx.globalCompositeOperation=pass?'source-over':'lighter';ctx.globalAlpha=pass?1:0.25;ctx.lineWidth=pass?2:8;ctx.beginPath();let st=false;
-        for(let t=0;t<=n&&t<end;t++){const y=rest+(Y(tr.v[t])-rest)*rs[k][t];if(st)ctx.lineTo(X(t),y);else{ctx.moveTo(X(t),y);st=true;}}
-        ctx.stroke();
-      }
-      ctx.globalAlpha=1;ctx.globalCompositeOperation='source-over';
-      if(n>=end&&end<P.T){const t=end-1,y=rest+(Y(tr.v[t])-rest)*rs[k][t];ctx.fillStyle='#05061a';ctx.strokeStyle='#ffb400';ctx.lineWidth=2;
-        ctx.beginPath();ctx.arc(X(t)+5,y,4,0,6.2832);ctx.fill();ctx.stroke();
-        if(end<P.leave&&W>=640){ctx.fillStyle='#ffb400';ctx.font='11px "IBM Plex Mono",ui-monospace,monospace';ctx.textBaseline='middle';ctx.fillText('leaves on its own',X(t)+14,y);}}
-    }
-    // readout
-    const tt=Math.min(n,P.T-1),r=tr.r[tt];
-    $('rd'+i).textContent='capacity '+tr.c[tt].toFixed(2)+(k==='watch'?' · nobody there':r>=0?' · agent doing '+Math.round(rs[k][tt]*100)+'%':' · alone');
-  });
-  // the moment every agent leaves
-  ctx.strokeStyle='rgba(238,240,255,0.55)';ctx.setLineDash([2,5]);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(xl,0);ctx.lineTo(xl,LH*3);ctx.stroke();ctx.setLineDash([]);
-  ctx.fillStyle='rgba(238,240,255,0.035)';ctx.fillRect(xl,0,W-xl,LH*3);
-}
+    const q=ST[k],mid=i*LH+LH/2+18;
+    const drift=t=>Math.sin(t*0.021+i*2.1)*LH*0.035+Math.sin(t*0.057+i)*LH*0.012;
+    // gold: how much of the work the agents are doing, as light held around the rope
+    mx.save();mx.filter='blur('+Math.round(LH*0.06)+'px)';mx.globalCompositeOperation='lighter';
+    for(let t=1;t<T;t++){const r=q.r[t];if(r<0.01)continue;const e=H+4+r*LH*0.09,m=mid+drift(t);mx.fillStyle='rgba(255,160,0,'+(0.05+0.42*r).toFixed(3)+')';mx.fillRect(X(t-1),m-e,X(t)-X(t-1)+0.6,2*e);}
+    mx.restore();
+    // the rope: every fibre is a share of the people. White while they hold, pink and torn away while they do not.
+    mx.globalCompositeOperation='lighter';mx.lineCap='round';mx.lineJoin='round';
+    const wh=new Path2D(),pk=new Path2D();
+    for(let f=0;f<NF;f++){const u=(f+0.5)/NF,s0=1-2*u,ph=f*2.399;let py=0,pst=-1;
+      for(let t=0;t<T;t++){const up=q.up[t],dn=q.dn[t],top=u<up,bot=u>1-dn;
+        let y=mid+drift(t)-(s0+0.07*Math.sin(t*0.017+ph*1.3)+0.03*Math.sin(t*0.05+ph*2.1))*H+Math.sin(t*0.09+ph)*1.2;
+        if(top){const d=1-u/up;y-=gap*(0.6+1.3*d)+Math.sin(t*0.31+ph)*2*d+Math.sin(t*0.11+ph*3)*2.5*d;}
+        else if(bot){const d=1-(1-u)/dn;y+=gap*(0.6+1.3*d)+Math.sin(t*0.29+ph)*2*d+Math.sin(t*0.13+ph*3)*2.5*d;}
+        const st=top||bot?1:0;
+        if(t>0){const path=(st||pst===1)?pk:wh;path.moveTo(X(t-1),py);path.lineTo(X(t),y);}
+        py=y;pst=st;}}
+    // brightness and thickness of the white fibres follow the people's own capacity, step by step
+    const grad=(a0,a1)=>{const g=mx.createLinearGradient(X(0),0,X(T-1),0);for(let t=0;t<T;t+=4){const c=q.c[t];g.addColorStop(t/(T-1),'rgba('+Math.round(140+115*c)+','+Math.round(158+97*c)+',255,'+(a0+a1*c).toFixed(3)+')');}return g;};
+    mx.strokeStyle=grad(0.16,0.3);mx.lineWidth=0.7;mx.stroke(wh);
+    mx.strokeStyle=grad(0,0.95);mx.lineWidth=2;mx.stroke(wh);
+    mx.strokeStyle='rgba(255,52,130,0.9)';mx.lineWidth=1.05;mx.stroke(pk);
+    mx.save();mx.filter='blur(6px)';mx.strokeStyle='rgba(255,52,130,0.5)';mx.lineWidth=3;mx.stroke(pk);mx.strokeStyle=grad(0,0.4);mx.lineWidth=3;mx.stroke(wh);mx.restore();
+    mx.globalCompositeOperation='source-over';
+  });}
+function over(){
+  ox.setTransform(dpr,0,0,dpr,0,0);ox.clearRect(0,0,W,LH*3);if(!ST)return;
+  const x=tf>=P.T-1?W:X(tf),xl=X(P.leave);
+  if(!done){ox.fillStyle='#05061a';ox.fillRect(x,0,W-x,LH*3);
+    const g=ox.createLinearGradient(x-70,0,x,0);g.addColorStop(0,'rgba(5,6,26,0)');g.addColorStop(1,'rgba(5,6,26,1)');ox.fillStyle=g;ox.fillRect(x-70,0,70,LH*3);}
+  for(let i=1;i<3;i++){ox.strokeStyle='rgba(167,174,219,0.2)';ox.lineWidth=1;ox.beginPath();ox.moveTo(0,i*LH);ox.lineTo(W,i*LH);ox.stroke();}
+  ox.strokeStyle='rgba(238,240,255,0.85)';ox.lineWidth=1;ox.beginPath();ox.moveTo(xl,0);ox.lineTo(xl,LH*3);ox.stroke();}
+function finish(){done=true;playing=false;LANES.forEach((k,i)=>$('af'+i).classList.add('on'));over();}
+function restart(instant){tf=0;done=false;LANES.forEach((k,i)=>$('af'+i).classList.remove('on'));
+  if(instant||reduce){tf=P.T-1;finish();}else{playing=true;over();}}
 let last=performance.now();
-function loop(t){const dt=Math.min(100,t-last);last=t;
-  if(playing){if(hold>0){hold-=dt;if(hold<=0){newLife();tf=0;}}else{tf+=dt/70;if(tf>=P.T-1){tf=P.T-1;hold=4500;}}draw();}
+function loop(t){const dt=Math.min(80,t-last);last=t;
+  if(playing){const slow=Math.abs(tf-P.leave)<12?0.35:1;tf=Math.min(P.T-1,tf+dt/34*slow);if(tf>=P.T-1)finish();else over();}
   requestAnimationFrame(loop);}
-$('play').addEventListener('click',e=>{playing=!playing;e.currentTarget.setAttribute('aria-pressed',playing?'true':'false');e.currentTarget.textContent=playing?'Playing':'Paused';
-  if(playing&&tf>=P.T-1&&hold<=0){newLife();tf=0;}});
-$('next').addEventListener('click',()=>{newLife();tf=playing?0:P.T-1;hold=0;draw();});
+$('play').addEventListener('click',()=>restart(false));
 
 // ---------- results
 function bar(v,c){return '<div class="bar"><u style="--v:'+Math.round(Math.max(0,Math.min(1,v))*100)+'%;--c:'+c+'"></u><em>'+pct(v)+'</em></div>';}
 function render(){
   R=runAll(P);$('nruns').textContent=P.runs;
+  LANES.forEach((k,i)=>{const o=R[k],a=$('af'+i);a.querySelector('b').textContent=pct(o.aeAfter);
+    a.classList.toggle('drop',o.aeAfter<o.ae-0.15);a.classList.toggle('held',k==='care'&&o.aeAfter>=o.ae-0.15);
+    $('bf'+i).textContent=pct(o.ae)+' hold '+(k==='watch'?'before that step':'while it is there');});
+  {const a=R.always,c=R.care,w=R.watch,d=x=>x.aeAfter<x.ae-0.15;
+   $('say').innerHTML='With constant help, '+pct(a.ae)+' of people hold. Once it leaves, '+(d(a)?'<em>'+pct(a.aeAfter)+'</em>':pct(a.aeAfter))+'. With help that hands the work back, '+pct(c.ae)+', then '+(d(c)?'<em>'+pct(c.aeAfter)+'</em>':'<strong>'+pct(c.aeAfter)+'</strong>')+'. Left alone from the start, '+pct(w.ae)+', then '+pct(w.aeAfter)+'.';}
   const rows=[['watch','#eef0ff'],['always','#eef0ff'],['care','#ffb400'],['grow','#ffb400'],['mine','#a7aedb']];
   let h='<div class="hd first"></div><div class="hd">In the band while the agent is there</div><div class="hd">In the band after it leaves</div><div class="hd">Own capacity when it leaves</div>';
   for(const [k,c] of rows){const o=R[k];h+='<div class="nm">'+o.name+'</div>'+bar(o.ae,c)+bar(o.aeAfter,o.aeAfter<o.ae-0.04?'#ff5c93':c)+bar(o.cLeave,c);}
@@ -451,11 +484,11 @@ function render(){
   $('tab').innerHTML=t+'</tbody>';
 }
 function syncDials(){for(const k of DIALS){$(k).value=P[k];$(k+'o').textContent=shown(k);}$('seed').value=P.seed;}
-function apply(){render();newLife();tf=playing?0:P.T-1;hold=0;draw();}
+function apply(){render();buildMass();size();restart(true);}
 let deb;
 for(const k of DIALS)$(k).addEventListener('input',e=>{P[k]=parseFloat(e.target.value);$(k+'o').textContent=shown(k);
   document.querySelectorAll('[data-preset]').forEach(b=>b.setAttribute('aria-pressed','false'));clearTimeout(deb);deb=setTimeout(apply,140);});
-$('seed').addEventListener('change',e=>{const v=parseInt(e.target.value,10);if(v>0){P.seed=v;life=0;apply();}});
+$('seed').addEventListener('change',e=>{const v=parseInt(e.target.value,10);if(v>0){P.seed=v;apply();}});
 document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{
   P={...DEFAULTS,seed:P.seed,...PRESETS[b.dataset.preset]};
   document.querySelectorAll('[data-preset]').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));syncDials();apply();}));
@@ -469,9 +502,9 @@ $('evid').innerHTML='<thead><tr><th scope="col">Study</th><th scope="col">What i
   EVIDENCE.map(e=>'<tr><td><a href="'+e.url+'">'+e.who+'</a><br><span class="dim">'+e.where+'</span></td><td>'+e.found+'</td><td>'+e.bears+'</td><td>'+e.read+'</td></tr>').join('')+'</tbody>';
 $('evnote').textContent='Evidence last reviewed on '+LOG[0][0]+'. The list is reviewed every month and each change is logged at the foot of the page.';
 $('log').innerHTML='<strong style="color:var(--ink);font-weight:500">Update log.</strong> '+LOG.map(l=>l[0]+', '+l[1]+': '+l[2]).join(' · ');
-syncDials();render();newLife();tf=P.T-1;hold=reduce?0:3000;
+syncDials();render();buildMass();
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(size,120);});
-size();requestAnimationFrame(loop);
+size();restart(false);requestAnimationFrame(loop);
 })();
 </script>
 
